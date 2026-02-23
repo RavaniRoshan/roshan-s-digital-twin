@@ -121,3 +121,8 @@
     background: hsl(var(--primary) / 0.3);
   }
 }
+
+.watermark-fade {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}

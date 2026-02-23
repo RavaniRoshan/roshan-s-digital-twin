@@ -1,6 +1,25 @@
+import footerArt from "@/assets/footer-art.png";
+
 const Footer = () => {
   return (
-    <footer className="border-t border-border mt-16">
+    <footer className="border-t border-border mt-16 relative overflow-hidden">
+      {/* Watermark illustration */}
+      <div className="relative max-w-4xl mx-auto">
+        <div className="flex items-center justify-center py-10 relative">
+          <img
+            src={footerArt}
+            alt=""
+            aria-hidden="true"
+            className="w-[600px] max-w-full opacity-[0.07] dark:opacity-[0.12] select-none pointer-events-none"
+          />
+          {/* Signature */}
+          <span className="absolute bottom-4 right-8 text-[10px] italic text-muted-foreground/40 font-mono tracking-widest select-none rotate-[-2deg]">
+            — ravani roshan
+          </span>
+        </div>
+      </div>
+
+      {/* Footer content */}
       <div className="max-w-4xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
         <span>email: ravaniroshansingh[at]gmail.com</span>
         <div className="flex items-center gap-4">

@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
 
         {/* Quote overlay */}
-        <p className="relative text-center text-lg sm:text-xl md:text-2xl italic font-light text-foreground/[0.04] dark:text-foreground/[0.07] rotate-[-2deg] leading-relaxed max-w-2xl mx-auto select-none pointer-events-none">
+        <p className="relative text-center text-lg sm:text-xl md:text-2xl italic font-light text-foreground/[0.08] dark:text-foreground/[0.12] rotate-[-2deg] leading-relaxed max-w-2xl mx-auto select-none pointer-events-none">
           "sometimes or most times the best way is just the way you know to do it"
         </p>
 

@@ -1,21 +1,78 @@
-import footerArt from "@/assets/footer-art.png";
-
 const Footer = () => {
   return (
     <footer className="border-t border-border mt-16 relative overflow-hidden">
-      {/* Watermark illustration */}
-      <div className="relative max-w-4xl mx-auto">
-        <div className="flex items-center justify-center py-10 relative">
-          <img
-            src={footerArt}
-            alt=""
-            aria-hidden="true"
-            className="w-[600px] max-w-full opacity-[0.07] dark:opacity-[0.12] select-none pointer-events-none"
-          />
-          {/* Signature */}
-          <span className="absolute bottom-4 right-8 text-[10px] italic text-muted-foreground/40 font-mono tracking-widest select-none rotate-[-2deg]">
-            — ravani roshan
-          </span>
+      {/* Watermark area */}
+      <div className="relative max-w-5xl mx-auto py-20 px-6">
+        {/* SVG Circuit/Neural illustration - blended watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none watermark-fade">
+          <svg
+            viewBox="0 0 800 400"
+            className="w-full h-full text-foreground opacity-[0.03] dark:opacity-[0.06] mix-blend-multiply dark:mix-blend-screen"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+          >
+            {/* Central brain shape */}
+            <ellipse cx="400" cy="200" rx="120" ry="100" strokeDasharray="4 6" />
+            <ellipse cx="400" cy="200" rx="90" ry="75" strokeDasharray="3 5" />
+            {/* Neural pathways */}
+            <path d="M280 200 Q200 150 120 180 Q60 200 40 160" />
+            <path d="M280 200 Q200 250 130 230 Q70 210 30 250" />
+            <path d="M520 200 Q600 150 680 180 Q740 200 760 160" />
+            <path d="M520 200 Q600 250 670 230 Q730 210 770 250" />
+            <path d="M400 100 Q380 40 340 20" />
+            <path d="M400 100 Q420 40 460 20" />
+            <path d="M400 300 Q380 360 340 380" />
+            <path d="M400 300 Q420 360 460 380" />
+            {/* Circuit nodes */}
+            {[
+              [120, 180], [130, 230], [40, 160], [30, 250],
+              [680, 180], [670, 230], [760, 160], [770, 250],
+              [340, 20], [460, 20], [340, 380], [460, 380],
+              [200, 120], [600, 120], [200, 280], [600, 280],
+            ].map(([cx, cy], i) => (
+              <circle key={i} cx={cx} cy={cy} r="3" fill="currentColor" opacity="0.5" />
+            ))}
+            {/* Cross connections */}
+            <path d="M200 120 L280 200" strokeDasharray="2 4" />
+            <path d="M600 120 L520 200" strokeDasharray="2 4" />
+            <path d="M200 280 L280 200" strokeDasharray="2 4" />
+            <path d="M600 280 L520 200" strokeDasharray="2 4" />
+            {/* Inner brain folds */}
+            <path d="M350 160 Q400 130 450 160" strokeDasharray="3 3" />
+            <path d="M340 200 Q400 170 460 200" strokeDasharray="3 3" />
+            <path d="M350 240 Q400 210 450 240" strokeDasharray="3 3" />
+            {/* Additional circuit traces */}
+            <path d="M150 150 L200 120 L250 140" strokeDasharray="2 6" />
+            <path d="M650 150 L600 120 L550 140" strokeDasharray="2 6" />
+            <path d="M150 260 L200 280 L250 260" strokeDasharray="2 6" />
+            <path d="M650 260 L600 280 L550 260" strokeDasharray="2 6" />
+          </svg>
+        </div>
+
+        {/* Quote overlay */}
+        <p className="relative text-center text-lg sm:text-xl md:text-2xl italic font-light text-foreground/[0.04] dark:text-foreground/[0.07] rotate-[-2deg] leading-relaxed max-w-2xl mx-auto select-none pointer-events-none">
+          "sometimes or most times the best way is just the way you know to do it"
+        </p>
+
+        {/* Stylized signature */}
+        <div className="absolute bottom-6 right-8 rotate-[-3deg] pointer-events-none select-none">
+          <svg
+            viewBox="0 0 200 50"
+            className="w-32 h-auto text-muted-foreground/20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* "Ravani" */}
+            <path d="M10 35 Q12 15 18 15 Q24 15 20 30 L22 18 Q28 12 32 20 L30 35 M36 20 Q40 12 44 20 L42 35 M48 25 Q52 18 56 25 Q54 32 48 30 M60 15 L60 35 M66 20 Q70 12 74 20 L72 35 M78 15 L78 35" />
+            {/* "Roshan" */}
+            <path d="M95 35 Q97 15 103 15 Q109 15 105 30 M110 20 Q114 10 118 20 Q118 32 110 30 M122 20 Q126 12 130 20 L128 35 M134 15 L134 35 Q138 30 142 25 Q138 35 134 35 M148 20 Q152 12 156 20 L154 35 M160 20 Q164 12 168 20 L166 35" />
+            {/* Underline flourish */}
+            <path d="M8 40 Q60 44 120 38 Q160 36 190 40" strokeDasharray="3 2" opacity="0.5" />
+          </svg>
         </div>
       </div>
 

@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import Works from "./pages/Works";
+import NewsIndex from "./pages/NewsIndex";
+import NewsPost from "./pages/NewsPost";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/works" element={<Works />} />
+          <Route path="/news" element={<NewsIndex />} />
+          <Route path="/news/:slug" element={<NewsPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

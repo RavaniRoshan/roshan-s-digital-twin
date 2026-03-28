@@ -1,102 +1,150 @@
-import avatar from "@/assets/avatar.png";
+import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { ArrowDownToLine } from "lucide-react";
+import avatar from "@/assets/profile/profile-home.png";
+import BrandLogo from "@/components/BrandLogo";
+import { siteContent } from "@/content/siteContent";
 
 const HomePage = () => {
+  const { profile } = siteContent;
+  const brandSocials = profile.socials.filter((link) => link.iconMode === "brandfetch");
+  const textActions = profile.socials.filter((link) => link.iconMode !== "brandfetch");
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
-      <div className="flex flex-col lg:flex-row gap-10">
-        {/* Main content */}
+      <div className="flex flex-col gap-10 lg:flex-row">
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
-            <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground">
-                ravani roshan's homepage
-              </h1>
-              <p className="text-primary font-medium mb-3">
-                ai-powered alchemist · full-stack engineer
-              </p>
-              <p className="text-xs text-muted-foreground font-mono tracking-wider break-all">
-                01110011 01110011 01101000 00101101 01100101 01100100 00110010 00111001 01101001
-              </p>
+          <section className="mb-8">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+              <div className="flex-1">
+                <p className="mb-3 text-xs uppercase tracking-[0.24em] text-muted-foreground">home</p>
+                <h1 className="mb-2 text-2xl font-semibold text-foreground sm:text-3xl">{profile.name}</h1>
+                <p className="mb-3 text-sm text-primary sm:text-base">{profile.headline}</p>
+                <p className="mb-4 text-xs uppercase tracking-[0.2em] text-muted-foreground">{profile.location}</p>
+                <p className="max-w-2xl text-sm leading-7 text-foreground/85">{profile.intro}</p>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <a
+                    href={profile.resumeHref}
+                    download
+                    className="inline-flex items-center gap-2 rounded border border-primary/40 bg-primary/10 px-3 py-2 text-xs font-medium uppercase tracking-[0.16em] text-primary no-underline transition-colors hover:bg-primary/15"
+                  >
+                    <ArrowDownToLine className="h-3.5 w-3.5" />
+                    download resume
+                  </a>
+                </div>
+              </div>
+              <img
+                src={avatar}
+                alt="Roshan Ravani"
+                className="h-24 w-24 rounded-full border border-border object-cover"
+              />
             </div>
-            <img
-              src={avatar}
-              alt="Ravani Roshan"
-              className="w-24 h-24 rounded-full object-cover border-2 border-border flex-shrink-0"
-            />
-          </div>
 
-          {/* About */}
-          <Section title="about me">
-            <p className="mb-4">
-              i don't just "code"—i teach rocks how to think and get them to thank me for it.
-              i'm a founder-engineer who treats production like a jazz solo: calculated chaos with
-              a lot of soul. i build high-ROI AI products because "impossible" is just a dare i
-              haven't taken yet.
-            </p>
-            <p>
-              my goal? automate the mundane, scale the genius, and build the kind of tech that
-              makes Skynet look like a pocket calculator. i'm here to ship fast, break the status
-              quo, and turn ungodly amounts of caffeine into pure, monetizable magic.
-            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {profile.stats.map((stat) => (
+                <span key={stat.label} className="rounded border border-border bg-card px-3 py-1 text-xs text-foreground/80">
+                  {stat.value} {stat.label}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <Section title="about">
+            {profile.about.map((paragraph) => (
+              <p key={paragraph} className="mb-4 last:mb-0">
+                {paragraph}
+              </p>
+            ))}
           </Section>
 
-          {/* What I'm Up To */}
-          <Section title="what i'm up to">
-            <ul className="space-y-2 list-none p-0">
-              <li>🔭 <strong>currently architecting:</strong> Axiom-One (Research-Grade Reasoning System) & Agent-X (Vision-Language Browser Agent)</li>
-              <li>🌱 <strong>downloading to brain:</strong> Agentic AI, LangGraph, Fine-tuning... learning how to make the machines do my chores</li>
-              <li>🤝 <strong>looking for co-conspirators:</strong> to build innovative AI projects or anything that sounds vaguely impossible</li>
-              <li>💬 <strong>provoke me about:</strong> system architecture, the singularity, or why AI ethics is the only conversation worth having</li>
-              <li>⚡ <strong>weird flex:</strong> fine-tuned 8 AI models, swept 3 hackathons, 120 WPM. blood stream is 90% Arabica</li>
+          <Section title="current focus">
+            <ul className="space-y-3 text-foreground/85">
+              {profile.currentFocus.map((item) => (
+                <li key={item}>- {item}</li>
+              ))}
             </ul>
           </Section>
 
-          {/* Tools */}
-          <Section title="tools i use to bend reality">
-            <ToolCategory title="programming languages" items={["Python", "JavaScript", "TypeScript", "Rust", "C++", "C#", "Kotlin", "Swift", "PHP"]} />
-            <ToolCategory title="frameworks & libraries" items={["React", "Node.js", "FastAPI", "Next.js", "Django", "Flask", "Playwright"]} />
-            <ToolCategory title="ai/ml & data science" items={["TensorFlow", "PyTorch", "LangChain", "Hugging Face", "Anthropic", "Semantic Kernel", "Pandas", "NumPy", "scikit-learn"]} />
-            <ToolCategory title="cloud & devops" items={["AWS", "Google Cloud", "Docker", "Kubernetes", "Git"]} />
+          <Section title="selected capabilities">
+            <div className="space-y-4">
+              {profile.skills.map((group) => (
+                <div key={group.title}>
+                  <h3 className="mb-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">{group.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <span key={item} className="rounded bg-secondary px-2 py-1 text-xs text-secondary-foreground">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </Section>
 
-          {/* Learn More */}
-          <Section title="learn more">
+          <Section title="next">
             <p className="mb-4">
-              you can find my featured projects and certifications on the{" "}
-              <a href="/works">works page</a>.
+              the full project archive and updated certifications live on the <Link to="/works">works page</Link>.
             </p>
             <p>
-              this website is intended to help people find and connect with me while also serving
-              as a personal reference. feel free to reach out over{" "}
-              <a href="https://www.linkedin.com/in/ravani-roshan" target="_blank" rel="noopener noreferrer">
-                linkedin
-              </a>{" "}
-              or{" "}
-              <a href="mailto:ravaniroshansingh@gmail.com">email</a>.
+              the latest product note is the <Link to="/news/openjck">OpenJCK feature</Link>, which now anchors the news section.
             </p>
           </Section>
         </div>
 
-        {/* Sidebar */}
-        <aside className="w-full lg:w-64 flex-shrink-0">
-          {/* News */}
+        <aside className="w-full flex-shrink-0 lg:w-72">
           <SidebarSection title="news">
             <div className="space-y-4 text-sm">
-              <NewsItem date="2025" text='currently architecting Axiom-One & Agent-X — research-grade AI systems' />
-              <NewsItem date="2024" text="swept 3 hackathons and fine-tuned 8 AI models" />
-              <NewsItem date="2024" text='completed "AI Agents in LangGraph" & "Finetuning LLMs" from DeepLearning.AI' />
-              <NewsItem date="2025" text='earned "Building toward Computer Use" cert from Anthropic' />
+              {profile.updates.map((item) => (
+                <div key={`${item.date}-${item.text}`}>
+                  <p className="mb-1 text-primary">{item.date}</p>
+                  {item.href ? (
+                    item.internal ? (
+                      <Link to={item.href} className="text-foreground/80 no-underline hover:text-primary">
+                        {item.text}
+                      </Link>
+                    ) : (
+                      <a href={item.href} className="text-foreground/80 no-underline hover:text-primary">
+                        {item.text}
+                      </a>
+                    )
+                  ) : (
+                    <p className="text-foreground/80">{item.text}</p>
+                  )}
+                </div>
+              ))}
+              <Link to="/news" className="inline-block text-sm no-underline">
+                view all news
+              </Link>
             </div>
           </SidebarSection>
 
-          {/* Links */}
           <SidebarSection title="links">
-            <div className="space-y-2 text-sm">
-              <SidebarLink icon="💼" label="linkedin" href="https://www.linkedin.com/in/ravani-roshan" />
-              <SidebarLink icon="🐙" label="github" href="https://github.com/RavaniRoshan" />
-              <SidebarLink icon="📧" label="email" href="mailto:ravaniroshansingh@gmail.com" />
-              <SidebarLink icon="🌐" label="portfolio" href="https://ravani-roshan-singh.vercel.app/certificates" />
-              <SidebarLink icon="💻" label="hackerrank" href="https://www.hackerrank.com/profile/ravaniroshansingh" />
+            <div className="flex flex-wrap gap-3">
+              {brandSocials.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  title={link.label}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded border border-border bg-white/90 p-2 no-underline shadow-sm transition-transform hover:-translate-y-0.5"
+                >
+                  <BrandLogo domain={link.brandDomain} label={link.label} />
+                </a>
+              ))}
+            </div>
+            <div className="mt-4 space-y-2 text-sm">
+              {textActions.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="block text-foreground/80 no-underline transition-colors hover:text-primary"
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </SidebarSection>
         </aside>
@@ -105,55 +153,19 @@ const HomePage = () => {
   );
 };
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({ title, children }: { title: string; children: ReactNode }) => (
   <section className="mb-8">
-    <h2 className="text-base font-semibold mb-1 text-foreground">
-      {title}
-    </h2>
-    <div className="border-b border-border mb-4" />
-    <div className="text-sm leading-relaxed text-foreground/90">
-      {children}
-    </div>
+    <h2 className="mb-1 text-base font-semibold text-foreground">{title}</h2>
+    <div className="mb-4 border-b border-border" />
+    <div className="text-sm leading-7 text-foreground/90">{children}</div>
   </section>
 );
 
-const SidebarSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const SidebarSection = ({ title, children }: { title: string; children: ReactNode }) => (
   <div className="mb-8">
-    <h3 className="text-base font-semibold mb-1 text-foreground">{title}</h3>
-    <div className="border-b border-border mb-4" />
+    <h3 className="mb-1 text-base font-semibold text-foreground">{title}</h3>
+    <div className="mb-4 border-b border-border" />
     {children}
-  </div>
-);
-
-const NewsItem = ({ date, text }: { date: string; text: string }) => (
-  <div>
-    <span className="text-primary font-medium">{date}:</span>{" "}
-    <span className="text-foreground/80">{text}</span>
-  </div>
-);
-
-const SidebarLink = ({ icon, label, href }: { icon: string; label: string; href: string }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex items-center gap-2 text-foreground/80 hover:text-primary no-underline transition-colors"
-  >
-    <span>{icon}</span>
-    <span>{label}</span>
-  </a>
-);
-
-const ToolCategory = ({ title, items }: { title: string; items: string[] }) => (
-  <div className="mb-4">
-    <h3 className="text-xs text-muted-foreground uppercase tracking-wider mb-2">{title}</h3>
-    <div className="flex flex-wrap gap-2">
-      {items.map((item) => (
-        <span key={item} className="text-xs px-2 py-1 rounded bg-secondary text-secondary-foreground">
-          {item}
-        </span>
-      ))}
-    </div>
   </div>
 );
 

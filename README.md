@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+# roshan-s-digital-twin
 
-## Project info
+A personal single-page portfolio for Roshan Ravani, built as a product-first professional site rather than a generic resume dump.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The site highlights:
 
-## How can I edit this code?
+- home page positioning and intro
+- featured work and certifications
+- news notes for flagship projects like OpenJCK
+- downloadable resume
+- Brandfetch-powered social and issuer logos
 
-There are several ways of editing your application.
+## stack
 
-**Use Lovable**
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- React Router
+- Vitest
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## routes
 
-Changes made via Lovable will be committed automatically to this repo.
+- `/` - home
+- `/works` - projects and certifications
+- `/news` - news index
+- `/news/openjck` - featured project note
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## local development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open the local Vite URL shown in the terminal.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## scripts
 
-**Use GitHub Codespaces**
+```sh
+npm run dev
+npm run build
+npm run preview
+npm test
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## assets and content
 
-## What technologies are used for this project?
+- site content is centralized in `src/content/siteContent.ts`
+- profile images live in `src/assets/profile/`
+- public download assets live in `public/resume/`
+- favicon assets live in `public/`
 
-This project is built with:
+## environment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Create a local env file if you want Brandfetch logos to render:
 
-## How can I deploy this project?
+```sh
+cp .env.example .env.local
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Required variable:
 
-## Can I connect a custom domain to my Lovable project?
+```sh
+VITE_BRANDFETCH_CLIENT_ID=your-brandfetch-client-id
+```
 
-Yes, you can!
+Do not put private Brandfetch API keys in the frontend app.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## current release
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Current prepared release: `v0.1.0`
+
+Highlights:
+
+- refreshed product-builder positioning
+- works and news routing
+- OpenJCK feature coverage
+- resume download support
+- Brandfetch logo integration
+- updated profile image and favicon
+
+## verification
+
+```sh
+npm run build
+npm test
+```
+
+Note: on this Windows setup, `npm test` may need to run outside the sandbox because Vitest can hit an `esbuild` `spawn EPERM` restriction.

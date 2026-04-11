@@ -178,19 +178,19 @@ export const siteContent: SiteContent = {
       },
     },
     {
-      title: "ZERO-COMP Solar Weather API",
-      period: "2024 - Present",
+      title: "WinScript MCP",
+      period: "2025 - Present",
       description:
-        "Enterprise-grade solar flare prediction platform powered by the NASA-IBM Surya-1.0 transformer model, built for teams that need timely solar weather intelligence.",
+        "A Windows-native automation API, packaged as an MCP server, that gives AI agents the same system-level desktop control that AppleScript gives on macOS.",
       longDescription:
-        "ZERO-COMP combines real-time predictions, dashboard views, API access, and WebSocket delivery for satellite, aviation, and grid operations.",
-      tags: ["product", "ai"],
-      href: "https://github.com/RavaniRoshan",
+        "WinScript is a state-aware, replayable, audited Windows automation server for AI agents. It wraps 4 fragmented Windows automation primitives — UI Automation, COM, Win32, and OCR — into a single MCP server that any agent can call.",
+      tags: ["oss", "ai", "product"],
+      href: "https://github.com/RavaniRoshan/winscript-mcp",
       featured: true,
       highlights: [
-        "Prediction refreshes every 10 minutes",
-        "API, dashboard, and streaming access in one stack",
-        "FastAPI, Next.js 14, Supabase, WebSockets, and transformer models",
+        "Five-layer selector fallback chain for reliable UI automation",
+        "State diffing after every action with full audit logs",
+        "Workflow recorder and replay with semantic intent layer",
       ],
     },
     {
@@ -236,6 +236,22 @@ export const siteContent: SiteContent = {
       highlights: [
         "Built with Python, FastAPI, Playwright, React, and Gemini 2.5",
         "Focused on web-native execution and safety controls",
+      ],
+    },
+    {
+      title: "ZERO-COMP Solar Weather API",
+      period: "2024 - Present",
+      description:
+        "Enterprise-grade solar flare prediction platform powered by the NASA-IBM Surya-1.0 transformer model, built for teams that need timely solar weather intelligence.",
+      longDescription:
+        "ZERO-COMP combines real-time predictions, dashboard views, API access, and WebSocket delivery for satellite, aviation, and grid operations.",
+      tags: ["product", "ai"],
+      href: "https://github.com/RavaniRoshan",
+      featured: false,
+      highlights: [
+        "Prediction refreshes every 10 minutes",
+        "API, dashboard, and streaming access in one stack",
+        "FastAPI, Next.js 14, Supabase, WebSockets, and transformer models",
       ],
     },
     {

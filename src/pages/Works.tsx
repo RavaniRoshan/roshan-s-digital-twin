@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import BrandLogo from "@/components/BrandLogo";
+import { CertIcon } from "@/components/CertIcon";
 import { siteContent } from "@/content/siteContent";
 
 const projectTags = ["all", "product", "ai", "oss", "research"] as const;
@@ -14,7 +14,7 @@ const WorksPage = () => {
     activeTag === "all" ? projects : projects.filter((project) => project.tags.includes(activeTag));
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
       <h1 className="mb-4 text-2xl font-semibold text-foreground sm:text-3xl">works</h1>
 
       <p className="mb-2 text-sm leading-7 text-foreground/80">
@@ -32,7 +32,7 @@ const WorksPage = () => {
             <button
               key={tag}
               onClick={() => setActiveTag(tag)}
-              className={`rounded border px-3 py-1 text-xs transition-colors ${
+              className={`rounded border px-3 py-1 text-sm transition-colors ${
                 activeTag === tag
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-secondary text-secondary-foreground hover:border-primary"
@@ -54,15 +54,15 @@ const WorksPage = () => {
               <h3 className="mb-1 font-semibold text-foreground">{project.title}</h3>
               <div className="mb-2 flex flex-wrap gap-1">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="rounded bg-secondary px-2 py-0.5 text-xs text-primary">
+                  <span key={tag} className="rounded bg-secondary px-2 py-0.5 text-sm text-primary">
                     {tag}
                   </span>
                 ))}
               </div>
-              <p className="mb-2 text-xs text-muted-foreground">{project.period}</p>
+              <p className="mb-2 text-sm text-muted-foreground">{project.period}</p>
               <p className="mb-3 text-sm leading-7 text-foreground/80">{project.description}</p>
               {project.highlights?.length ? (
-                <ul className="mb-4 space-y-2 text-xs leading-6 text-foreground/70">
+                <ul className="mb-4 space-y-2 text-sm leading-6 text-foreground/70">
                   {project.highlights.map((highlight) => (
                     <li key={highlight}>- {highlight}</li>
                   ))}
@@ -73,7 +73,7 @@ const WorksPage = () => {
                   href={project.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded border border-border bg-secondary px-3 py-2 text-xs text-foreground no-underline transition-colors hover:border-primary"
+                  className="inline-flex items-center gap-2 rounded border border-border bg-secondary px-3 py-2 text-sm text-foreground no-underline transition-colors hover:border-primary"
                 >
                   view project
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -81,7 +81,7 @@ const WorksPage = () => {
                 {project.secondaryLink ? (
                   <Link
                     to={project.secondaryLink.href}
-                    className="inline-flex items-center gap-2 rounded border border-border px-3 py-2 text-xs text-foreground no-underline transition-colors hover:border-primary"
+                    className="inline-flex items-center gap-2 rounded border border-border px-3 py-2 text-sm text-foreground no-underline transition-colors hover:border-primary"
                   >
                     {project.secondaryLink.label}
                   </Link>
@@ -98,24 +98,24 @@ const WorksPage = () => {
           {certifications.map((cert) => (
             <div
               key={cert.title}
-              className={`flex items-start justify-between gap-4 rounded border bg-card p-4 ${
+              className={`flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between rounded border bg-card p-4 ${
                 cert.featured ? "border-primary/30" : "border-border"
               }`}
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-start gap-3">
-                  <div className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-border bg-white/90 p-2 shadow-sm">
-                    <BrandLogo domain={cert.issuerDomain} label={cert.issuer} />
+                  <div className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-border bg-card/90">
+                    <CertIcon issuer={cert.issuer} size={20} />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-foreground">{cert.title}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
+                    <p className="mt-1 text-sm text-muted-foreground">
                       {cert.issuer} / {cert.issued}
                     </p>
                   </div>
                 </div>
                 {cert.skills?.length ? (
-                  <p className="mt-2 text-xs text-foreground/65">{cert.skills.join(" / ")}</p>
+                  <p className="mt-2 text-sm text-foreground/65">{cert.skills.join(" / ")}</p>
                 ) : null}
               </div>
               {cert.href ? (
@@ -123,7 +123,7 @@ const WorksPage = () => {
                   href={cert.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded border border-border px-3 py-2 text-xs text-foreground no-underline transition-colors hover:border-primary"
+                  className="inline-flex items-center gap-2 rounded border border-border px-3 py-2 text-sm text-foreground no-underline transition-colors hover:border-primary sm:self-start"
                 >
                   credential
                   <ArrowUpRight className="h-3.5 w-3.5" />

@@ -12,14 +12,14 @@ const NewsPost = () => {
   }
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-10">
+    <article className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
       <Link to="/news" className="inline-flex items-center gap-2 text-sm text-muted-foreground no-underline hover:text-primary">
         <ArrowLeft className="h-4 w-4" />
         back to news
       </Link>
 
       <header className="mt-6 mb-10">
-        <p className="mb-3 text-xs uppercase tracking-[0.24em] text-muted-foreground">{post.date}</p>
+        <p className="mb-3 text-sm uppercase tracking-[0.24em] text-muted-foreground">{post.date}</p>
         <h1 className="mb-4 text-2xl font-semibold text-foreground sm:text-3xl">{post.title}</h1>
         <p className="text-sm leading-7 text-foreground/80">{post.summary}</p>
       </header>
@@ -41,7 +41,7 @@ const NewsPost = () => {
                 </ul>
               ) : null}
               {section.code ? (
-                <pre className="overflow-x-auto rounded border border-border bg-secondary/70 p-4 text-xs text-foreground">
+                <pre className="overflow-x-auto rounded border border-border bg-secondary/70 p-4 text-sm text-foreground">
                   <code>{section.code.content}</code>
                 </pre>
               ) : null}

@@ -27,6 +27,7 @@ export interface Project {
   description: string;
   longDescription?: string;
   tags: string[];
+  resumeTags: string[];
   href: string;
   featured: boolean;
   highlights?: string[];
@@ -70,6 +71,25 @@ export interface UpdateItem {
   internal?: boolean;
 }
 
+export interface Education {
+  degree: string;
+  institution: string;
+  period: string;
+  gpa?: string;
+}
+
+export interface Experience {
+  role: string;
+  organization: string;
+  period: string;
+  points: string[];
+}
+
+export interface SkillCategory {
+  name: string;
+  items: string[];
+}
+
 export interface SiteContent {
   profile: {
     name: string;
@@ -84,6 +104,9 @@ export interface SiteContent {
     skills: SkillGroup[];
     updates: UpdateItem[];
   };
+  education: Education[];
+  experience: Experience[];
+  skillCategories: SkillCategory[];
   projects: Project[];
   certifications: Certification[];
   newsPosts: NewsPost[];
@@ -165,6 +188,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "OpenJCK helps developers inspect what an agent did, why it failed, and where recovery broke down without sending traces to the cloud.",
       tags: ["oss", "ai", "product"],
+      resumeTags: ["Python", "JS/TS", "Infrastructure", "React/Next.js", "Agents", "LLMs"],
       href: "https://github.com/RavaniRoshan/openjck",
       featured: true,
       highlights: [
@@ -185,6 +209,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "WinScript is a state-aware, replayable, audited Windows automation server for AI agents. It wraps 4 fragmented Windows automation primitives — UI Automation, COM, Win32, and OCR — into a single MCP server that any agent can call.",
       tags: ["oss", "ai", "product"],
+      resumeTags: ["Python", "Infrastructure", "Agents"],
       href: "https://github.com/RavaniRoshan/winscript-mcp",
       featured: true,
       highlights: [
@@ -201,6 +226,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "Commitboy removes manual changelog work by parsing commits, summarizing updates, and committing release-ready notes directly into the repo workflow.",
       tags: ["product", "oss"],
+      resumeTags: ["JS/TS", "Infrastructure", "React/Next.js"],
       href: "https://github.com/RavaniRoshan/commitboy",
       featured: true,
       highlights: [
@@ -216,6 +242,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "AXiOM-ONE is designed for correctness-sensitive tasks where explanation quality, failure detection, and transparent reasoning matter more than conversational polish.",
       tags: ["research", "ai"],
+      resumeTags: ["Python", "Agents", "LLMs"],
       href: "https://github.com/RavaniRoshan/AXiOM",
       featured: false,
       highlights: [
@@ -231,6 +258,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "Agent-X focuses on reliable browser execution, transparent actions, and a reusable architecture for repeatable workflows.",
       tags: ["product", "ai"],
+      resumeTags: ["Python", "JS/TS", "Infrastructure", "React/Next.js", "Agents", "LLMs"],
       href: "https://github.com/RavaniRoshan/Agent-X",
       featured: false,
       highlights: [
@@ -246,6 +274,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "ZERO-COMP combines real-time predictions, dashboard views, API access, and WebSocket delivery for satellite, aviation, and grid operations.",
       tags: ["product", "ai"],
+      resumeTags: ["Python", "JS/TS", "Infrastructure", "React/Next.js", "LLMs"],
       href: "https://github.com/RavaniRoshan",
       featured: false,
       highlights: [
@@ -262,6 +291,7 @@ export const siteContent: SiteContent = {
       longDescription:
         "The project is structured for developers who want production-oriented retrieval skills rather than only conceptual introductions.",
       tags: ["research", "ai"],
+      resumeTags: ["LLMs", "Agents"],
       href: "https://github.com/RavaniRoshan/Rag-course",
       featured: false,
       highlights: [
@@ -376,6 +406,40 @@ export const siteContent: SiteContent = {
       href: "https://learn.deeplearning.ai/accomplishments/4e46f175-9b1d-4605-bd4b-17003928e532",
       skills: ["ai"],
       issuerDomain: "deeplearning.ai",
+    },
+  ],
+  education: [
+    {
+      degree: "B.Tech, Computer Science Engineering",
+      institution: "Silver Oak University, Ahmedabad, Gujarat",
+      period: "Aug 2023 - Present",
+      gpa: "8.0",
+    },
+  ],
+  experience: [
+    {
+      role: "Core Developer",
+      organization: "Google Developers Group, Ahmedabad",
+      period: "Oct 2023 - Dec 2025",
+      points: [
+        "Led engineering sessions on AI tooling and agentic system design for a community of 200+ developers",
+        "Contributed to multi-domain software projects across web infrastructure and applied ML",
+        "Maintained active engagement with emerging frameworks including LangChain, LangGraph, and Claude API tooling",
+      ],
+    },
+  ],
+  skillCategories: [
+    {
+      name: "Programming & Systems",
+      items: ["Python", "JS/TS", "Rust", "C++"],
+    },
+    {
+      name: "AI/ML Systems",
+      items: ["LLMs", "Agents", "RAG", "Vision"],
+    },
+    {
+      name: "Cloud & Infrastructure",
+      items: ["Infrastructure", "React/Next.js"],
     },
   ],
   newsPosts: [

@@ -60,7 +60,6 @@ export interface Site {
   certifications: Certification[];
   skillGroups: SkillGroup[];
   education: { degree: string; institution: string; period: string }[];
-  experience: { role: string; organization: string; period: string; points: string[] }[];
 }
 
 export const site: Site = {
@@ -296,17 +295,6 @@ export const site: Site = {
       degree: "B.Tech, Computer Science Engineering",
       institution: "Silver Oak University, Ahmedabad",
       period: "2023 — Present",
-    },
-  ],
-  experience: [
-    {
-      role: "Core Developer",
-      organization: "Google Developers Group, Ahmedabad",
-      period: "2023 — 2025",
-      points: [
-        "Led engineering sessions on AI tooling and agentic system design",
-        "Contributed to multi-domain software projects across web infrastructure and applied ML",
-      ],
     },
   ],
 };

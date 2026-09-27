@@ -40,29 +40,6 @@ export function Resume() {
       <Separator className="my-10" />
 
       <FadeUp>
-        <h2 className="font-mono text-xs tracking-[0.25em] text-electric uppercase">experience</h2>
-        {site.experience.map((e) => (
-          <div key={e.role} className="mt-4">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="font-bold">
-                {e.role} <span className="font-normal text-muted-foreground">· {e.organization}</span>
-              </p>
-              <span className="font-mono text-xs text-muted-foreground">{e.period}</span>
-            </div>
-            <ul className="mt-2 space-y-1.5">
-              {e.points.map((pt) => (
-                <li key={pt.slice(0, 24)} className="flex gap-3 text-sm text-muted-foreground">
-                  <span className="text-electric">▸</span> {pt}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </FadeUp>
-
-      <Separator className="my-10" />
-
-      <FadeUp>
         <h2 className="font-mono text-xs tracking-[0.25em] text-electric uppercase">education</h2>
         {site.education.map((e) => (
           <div key={e.degree} className="mt-4 flex flex-wrap items-baseline justify-between gap-2">

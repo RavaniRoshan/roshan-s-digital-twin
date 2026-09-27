@@ -1,105 +1,132 @@
 import { ArrowUpRight, Printer } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { FadeUp } from "@/components/Reveal";
+import { Fade, Pip, Section, SectionHead } from "@/components/Reveal";
 import { site } from "@/content/site";
+
+const LEVEL_WIDTH = { core: "w-full", proficient: "w-3/4", working: "w-1/2" } as const;
+const LEVEL_COLOR = {
+  core: "bg-electric",
+  proficient: "bg-info",
+  working: "bg-muted-foreground/50",
+} as const;
 
 export function Resume() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-      <FadeUp className="flex flex-wrap items-start justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <Avatar className="size-16">
-            <AvatarImage src={site.profile.avatar} alt={site.profile.name} />
-            <AvatarFallback className="font-mono">RR</AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="font-mono text-xs tracking-[0.25em] text-electric uppercase">~/resume</p>
-            <h1 className="mt-1 text-4xl font-extrabold tracking-tight">{site.profile.name}</h1>
-            <p className="mt-1 font-mono text-xs text-muted-foreground">{site.profile.headline}</p>
+    <>
+      <Section className="border-t-0 pt-12">
+        <Fade className="flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-2xl">
+            <SectionHead label="operator" title="capability matrix" />
+            <p className="text-sm leading-relaxed text-muted-foreground">{site.identity.summary}</p>
           </div>
-        </div>
-        <Button variant="outline" onClick={() => window.print()}>
-          <Printer className="size-4" /> print
-        </Button>
-      </FadeUp>
+          <button
+            onClick={() => window.print()}
+            className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 font-mono text-xs transition-colors hover:border-electric/50 hover:text-electric"
+          >
+            <Printer className="size-3.5" /> print
+          </button>
+        </Fade>
 
-      <FadeUp delay={0.05}>
-        <div className="mt-8 space-y-3">
-          {site.profile.about.map((p) => (
-            <p key={p.slice(0, 24)} className="text-sm leading-relaxed text-muted-foreground">
-              {p}
-            </p>
-          ))}
-        </div>
-      </FadeUp>
-
-      <Separator className="my-10" />
-
-      <FadeUp>
-        <h2 className="font-mono text-xs tracking-[0.25em] text-electric uppercase">education</h2>
-        {site.education.map((e) => (
-          <div key={e.degree} className="mt-4 flex flex-wrap items-baseline justify-between gap-2">
-            <p className="font-bold">
-              {e.degree} <span className="font-normal text-muted-foreground">· {e.institution}</span>
-            </p>
-            <span className="font-mono text-xs text-muted-foreground">{e.period}</span>
-          </div>
-        ))}
-      </FadeUp>
-
-      <Separator className="my-10" />
-
-      <FadeUp>
-        <h2 className="font-mono text-xs tracking-[0.25em] text-electric uppercase">capabilities</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {site.skillGroups.map((g) => (
-            <Card key={g.title}>
-              <CardHeader>
-                <CardTitle className="font-mono text-xs font-medium text-electric">{g.title}</CardTitle>
-                <CardDescription className="flex flex-wrap gap-1.5">
-                  {g.items.map((item) => (
-                    <Badge key={item} variant="secondary" size="sm">
-                      {item}
-                    </Badge>
+        <Fade delay={0.06}>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {site.skills.map((track) => (
+              <div key={track.track} className="panel p-4">
+                <p className="label text-electric">{track.track}</p>
+                <ul className="mt-3 space-y-2.5">
+                  {track.items.map((item) => (
+                    <li key={item.name} className="flex items-center gap-3">
+                      <span className="w-40 shrink-0 truncate font-mono text-xs text-foreground/85">
+                        {item.name}
+                      </span>
+                      <span className="h-1 flex-1 overflow-hidden rounded-full bg-border">
+                        <span
+                          className={`block h-full ${LEVEL_WIDTH[item.level]} ${LEVEL_COLOR[item.level]}`}
+                        />
+                      </span>
+                      <span className="w-16 shrink-0 text-right font-mono text-[0.5625rem] tracking-wider text-muted-foreground uppercase">
+                        {item.level}
+                      </span>
+                    </li>
                   ))}
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-      </FadeUp>
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Fade>
+      </Section>
 
-      <Separator className="my-10" />
-
-      <FadeUp>
-        <h2 className="font-mono text-xs tracking-[0.25em] text-electric uppercase">certifications</h2>
-        <div className="mt-4 space-y-0">
-          {site.certifications.map((c) => (
-            <div key={c.title} className="flex items-baseline justify-between gap-4 border-t py-3 last:border-b">
-              <p className="text-sm">
-                <span className="font-bold">{c.title}</span>{" "}
-                <span className="text-muted-foreground">· {c.issuer}</span>
-                {c.href && (
-                  <a
-                    href={c.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Verify ${c.title}`}
-                    className="ml-2 inline-flex items-center text-electric hover:underline"
-                  >
-                    <ArrowUpRight className="size-3.5" />
-                  </a>
-                )}
-              </p>
-              <span className="shrink-0 font-mono text-xs text-muted-foreground">{c.issued}</span>
+      <Section>
+        <Fade>
+          <SectionHead label="background" title="education" />
+        </Fade>
+        <Fade delay={0.05}>
+          {site.education.map((e) => (
+            <div key={e.degree} className="panel flex flex-wrap items-baseline justify-between gap-3 p-4">
+              <div>
+                <p className="font-semibold">{e.degree}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{e.institution}</p>
+              </div>
+              <span className="label">{e.period}</span>
             </div>
           ))}
-        </div>
-      </FadeUp>
-    </div>
+        </Fade>
+      </Section>
+
+      <Section>
+        <Fade>
+          <SectionHead label="verified" title="credentials" meta={`${site.credentials.length} badges`} />
+        </Fade>
+        <Fade delay={0.05}>
+          <div className="overflow-hidden rounded-lg border">
+            {site.credentials.map((c) => (
+              <div
+                key={c.title}
+                className="flex flex-wrap items-center justify-between gap-3 border-b bg-card px-4 py-3 last:border-b-0"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <Pip tone="nominal" />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{c.title}</p>
+                    <p className="truncate text-xs text-muted-foreground">{c.issuer}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="label">{c.issued}</span>
+                  {c.href && (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Verify ${c.title}`}
+                      className="text-electric transition-opacity hover:opacity-70"
+                    >
+                      <ArrowUpRight className="size-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Fade>
+      </Section>
+
+      <Section>
+        <Fade>
+          <div className="panel-flush flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="label text-electric">statement</p>
+              <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
+                {site.identity.statement}
+              </p>
+            </div>
+            <a
+              href={`mailto:${site.identity.socials.at(-1)?.handle}@gmail.com`}
+              className="shrink-0 rounded-md bg-primary px-4 py-2 text-center font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              get in touch
+            </a>
+          </div>
+        </Fade>
+      </Section>
+    </>
   );
 }

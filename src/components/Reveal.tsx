@@ -1,10 +1,10 @@
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export function FadeUp({
+export function Fade({
   children,
   delay = 0,
   className,
@@ -18,82 +18,79 @@ export function FadeUp({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-64px" }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.55, delay, ease: EASE }}
     >
       {children}
     </motion.div>
   );
 }
 
-export function BlurWords({
-  text,
+/** Standard instrument-panel section: label, rule, heading, optional meta. */
+export function SectionHead({
+  label,
+  title,
+  meta,
   className,
-  wordClassName,
 }: {
-  text: string;
+  label: string;
+  title: string;
+  meta?: ReactNode;
   className?: string;
-  wordClassName?: string;
 }) {
-  const reduce = useReducedMotion();
-  const words = text.split(" ");
-  if (reduce) return <p className={className}>{text}</p>;
   return (
-    <p className={className}>
-      {words.map((word, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          className={cn("inline-block", wordClassName)}
-          initial={{ opacity: 0.2, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-64px" }}
-          transition={{ duration: 0.5, delay: i * 0.05, ease: EASE }}
-        >
-          {word}
-          {i < words.length - 1 ? "\u00A0" : ""}
-        </motion.span>
-      ))}
-    </p>
+    <div className={cn("mb-6", className)}>
+      <div className="flex items-center gap-3">
+        <span className="label text-electric">{label}</span>
+        <span className="h-px flex-1 accent-rule opacity-50" />
+        {meta && <span className="label">{meta}</span>}
+      </div>
+      <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h2>
+    </div>
   );
 }
 
-export function Reel({
-  prefix,
-  words,
+export function Section({
+  id,
+  children,
   className,
 }: {
-  prefix: string;
-  words: string[];
+  id?: string;
+  children: ReactNode;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (reduce) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % words.length), 2400);
-    return () => clearInterval(id);
-  }, [reduce, words.length]);
-
   return (
-    <span className={cn("inline-flex flex-wrap items-baseline gap-x-3", className)}>
-      <span className="text-muted-foreground">{prefix}</span>
-      <span className="relative inline-flex overflow-hidden text-electric">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={words[index]}
-            initial={{ y: "100%", opacity: 0, filter: "blur(4px)" }}
-            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-            exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="inline-block"
-          >
-            {words[index]}
-          </motion.span>
-        </AnimatePresence>
-      </span>
-    </span>
+    <section id={id} className={cn("border-t px-5 py-12 sm:px-8 sm:py-16", className)}>
+      <div className="mx-auto max-w-5xl">{children}</div>
+    </section>
+  );
+}
+
+/** Small status pip used for system + telemetry states. */
+export function Pip({
+  tone,
+  className,
+}: {
+  tone: "active" | "nominal" | "standby" | "research" | "archived" | "stable";
+  className?: string;
+}) {
+  const color =
+    tone === "active"
+      ? "bg-electric"
+      : tone === "research"
+        ? "bg-info"
+        : tone === "standby"
+          ? "bg-warning"
+          : tone === "archived"
+            ? "bg-muted-foreground/50"
+            : tone === "stable"
+              ? "bg-success"
+              : "bg-success";
+  return (
+    <span
+      className={cn("inline-block size-1.5 shrink-0 rounded-full", color, tone === "active" && "animate-pulse-glow", className)}
+    />
   );
 }

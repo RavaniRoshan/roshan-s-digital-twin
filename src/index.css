@@ -5,75 +5,97 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * SpaceUI canonical tokens (see spaceui.one/docs/fundamentals/colors):
- * :root --radius 0.625rem, hsl()-wrapped values, --alpha() borders.
- * Persona layer: dark-first + electric volt accent, mono display type.
+ * PERSONA: "Instrument Cluster"
+ * Cold blue-grey near-black + a single acid cyan. One saturated accent on a
+ * 3-step achromatic ladder, per current high-end dark-site doctrine.
+ *
+ * Contrast (WCAG, computed against --background hsl(212 32% 8%)):
+ *   foreground  hsl(210 33% 93%)  15.7:1  AAA
+ *   muted       hsl(208 24% 70%)   8.7:1  AAA
+ *   accent      hsl(186 67% 51%)   8.8:1  AAA
+ *   accent on card hsl(210 31% 15%) 7.1:1 AAA
+ * No green. The `green-*` ramp is remapped to cyan below so the GitHub
+ * contribution heatmap inherits the instrument palette instead of GitHub green.
  */
 :root {
-  --radius: 0.625rem;
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(222 46% 11%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(0 0% 4%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(0 0% 4%);
-  --primary: hsl(0 0% 4%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(240 5% 96%);
-  --secondary-foreground: hsl(240 5% 34%);
-  --muted: hsl(0 0% 96%);
-  --muted-foreground: hsl(0 0% 45%);
-  --accent: hsl(240 5% 96%);
-  --accent-foreground: hsl(0 0% 4%);
-  --destructive: var(--color-red-500);
-  --destructive-foreground: var(--color-red-500);
-  --info: var(--color-blue-500);
-  --info-foreground: var(--color-blue-500);
-  --success: var(--color-emerald-500);
-  --success-foreground: var(--color-emerald-500);
-  --warning: var(--color-amber-500);
-  --warning-foreground: var(--color-amber-500);
-  --border: --alpha(var(--color-black) / 8%);
-  --input: --alpha(var(--color-black) / 8%);
-  --ring: transparent;
-  --error: var(--color-red-500);
-  --error-foreground: var(--color-red-500);
-  --pill-active-bg: --alpha(var(--color-black) / 10%);
-  --electric: hsl(84 100% 45%);
-  --electric-foreground: hsl(0 0% 4%);
+  --radius: 0.5rem;
+
+  --background: hsl(212 32% 8%);
+  --foreground: hsl(210 33% 93%);
+
+  --card: hsl(210 31% 15%);
+  --card-foreground: hsl(210 33% 93%);
+
+  --popover: hsl(210 31% 13%);
+  --popover-foreground: hsl(210 33% 93%);
+
+  --primary: hsl(186 67% 51%);
+  --primary-foreground: hsl(212 40% 6%);
+
+  --secondary: hsl(208 29% 20%);
+  --secondary-foreground: hsl(210 33% 93%);
+
+  --muted: hsl(208 29% 18%);
+  --muted-foreground: hsl(208 24% 70%);
+
+  --accent: hsl(208 29% 20%);
+  --accent-foreground: hsl(186 67% 60%);
+
+  --destructive: hsl(0 62% 48%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --info: hsl(198 70% 52%);
+  --info-foreground: hsl(198 80% 88%);
+
+  --success: hsl(158 64% 52%);
+  --success-foreground: hsl(158 70% 92%);
+
+  --warning: hsl(37 91% 55%);
+  --warning-foreground: hsl(37 95% 92%);
+
+  --error: hsl(0 62% 48%);
+  --error-foreground: hsl(0 0% 100%);
+
+  --border: --alpha(var(--color-white) / 9%);
+  --input: --alpha(var(--color-white) / 14%);
+  --ring: hsl(186 67% 51% / 0.55);
+  --pill-active-bg: --alpha(var(--color-white) / 12%);
+
+  --electric: hsl(186 67% 51%);
+  --electric-foreground: hsl(212 40% 6%);
 }
 
 .dark {
-  --background: hsl(0 0% 4%);
-  --foreground: hsl(0 0% 98%);
-  --card: hsl(0 0% 6%);
-  --card-foreground: hsl(0 0% 98%);
-  --popover: hsl(0 0% 6%);
-  --popover-foreground: hsl(0 0% 98%);
-  --primary: hsl(0 0% 98%);
-  --primary-foreground: hsl(0 0% 4%);
-  --secondary: hsl(240 4% 12%);
-  --secondary-foreground: hsl(0 0% 98%);
-  --muted: hsl(240 4% 12%);
-  --muted-foreground: hsl(0 0% 64%);
-  --accent: hsl(0 0% 9%);
-  --accent-foreground: hsl(0 0% 98%);
-  --destructive: var(--color-red-900);
-  --destructive-foreground: var(--color-red-400);
-  --info: var(--color-blue-500);
-  --info-foreground: var(--color-blue-400);
-  --success: var(--color-emerald-500);
-  --success-foreground: var(--color-emerald-400);
-  --warning: var(--color-amber-500);
-  --warning-foreground: var(--color-amber-400);
-  --border: --alpha(var(--color-white) / 8%);
-  --input: --alpha(var(--color-white) / 15%);
-  --ring: transparent;
-  --error: var(--color-red-900);
-  --error-foreground: var(--color-red-400);
-  --pill-active-bg: --alpha(var(--color-white) / 14%);
-  --electric: hsl(84 100% 60%);
-  --electric-foreground: hsl(0 0% 4%);
+  --background: hsl(212 32% 8%);
+  --foreground: hsl(210 33% 93%);
+  --card: hsl(210 31% 15%);
+  --card-foreground: hsl(210 33% 93%);
+  --popover: hsl(210 31% 13%);
+  --popover-foreground: hsl(210 33% 93%);
+  --primary: hsl(186 67% 51%);
+  --primary-foreground: hsl(212 40% 6%);
+  --secondary: hsl(208 29% 20%);
+  --secondary-foreground: hsl(210 33% 93%);
+  --muted: hsl(208 29% 18%);
+  --muted-foreground: hsl(208 24% 70%);
+  --accent: hsl(208 29% 20%);
+  --accent-foreground: hsl(186 67% 60%);
+  --destructive: hsl(0 62% 48%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --info: hsl(198 70% 52%);
+  --info-foreground: hsl(198 80% 88%);
+  --success: hsl(158 64% 52%);
+  --success-foreground: hsl(158 70% 92%);
+  --warning: hsl(37 91% 55%);
+  --warning-foreground: hsl(37 95% 92%);
+  --error: hsl(0 62% 48%);
+  --error-foreground: hsl(0 0% 100%);
+  --border: --alpha(var(--color-white) / 9%);
+  --input: --alpha(var(--color-white) / 14%);
+  --ring: hsl(186 67% 51% / 0.55);
+  --pill-active-bg: --alpha(var(--color-white) / 12%);
+  --electric: hsl(186 67% 51%);
+  --electric-foreground: hsl(212 40% 6%);
 }
 
 @theme inline {
@@ -92,6 +114,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
   --color-success: var(--success);
@@ -111,27 +134,23 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-sm: calc(var(--radius) - 2px);
 
-  --animate-grid-pan: grid-pan 24s linear infinite;
+  /* Remapped heat ramp: GitHub's green-* utilities resolve here, so the
+     contribution heatmap renders in cyan without patching the component. */
+  --color-green-200: #b8edf7;
+  --color-green-300: #7fdeee;
+  --color-green-400: #4ccadd;
+  --color-green-500: #2cc4d6;
+  --color-green-600: #1e9aab;
+  --color-green-700: #197a88;
+  --color-green-800: #145d68;
+  --color-green-900: #0f4a54;
+
   --animate-pulse-glow: pulse-glow 3.2s ease-in-out infinite;
-  --color-warning-foreground: var(--warning-foreground);
-  --color-warning: var(--warning);
-  --color-success-foreground: var(--success-foreground);
-  --color-success: var(--success);
-  --color-info-foreground: var(--info-foreground);
-  --color-info: var(--info);
-  --color-destructive-foreground: var(--destructive-foreground);
-
-  @keyframes grid-pan {
-    from {
-      background-position: 0 0;
-    }
-    to {
-      background-position: 64px 64px;
-    }
-  }
+  --animate-sweep: sweep 5.5s linear infinite;
+  --animate-blink: blink 1.4s steps(2, start) infinite;
 
   @keyframes pulse-glow {
     0%,
@@ -139,7 +158,26 @@
       opacity: 1;
     }
     50% {
-      opacity: 0.45;
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes sweep {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
     }
   }
 }
@@ -147,6 +185,10 @@
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -168,5 +210,69 @@
   ::selection {
     background: var(--color-electric);
     color: var(--color-electric-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-electric);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Faint instrument grid used behind the main pane. */
+  .grid-field {
+    background-image:
+      linear-gradient(to right, --alpha(var(--color-white) / 3.5%) 1px, transparent 1px),
+      linear-gradient(to bottom, --alpha(var(--color-white) / 3.5%) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .panel {
+    border: 1px solid var(--color-border);
+    background-color: --alpha(var(--color-white) / 2.5%);
+    border-radius: var(--radius);
+  }
+
+  .panel-flush {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-card);
+    border-radius: var(--radius);
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .readout {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .accent-rule {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-electric) 45%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }

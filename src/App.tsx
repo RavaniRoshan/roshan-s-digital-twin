@@ -1,36 +1,36 @@
-import { AnimatePresence, motion } from "motion/react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { SiteShell } from "@/components/SiteShell";
-import { Home } from "@/pages/Home";
-import { Log } from "@/pages/Log";
-import { NotFound } from "@/pages/NotFound";
-import { Resume } from "@/pages/Resume";
-import { WorkCase } from "@/pages/WorkCase";
-import { Works } from "@/pages/Works";
+import { Suspense, lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Shell } from "@/components/Shell";
+import { LoadingOrb } from "@/components/orb/loading";
+import { Dashboard } from "@/pages/Dashboard";
+
+const Systems = lazy(() => import("@/pages/Systems").then((m) => ({ default: m.Systems })));
+const SystemCase = lazy(() => import("@/pages/SystemCase").then((m) => ({ default: m.SystemCase })));
+const TimelinePage = lazy(() => import("@/pages/Timeline").then((m) => ({ default: m.TimelinePage })));
+const Resume = lazy(() => import("@/pages/Resume").then((m) => ({ default: m.Resume })));
+const NotFound = lazy(() => import("@/pages/NotFound").then((m) => ({ default: m.NotFound })));
+
+function Booting() {
+  return (
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <LoadingOrb size={44} className="text-electric" />
+    </div>
+  );
+}
 
 export default function App() {
-  const location = useLocation();
-
   return (
-    <SiteShell>
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/works" element={<Works />} />
-            <Route path="/works/:slug" element={<WorkCase />} />
-            <Route path="/log" element={<Log />} />
-            <Route path="/resume" element={<Resume />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </motion.main>
-      </AnimatePresence>
-    </SiteShell>
+    <Shell>
+      <Suspense fallback={<Booting />}>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/systems" element={<Systems />} />
+          <Route path="/systems/:slug" element={<SystemCase />} />
+          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/resume" element={<Resume />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Shell>
   );
 }

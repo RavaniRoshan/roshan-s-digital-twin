@@ -25,4 +25,19 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // Registry-generated code (installed via `shadcn add @spaceui/...`).
+    // Not hand-authored, and re-running the CLI would revert local edits,
+    // so vendored-only rules are relaxed here rather than patched in place.
+    files: [
+      "src/components/spaceui/**",
+      "src/components/orb/**",
+      "src/components/ui/**",
+      "src/lib/**",
+      "src/utils/**",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 );

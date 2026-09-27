@@ -1,24 +1,18 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
+export function NotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted px-6">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">page not found</p>
-        <Link to="/" className="text-primary underline hover:text-primary/90">
-          return to home
-        </Link>
-      </div>
+    <div className="mx-auto flex max-w-3xl flex-col items-start px-4 py-24 sm:px-6">
+      <p className="font-mono text-sm text-electric">404 — route not found</p>
+      <h1 className="mt-2 text-5xl font-extrabold tracking-tight">null pointer.</h1>
+      <p className="mt-4 max-w-md text-muted-foreground">
+        This path dereferences nothing. Head back to something that exists.
+      </p>
+      <Button className="mt-8" render={<Link to="/" />}>
+        <ArrowLeft className="size-4" /> back home
+      </Button>
     </div>
   );
-};
-
-export default NotFound;
+}

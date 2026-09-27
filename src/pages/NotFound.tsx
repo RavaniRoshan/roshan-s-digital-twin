@@ -1,24 +1,29 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { Section } from "@/components/Reveal";
+import { Shell } from "@/components/Shell";
+import { Block, SectionLabel } from "@/components/Rows";
+import type { TickerItem } from "@/components/Ticker";
+
+const TICKER: TickerItem[] = [
+  { id: "fault", label: "fault", meta: "404", href: "#fault" },
+  { id: "about", label: "about", meta: "position", href: "#about" },
+];
 
 export function NotFound() {
   return (
-    <Section className="border-t-0 pt-24">
-      <p className="readout flex items-center gap-2 text-sm text-electric">
-        <span className="size-1.5 rounded-full bg-destructive" />
-        fault · 404
-      </p>
-      <h1 className="mt-4 text-5xl font-extrabold tracking-tight sm:text-6xl">null reference.</h1>
-      <p className="mt-4 max-w-md text-muted-foreground">
-        That route dereferences nothing. Returning to the last known good state.
-      </p>
-      <Link
-        to="/"
-        className="mt-8 inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 font-mono text-sm transition-colors hover:border-electric/50 hover:text-electric"
-      >
-        <ArrowLeft className="size-4" /> back to dashboard
-      </Link>
-    </Section>
+    <Shell ticker={TICKER}>
+      <Block id="fault">
+        <SectionLabel>fault · 404</SectionLabel>
+        <h1 className="text-sm leading-relaxed font-semibold">null reference.</h1>
+        <p className="mt-3 text-sm leading-relaxed o-2">
+          That route resolves to nothing. The single column only has the index.
+        </p>
+        <Link
+          to="/"
+          className="glass mt-5 inline-block rounded px-3 py-2 text-sm transition-colors hover:border-chroma/50"
+        >
+          return to index
+        </Link>
+      </Block>
+    </Shell>
   );
 }

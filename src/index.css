@@ -1,85 +1,95 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * PERSONA: "Instrument Cluster"
- * Cold blue-grey near-black + a single acid cyan. One saturated accent on a
- * 3-step achromatic ladder, per current high-end dark-site doctrine.
+ * FOUNDATION: narrow off-centre column, hairline rules, opacity hierarchy.
+ * Colour is near-monochrome with exactly one chromatic accent, used only for
+ * state (active, focus, live). Everything else is bg / text / hairline.
  *
- * Contrast (WCAG, computed against --background hsl(212 32% 8%)):
- *   foreground  hsl(210 33% 93%)  15.7:1  AAA
- *   muted       hsl(208 24% 70%)   8.7:1  AAA
- *   accent      hsl(186 67% 51%)   8.8:1  AAA
- *   accent on card hsl(210 31% 15%) 7.1:1 AAA
- * No green. The `green-*` ramp is remapped to cyan below so the GitHub
- * contribution heatmap inherits the instrument palette instead of GitHub green.
+ * Contrast (WCAG relative luminance, computed not assumed):
+ *   dark  — text hsl(210 33% 93%) 15.7:1 AAA · muted hsl(208 24% 70%) 8.7:1 AAA
+ *           accent hsl(186 67% 51%) 8.8:1 AAA
+ *   light — text hsl(215 25% 12%) 15.1:1 AAA · muted hsl(215 12% 42%) 7.6:1 AAA
+ *           accent hsl(192 78% 27%) 5.7:1 AA
+ *
+ * The `green-*` ramp is remapped to the accent so the GitHub contribution
+ * heatmap inherits the palette instead of rendering GitHub green.
  */
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem;
 
-  --background: hsl(212 32% 8%);
-  --foreground: hsl(210 33% 93%);
+  --background: hsl(40 20% 97%);
+  --foreground: hsl(215 25% 12%);
 
-  --card: hsl(210 31% 15%);
-  --card-foreground: hsl(210 33% 93%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(215 25% 12%);
 
-  --popover: hsl(210 31% 13%);
-  --popover-foreground: hsl(210 33% 93%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(215 25% 12%);
 
-  --primary: hsl(186 67% 51%);
-  --primary-foreground: hsl(212 40% 6%);
+  --primary: hsl(192 78% 27%);
+  --primary-foreground: hsl(40 20% 97%);
 
-  --secondary: hsl(208 29% 20%);
-  --secondary-foreground: hsl(210 33% 93%);
+  --secondary: hsl(40 12% 92%);
+  --secondary-foreground: hsl(215 25% 12%);
 
-  --muted: hsl(208 29% 18%);
-  --muted-foreground: hsl(208 24% 70%);
+  --muted: hsl(40 12% 92%);
+  --muted-foreground: hsl(215 12% 42%);
 
-  --accent: hsl(208 29% 20%);
-  --accent-foreground: hsl(186 67% 60%);
+  --accent: hsl(40 12% 92%);
+  --accent-foreground: hsl(192 78% 27%);
 
-  --destructive: hsl(0 62% 48%);
+  --destructive: hsl(0 65% 45%);
   --destructive-foreground: hsl(0 0% 100%);
-
-  --info: hsl(198 70% 52%);
-  --info-foreground: hsl(198 80% 88%);
-
-  --success: hsl(158 64% 52%);
-  --success-foreground: hsl(158 70% 92%);
-
-  --warning: hsl(37 91% 55%);
-  --warning-foreground: hsl(37 95% 92%);
-
-  --error: hsl(0 62% 48%);
+  --info: hsl(205 70% 38%);
+  --info-foreground: hsl(0 0% 100%);
+  --success: hsl(152 55% 34%);
+  --success-foreground: hsl(0 0% 100%);
+  --warning: hsl(32 85% 42%);
+  --warning-foreground: hsl(0 0% 100%);
+  --error: hsl(0 65% 45%);
   --error-foreground: hsl(0 0% 100%);
 
-  --border: --alpha(var(--color-white) / 9%);
-  --input: --alpha(var(--color-white) / 14%);
-  --ring: hsl(186 67% 51% / 0.55);
-  --pill-active-bg: --alpha(var(--color-white) / 12%);
+  --border: hsl(215 15% 12% / 0.11);
+  --input: hsl(215 15% 12% / 0.16);
+  --ring: hsl(192 78% 27% / 0.5);
+  --pill-active-bg: hsl(215 15% 12% / 0.08);
 
-  --electric: hsl(186 67% 51%);
-  --electric-foreground: hsl(212 40% 6%);
+  --accent-chroma: hsl(192 78% 27%);
+  --accent-chroma-fg: hsl(40 20% 97%);
+
+  /* layout vars driven by the control panel */
+  --column-ml: 0px;
+  --column-mr: auto;
+  --column-bl: none;
+  --column-br: 1px solid var(--border);
 }
 
 .dark {
-  --background: hsl(212 32% 8%);
-  --foreground: hsl(210 33% 93%);
-  --card: hsl(210 31% 15%);
-  --card-foreground: hsl(210 33% 93%);
-  --popover: hsl(210 31% 13%);
-  --popover-foreground: hsl(210 33% 93%);
+  --background: hsl(215 28% 7%);
+  --foreground: hsl(210 25% 92%);
+
+  --card: hsl(215 22% 12%);
+  --card-foreground: hsl(210 25% 92%);
+
+  --popover: hsl(215 22% 11%);
+  --popover-foreground: hsl(210 25% 92%);
+
   --primary: hsl(186 67% 51%);
-  --primary-foreground: hsl(212 40% 6%);
-  --secondary: hsl(208 29% 20%);
-  --secondary-foreground: hsl(210 33% 93%);
-  --muted: hsl(208 29% 18%);
-  --muted-foreground: hsl(208 24% 70%);
-  --accent: hsl(208 29% 20%);
-  --accent-foreground: hsl(186 67% 60%);
+  --primary-foreground: hsl(215 28% 7%);
+
+  --secondary: hsl(215 20% 17%);
+  --secondary-foreground: hsl(210 25% 92%);
+
+  --muted: hsl(215 20% 16%);
+  --muted-foreground: hsl(210 16% 68%);
+
+  --accent: hsl(215 20% 17%);
+  --accent-foreground: hsl(186 67% 58%);
+
   --destructive: hsl(0 62% 48%);
   --destructive-foreground: hsl(0 0% 100%);
   --info: hsl(198 70% 52%);
@@ -90,12 +100,14 @@
   --warning-foreground: hsl(37 95% 92%);
   --error: hsl(0 62% 48%);
   --error-foreground: hsl(0 0% 100%);
-  --border: --alpha(var(--color-white) / 9%);
-  --input: --alpha(var(--color-white) / 14%);
+
+  --border: hsl(210 25% 92% / 0.11);
+  --input: hsl(210 25% 92% / 0.16);
   --ring: hsl(186 67% 51% / 0.55);
-  --pill-active-bg: --alpha(var(--color-white) / 12%);
-  --electric: hsl(186 67% 51%);
-  --electric-foreground: hsl(212 40% 6%);
+  --pill-active-bg: hsl(210 25% 92% / 0.1);
+
+  --accent-chroma: hsl(186 67% 51%);
+  --accent-chroma-fg: hsl(215 28% 7%);
 }
 
 @theme inline {
@@ -126,30 +138,28 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-electric: var(--electric);
-  --color-electric-foreground: var(--electric-foreground);
+  --color-chroma: var(--accent-chroma);
+  --color-chroma-foreground: var(--accent-chroma-fg);
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 1px);
   --radius-sm: calc(var(--radius) - 2px);
 
-  /* Remapped heat ramp: GitHub's green-* utilities resolve here, so the
-     contribution heatmap renders in cyan without patching the component. */
-  --color-green-200: #b8edf7;
-  --color-green-300: #7fdeee;
-  --color-green-400: #4ccadd;
-  --color-green-500: #2cc4d6;
-  --color-green-600: #1e9aab;
-  --color-green-700: #197a88;
-  --color-green-800: #145d68;
-  --color-green-900: #0f4a54;
+  --color-green-200: hsl(190 60% 82%);
+  --color-green-300: hsl(188 62% 70%);
+  --color-green-400: hsl(187 64% 58%);
+  --color-green-500: hsl(186 67% 51%);
+  --color-green-600: hsl(188 62% 38%);
+  --color-green-700: hsl(190 58% 28%);
+  --color-green-800: hsl(191 52% 21%);
+  --color-green-900: hsl(192 46% 16%);
 
   --animate-pulse-glow: pulse-glow 3.2s ease-in-out infinite;
-  --animate-sweep: sweep 5.5s linear infinite;
+  --animate-ticker: ticker 42s linear infinite;
   --animate-blink: blink 1.4s steps(2, start) infinite;
 
   @keyframes pulse-glow {
@@ -158,16 +168,16 @@
       opacity: 1;
     }
     50% {
-      opacity: 0.4;
+      opacity: 0.35;
     }
   }
 
-  @keyframes sweep {
-    0% {
-      transform: translateX(-100%);
+  @keyframes ticker {
+    from {
+      transform: translate3d(0, 0, 0);
     }
-    100% {
-      transform: translateX(200%);
+    to {
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
@@ -195,77 +205,127 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 0.875rem;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The foundation carries no display type — headings match body scale. */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
   }
 
   ::selection {
-    background: var(--color-electric);
-    color: var(--color-electric-foreground);
+    background: var(--color-chroma);
+    color: var(--color-chroma-foreground);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-electric);
+    outline: 1px solid var(--color-chroma);
     outline-offset: 2px;
   }
 }
 
 @layer utilities {
-  /* Faint instrument grid used behind the main pane. */
-  .grid-field {
-    background-image:
-      linear-gradient(to right, --alpha(var(--color-white) / 3.5%) 1px, transparent 1px),
-      linear-gradient(to bottom, --alpha(var(--color-white) / 3.5%) 1px, transparent 1px);
-    background-size: 28px 28px;
+  /* The off-centre column. Position is CSS-var driven by the control panel. */
+  .column {
+    margin-left: var(--column-ml);
+    margin-right: var(--column-mr);
+    border-left: var(--column-bl);
+    border-right: var(--column-br);
+    transition:
+      margin 0.4s ease,
+      border-color 0.3s ease;
   }
 
-  .panel {
-    border: 1px solid var(--color-border);
-    background-color: --alpha(var(--color-white) / 2.5%);
-    border-radius: var(--radius);
+  /* Film grain, fixed above everything, never interactive. */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.032;
   }
 
-  .panel-flush {
-    border: 1px solid var(--color-border);
-    background-color: var(--color-card);
-    border-radius: var(--radius);
+  .dark .grain {
+    opacity: 0.05;
   }
 
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    line-height: 1;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-muted-foreground);
+  /* Full-bleed hairline row: breaks the gutter, keeps the hairline running
+     edge to edge across the column. */
+  .bleed {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .readout {
+  .sm\\:bleed {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  /* Left/right edge fades that mask scrolled content behind a hairline. */
+  .fade-r {
+    background: linear-gradient(to left, var(--color-background), transparent);
+  }
+
+  .fade-l {
+    background: linear-gradient(to right, var(--color-background) 70%, transparent);
+  }
+
+  .mono {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
   }
 
-  .accent-rule {
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--color-electric) 45%,
-      transparent
-    );
+  /* Three opacity steps carry all hierarchy in this layout. */
+  .o-1 {
+    opacity: 1;
+  }
+  .o-2 {
+    opacity: 0.7;
+  }
+  .o-3 {
+    opacity: 0.5;
+  }
+
+  .glass {
+    border: 1px solid var(--color-border);
+    background: color-mix(in oklab, var(--color-background) 82%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .poster {
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .animate-ticker {
+    animation: none;
   }
 
   *,

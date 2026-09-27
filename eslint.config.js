@@ -26,6 +26,13 @@ export default tseslint.config(
     },
   },
   {
+    // Context providers and their consumer hooks must live in one module.
+    files: ["src/hooks/**"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+  {
     // Registry-generated code (installed via `shadcn add @spaceui/...`).
     // Not hand-authored, and re-running the CLI would revert local edits,
     // so vendored-only rules are relaxed here rather than patched in place.

@@ -1,164 +1,101 @@
-import { Suspense, lazy, useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetHeader, SheetPanel, SheetPopup, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { NAV_ITEMS, type NavItem } from "@/components/nav-items";
+import { useEffect, useState, type ReactNode } from "react";
+import { ControlPanel } from "@/components/ControlPanel";
+import { Noise } from "@/components/Noise";
+import { Ticker, type TickerItem } from "@/components/Ticker";
 import { site } from "@/content/site";
-import { cn } from "@/lib/utils";
-
-const CommandBar = lazy(() =>
-  import("@/components/CommandBar").then((m) => ({ default: m.CommandBar })),
-);
-
 
 function useIstClock() {
-  const [now, setNow] = useState(() => new Date());
+  const [t, setT] = useState("");
   useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
+    const tick = () =>
+      setT(
+        new Date().toLocaleTimeString("en-GB", {
+          timeZone: site.identity.timezone,
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      );
+    tick();
+    const id = setInterval(tick, 30_000);
     return () => clearInterval(id);
   }, []);
-  return now.toLocaleTimeString("en-GB", {
-    timeZone: site.identity.timezone,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
+  return t;
 }
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-}
-
-function RailLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => void }) {
-  return (
-    <NavLink
-      to={item.to}
-      end={item.to === "/"}
-      onClick={onNavigate}
-      className={({ isActive }) =>
-        cn(
-          "group relative flex items-center gap-3 border-l-2 py-2.5 pl-4 transition-colors",
-          isActive
-            ? "border-electric text-foreground"
-            : "border-transparent text-muted-foreground hover:text-foreground",
-        )
-      }
-    >
-      {({ isActive }) => (
-        <>
-          <span className={cn("readout text-[0.625rem]", isActive ? "text-electric" : "text-muted-foreground/60")}>
-            {item.index}
-          </span>
-          <span className="font-mono text-sm">{item.label}</span>
-          <span className="ml-auto text-[0.625rem] tracking-wider text-muted-foreground/50 uppercase group-hover:text-muted-foreground">
-            {item.hint}
-          </span>
-        </>
-      )}
-    </NavLink>
-  );
-}
-
-function Identity() {
-  return (
-    <Link to="/" className="flex items-center gap-3">
-      <span className="grid size-9 shrink-0 place-items-center rounded-md border border-electric/40 bg-electric/10 font-mono text-sm font-bold text-electric">
-        {site.identity.monogram}
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate font-mono text-sm font-semibold">{site.identity.name}</span>
-        <span className="block truncate text-[0.625rem] tracking-wider text-muted-foreground uppercase">
-          {site.identity.role}
-        </span>
-      </span>
-    </Link>
-  );
-}
-
-export function Shell({ children }: { children: React.ReactNode }) {
+function Header() {
   const clock = useIstClock();
-  const [paletteReady, setPaletteReady] = useState(false);
-
-  useEffect(() => {
-    const idle = window.requestIdleCallback ?? ((cb: IdleRequestCallback) => setTimeout(cb, 400));
-    const id = idle(() => setPaletteReady(true));
-    return () => {
-      if (window.cancelIdleCallback) window.cancelIdleCallback(id as number);
-    };
-  }, []);
-
-  const openPalette = () =>
-    window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
-
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <ScrollToTop />
-      {paletteReady && (
-        <Suspense fallback={null}>
-          <CommandBar />
-        </Suspense>
-      )}
-
-      {/* Fixed left rail — desktop */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r bg-background lg:flex">
-        <div className="px-5 py-6">
-          <Identity />
+    <header className="flex items-end justify-between py-6 sm:items-center">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+        <div className="poster shrink-0">
+          <img
+            src={site.identity.avatar}
+            alt={site.identity.name}
+            width={60}
+            height={60}
+            loading="lazy"
+            decoding="async"
+            className="block h-8 w-8 sm:h-[60px] sm:w-[60px]"
+          />
         </div>
-        <div className="h-px accent-rule opacity-40" />
-        <nav className="flex flex-1 flex-col gap-0.5 px-0 py-6">
-          {NAV_ITEMS.map((item) => (
-            <RailLink key={item.to} item={item} />
-          ))}
-        </nav>
-        <div className="border-t px-5 py-4">
-          <p className="flex items-center gap-2 font-mono text-[0.625rem] text-muted-foreground">
-            <span className="size-1.5 animate-pulse-glow rounded-full bg-electric" />
-            {site.identity.location}
-          </p>
-          <p className="readout mt-1.5 text-xs text-foreground/80">{clock} IST</p>
-          <p className="mt-3 flex items-center gap-1.5 text-[0.625rem] text-muted-foreground">
-            <Search className="size-3" />
-            press
-            <kbd className="rounded border px-1 font-mono">⌘K</kbd>
-            to search
-          </p>
+        <div>
+          <p className="text-sm leading-tight font-semibold">{site.identity.name}</p>
+          <p className="text-sm leading-tight o-2">{site.identity.role}</p>
         </div>
-      </aside>
+      </div>
+      <div className="text-right text-sm lg:mr-[52px]">
+        <p className="leading-tight">{site.identity.location}</p>
+        <p className="mono flex items-center justify-end gap-1.5 leading-tight o-2">
+          <span className="size-1.5 animate-pulse-glow rounded-full bg-chroma" />
+          {clock}
+        </p>
+      </div>
+    </header>
+  );
+}
 
-      {/* Top bar — mobile / tablet */}
-      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b bg-background/90 px-4 backdrop-blur-md lg:hidden">
-        <Identity />
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon-sm" onClick={openPalette} aria-label="Search">
-            <Search />
-          </Button>
-          <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon-sm" />}>
-              <Menu aria-label="Open navigation" />
-            </SheetTrigger>
-            <SheetPopup side="right">
-              <SheetHeader>
-                <SheetTitle className="font-mono">navigate</SheetTitle>
-              </SheetHeader>
-              <SheetPanel>
-                <nav className="flex flex-col py-2">
-                  {NAV_ITEMS.map((item) => (
-                    <RailLink key={item.to} item={item} />
-                  ))}
-                </nav>
-              </SheetPanel>
-            </SheetPopup>
-          </Sheet>
+function Footer() {
+  return (
+    <footer className="mt-16 flex items-stretch justify-between border-t text-sm">
+      <a
+        href="#top"
+        className="border-r px-4 py-4 font-semibold transition-opacity hover:o-2"
+      >
+        {new Date().getFullYear()}
+      </a>
+      <div className="flex">
+        {site.identity.socials.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel="noreferrer"
+            className="border-l px-4 py-4 transition-opacity hover:o-1"
+          >
+            <span className="o-2">{s.label}</span>
+          </a>
+        ))}
+      </div>
+    </footer>
+  );
+}
+
+export function Shell({ children, ticker }: { children: ReactNode; ticker: TickerItem[] }) {
+  return (
+    <div id="top" className="min-h-screen">
+      <Noise />
+      <ControlPanel />
+      <div className="column relative flex min-h-screen w-full max-w-[640px] flex-col">
+        <div className="px-4">
+          <Header />
         </div>
-      </header>
-
-      <main className="lg:pl-60">{children}</main>
+        <Ticker items={ticker} label="INDEX" />
+        <div className="flex-1 px-4 pb-16">{children}</div>
+        <div className="px-4">
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }

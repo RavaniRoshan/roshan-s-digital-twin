@@ -57,6 +57,7 @@ export const site = {
     name: "Ravani Roshan",
     handle: "RavaniRoshan",
     monogram: "RR",
+    avatar: "https://avatars.githubusercontent.com/u/153442693?v=4",
     role: "AI systems builder",
     discipline: "autonomous agents · reliability · developer infrastructure",
     location: "Ahmedabad, IN",
@@ -64,6 +65,10 @@ export const site = {
     shell: "ravani@agentforge:~$",
     summary:
       "I build autonomous agent systems, computer-use automation, and the infrastructure that keeps them dependable once they meet real tools, real users, and real-world constraints.",
+    bio: [
+      "Most of my work sits one layer below the agent — the sandbox it runs in, the budget that bounds it, the policy that gates it. A demo proves an agent can act; infrastructure proves you can still operate it at 3am.",
+      "That means hermetic execution, deterministic policy enforcement, token budgets enforced in-process, and observability that tells you why a run failed instead of just that it did.",
+    ],
     statement:
       "Reliability and containment are first-class features. A swarm of agents should never become a very confident expense report.",
     socials: [
@@ -77,6 +82,25 @@ export const site = {
       { label: "email", handle: "ravaniroshansingh", href: "mailto:ravaniroshansingh@gmail.com" },
     ] satisfies SocialLink[],
   },
+
+  principles: [
+    {
+      title: "Containment before capability",
+      body: "An agent gets the minimum authority its task requires, in a disposable environment, and hands back something reviewable instead of writing directly.",
+    },
+    {
+      title: "Deterministic over persuasive",
+      body: "A policy that lives in the prompt can be argued with. A policy on the mutation path cannot. Guardrails belong in code.",
+    },
+    {
+      title: "Budgets enforced in-process",
+      body: "Retries, backpressure, and circuit breakers belong where the call happens — not in a dashboard you check after the invoice arrives.",
+    },
+    {
+      title: "Evidence before trust",
+      body: "If a skill, model, or run cannot show what it actually did, it has not earned the next permission.",
+    },
+  ] as const,
 
   telemetry: [
     { label: "public repos", value: "189", status: "nominal" },

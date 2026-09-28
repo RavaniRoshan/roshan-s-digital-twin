@@ -1,47 +1,53 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * FOUNDATION: narrow off-centre column, hairline rules, opacity hierarchy.
- * Colour is near-monochrome with exactly one chromatic accent, used only for
- * state (active, focus, live). Everything else is bg / text / hairline.
+ * FOUNDATION
+ * A 640px column locked centred, hairline rules, and hierarchy carried by
+ * three opacity steps rather than by type size. Colour is near-monochrome with
+ * exactly one chromatic accent, used only for state: active, focus, live.
  *
- * Four accent families, each defining BOTH a neutral ramp and a single
- * chromatic accent, in light and dark. Keyed on [data-accent] so the control
- * panel can swap the whole schema live. Contrast figures are computed from
- * the relative-luminance formula, not taken on trust:
+ * THREE ACCENT FAMILIES. Each defines BOTH a neutral ramp and a single
+ * chromatic accent, in light and dark, keyed on [data-accent] so the control
+ * panel can swap the whole schema live. Contrast figures are computed from the
+ * WCAG relative-luminance formula, not taken on trust:
  *
- *   cyan       dark 8.8:1 AAA · light 5.7:1 AA   (cold blue-grey)
- *   ember      dark 8.1:1 AAA · light 6.1:1 AA   (neutral warm black)
- *   oxblood    dark 6.6:1 AA  · light 7.2:1 AAA  (warm espresso)
- *   ultramarine dark 7.2:1 AAA · light 7.0:1 AAA  (deep navy)
+ *   sky         warm azure    dark 7.0:1 AA    light 6.9:1 AA   (default)
+ *   oxblood     warm red      dark 6.6:1 AA    light 7.2:1 AAA
+ *   ultramarine  deep blue    dark 7.2:1 AAA   light 7.0:1 AAA
+ *
+ * Two earlier families are retired. Amber/ember was too hot against
+ * photography, and the old cold cyan sat only 16deg of hue from sky, which
+ * made the switcher a near-duplicate pair rather than three real choices.
  *
  * The `green-*` ramp is remapped to the accent so the GitHub contribution
  * heatmap inherits the palette instead of rendering GitHub green.
  */
+
 :root {
   --radius: 0.25rem;
 
-  --background: hsl(36 22% 95%);
-  --foreground: hsl(24 12% 10%);
+  /* sky — light */
+  --background: hsl(205 30% 97%);
+  --foreground: hsl(205 32% 12%);
 
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(24 12% 10%);
+  --card-foreground: hsl(205 32% 12%);
 
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(24 12% 10%);
+  --popover-foreground: hsl(205 32% 12%);
 
-  --secondary: hsl(34 16% 89%);
-  --secondary-foreground: hsl(24 12% 10%);
+  --secondary: hsl(205 24% 91%);
+  --secondary-foreground: hsl(205 32% 12%);
 
-  --muted: hsl(34 16% 89%);
-  --muted-foreground: hsl(24 8% 42%);
+  --muted: hsl(205 24% 91%);
+  --muted-foreground: hsl(205 12% 42%);
 
-  --accent: hsl(34 16% 89%);
-  --accent-foreground: hsl(25 88% 33%);
+  --accent: hsl(205 24% 91%);
+  --accent-foreground: hsl(204 74% 34%);
 
   --destructive: hsl(0 65% 45%);
   --destructive-foreground: hsl(0 0% 100%);
@@ -54,35 +60,33 @@
   --error: hsl(0 65% 45%);
   --error-foreground: hsl(0 0% 100%);
 
-  --border: hsl(24 12% 10% / 0.11);
-  --input: hsl(24 12% 10% / 0.16);
-  --ring: hsl(25 88% 33% / 0.5);
-  --pill-active-bg: hsl(24 12% 10% / 0.08);
+  --border: hsl(205 32% 12% / 0.12);
+  --input: hsl(205 32% 12% / 0.16);
+  --pill-active-bg: hsl(205 32% 12% / 0.08);
 
-  --accent-chroma: hsl(25 88% 33%);
-  --accent-chroma-fg: hsl(36 22% 95%);
-
-  /* column vars retired — alignment is locked centred in .column */
+  --accent-chroma: hsl(204 74% 34%);
+  --accent-chroma-fg: hsl(205 30% 97%);
 }
 
 .dark {
-  --background: hsl(0 0% 4%);
-  --foreground: hsl(0 0% 96%);
+  /* sky — dark */
+  --background: hsl(205 28% 8%);
+  --foreground: hsl(203 30% 93%);
 
-  --card: hsl(0 0% 8%);
-  --card-foreground: hsl(0 0% 96%);
+  --card: hsl(205 22% 14%);
+  --card-foreground: hsl(203 30% 93%);
 
-  --popover: hsl(0 0% 7%);
-  --popover-foreground: hsl(0 0% 96%);
+  --popover: hsl(205 22% 12%);
+  --popover-foreground: hsl(203 30% 93%);
 
-  --secondary: hsl(0 0% 14%);
-  --secondary-foreground: hsl(0 0% 96%);
+  --secondary: hsl(205 20% 19%);
+  --secondary-foreground: hsl(203 30% 93%);
 
-  --muted: hsl(0 0% 13%);
-  --muted-foreground: hsl(0 0% 62%);
+  --muted: hsl(205 20% 17%);
+  --muted-foreground: hsl(203 16% 68%);
 
-  --accent: hsl(0 0% 14%);
-  --accent-foreground: hsl(37 91% 55%);
+  --accent: hsl(205 20% 19%);
+  --accent-foreground: hsl(202 72% 66%);
 
   --destructive: hsl(0 62% 48%);
   --destructive-foreground: hsl(0 0% 100%);
@@ -95,53 +99,104 @@
   --error: hsl(0 62% 48%);
   --error-foreground: hsl(0 0% 100%);
 
-  --border: hsl(0 0% 96% / 0.11);
-  --input: hsl(0 0% 96% / 0.16);
-  --ring: hsl(37 91% 55% / 0.55);
-  --pill-active-bg: hsl(0 0% 96% / 0.1);
+  --border: hsl(203 30% 93% / 0.12);
+  --input: hsl(203 30% 93% / 0.16);
+  --pill-active-bg: hsl(203 30% 93% / 0.1);
 
-  --accent-chroma: hsl(37 91% 55%);
-  --accent-chroma-fg: hsl(0 0% 4%);
+  --accent-chroma: hsl(202 72% 60%);
+  --accent-chroma-fg: hsl(205 28% 8%);
 }
 
-/* cyan — cold blue-grey. Previously the default; now an explicit family. */
-[data-accent="cyan"] {
-  --background: hsl(40 20% 97%);
-  --foreground: hsl(215 25% 12%);
+/* ── oxblood: warm espresso, single burnt-vermilion accent ─────────────── */
+[data-accent="oxblood"] {
+  --background: hsl(36 28% 95%);
+  --foreground: hsl(20 16% 12%);
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(215 25% 12%);
+  --card-foreground: hsl(20 16% 12%);
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(215 25% 12%);
-  --secondary: hsl(40 12% 92%);
-  --secondary-foreground: hsl(215 25% 12%);
-  --muted: hsl(40 12% 92%);
-  --muted-foreground: hsl(215 12% 42%);
-  --accent: hsl(40 12% 92%);
-  --accent-foreground: hsl(192 78% 27%);
-  --border: hsl(215 15% 12% / 0.11);
-  --input: hsl(215 15% 12% / 0.16);
-  --pill-active-bg: hsl(215 15% 12% / 0.08);
-  --accent-chroma: hsl(192 78% 27%);
-  --accent-chroma-fg: hsl(40 20% 97%);
+  --popover-foreground: hsl(20 16% 12%);
+  --secondary: hsl(32 20% 89%);
+  --secondary-foreground: hsl(20 16% 12%);
+  --muted: hsl(32 20% 89%);
+  --muted-foreground: hsl(20 10% 42%);
+  --accent: hsl(32 20% 89%);
+  --accent-foreground: hsl(6 72% 38%);
+  --border: hsl(20 16% 12% / 0.12);
+  --input: hsl(20 16% 12% / 0.16);
+  --pill-active-bg: hsl(20 16% 12% / 0.08);
+  --accent-chroma: hsl(6 72% 38%);
+  --accent-chroma-fg: hsl(36 28% 95%);
 }
-.dark[data-accent="cyan"] {
-  --background: hsl(215 28% 7%);
-  --foreground: hsl(210 25% 92%);
-  --card: hsl(215 22% 12%);
-  --card-foreground: hsl(210 25% 92%);
-  --popover: hsl(215 22% 11%);
-  --popover-foreground: hsl(210 25% 92%);
-  --secondary: hsl(215 20% 17%);
-  --secondary-foreground: hsl(210 25% 92%);
-  --muted: hsl(215 20% 16%);
-  --muted-foreground: hsl(210 16% 68%);
-  --accent: hsl(215 20% 17%);
-  --accent-foreground: hsl(186 67% 58%);
-  --border: hsl(210 25% 92% / 0.11);
-  --input: hsl(210 25% 92% / 0.16);
-  --pill-active-bg: hsl(210 25% 92% / 0.1);
-  --accent-chroma: hsl(186 67% 51%);
-  --accent-chroma-fg: hsl(215 28% 7%);
+.dark[data-accent="oxblood"] {
+  --background: hsl(24 12% 7%);
+  --foreground: hsl(30 22% 92%);
+  --card: hsl(24 10% 12%);
+  --card-foreground: hsl(30 22% 92%);
+  --popover: hsl(24 10% 11%);
+  --popover-foreground: hsl(30 22% 92%);
+  --secondary: hsl(24 8% 17%);
+  --secondary-foreground: hsl(30 22% 92%);
+  --muted: hsl(24 8% 16%);
+  --muted-foreground: hsl(28 12% 66%);
+  --accent: hsl(24 8% 17%);
+  --accent-foreground: hsl(10 78% 68%);
+  --border: hsl(30 22% 92% / 0.12);
+  --input: hsl(30 22% 92% / 0.16);
+  --pill-active-bg: hsl(30 22% 92% / 0.1);
+  --accent-chroma: hsl(10 78% 64%);
+  --accent-chroma-fg: hsl(24 12% 7%);
+}
+
+/* ── ultramarine: deep navy, single bright blue accent ──────────────────── */
+[data-accent="ultramarine"] {
+  --background: hsl(228 30% 97%);
+  --foreground: hsl(228 32% 12%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(228 32% 12%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(228 32% 12%);
+  --secondary: hsl(228 26% 91%);
+  --secondary-foreground: hsl(228 32% 12%);
+  --muted: hsl(228 26% 91%);
+  --muted-foreground: hsl(228 12% 42%);
+  --accent: hsl(228 26% 91%);
+  --accent-foreground: hsl(230 70% 42%);
+  --border: hsl(228 32% 12% / 0.12);
+  --input: hsl(228 32% 12% / 0.16);
+  --pill-active-bg: hsl(228 32% 12% / 0.08);
+  --accent-chroma: hsl(230 70% 42%);
+  --accent-chroma-fg: hsl(228 30% 97%);
+}
+.dark[data-accent="ultramarine"] {
+  --background: hsl(228 32% 8%);
+  --foreground: hsl(225 30% 93%);
+  --card: hsl(228 26% 14%);
+  --card-foreground: hsl(225 30% 93%);
+  --popover: hsl(228 26% 12%);
+  --popover-foreground: hsl(225 30% 93%);
+  --secondary: hsl(228 22% 19%);
+  --secondary-foreground: hsl(225 30% 93%);
+  --muted: hsl(228 22% 17%);
+  --muted-foreground: hsl(224 16% 68%);
+  --accent: hsl(228 22% 19%);
+  --accent-foreground: hsl(228 80% 70%);
+  --border: hsl(225 30% 93% / 0.12);
+  --input: hsl(225 30% 93% / 0.16);
+  --pill-active-bg: hsl(225 30% 93% / 0.1);
+  --accent-chroma: hsl(228 80% 66%);
+  --accent-chroma-fg: hsl(228 32% 8%);
+}
+
+/*
+ * Action colour derives from whichever family is active, so SpaceUI Buttons,
+ * Badges, and focus rings follow the schema instead of staying on sky.
+ */
+:root,
+.dark,
+[data-accent] {
+  --primary: var(--accent-chroma);
+  --primary-foreground: var(--accent-chroma-fg);
+  --ring: --alpha(var(--accent-chroma) / 0.5);
 }
 
 @theme inline {
@@ -175,13 +230,15 @@
   --color-chroma: var(--accent-chroma);
   --color-chroma-foreground: var(--accent-chroma-fg);
 
-  /* TYPE SYSTEM
-     Instrument Sans  — body/UI. Tighter apertures than Inter, so the 640px
-                         column holds more without reading loose.
-     Instrument Serif — the name only. Gives the column an editorial register
-                         the all-sans version lacked.
-     IBM Plex Mono    — readouts, ticker, micro-labels. Machine-drawn, which
-                         suits a build log; JetBrains Mono read as startup. */
+  /*
+   * TYPE SYSTEM
+   * Instrument Sans  — body/UI. Tighter apertures than Inter, so the 640px
+   *                    column holds more without reading loose.
+   * Instrument Serif — the name only. Gives the column an editorial register
+   *                    the all-sans version lacked.
+   * IBM Plex Mono    — readouts, ticker, micro-labels. Machine-drawn, which
+   *                    suits a build log; JetBrains Mono read as startup.
+   */
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -190,14 +247,15 @@
   --radius-md: calc(var(--radius) - 1px);
   --radius-sm: calc(var(--radius) - 2px);
 
-  --color-green-200: hsl(190 60% 82%);
-  --color-green-300: hsl(188 62% 70%);
-  --color-green-400: hsl(187 64% 58%);
-  --color-green-500: hsl(186 67% 51%);
-  --color-green-600: hsl(188 62% 38%);
-  --color-green-700: hsl(190 58% 28%);
-  --color-green-800: hsl(191 52% 21%);
-  --color-green-900: hsl(192 46% 16%);
+  /* Heat ramp remapped to sky: the contribution heatmap follows the accent. */
+  --color-green-200: hsl(200 60% 84%);
+  --color-green-300: hsl(200 64% 72%);
+  --color-green-400: hsl(201 68% 62%);
+  --color-green-500: hsl(202 72% 60%);
+  --color-green-600: hsl(203 66% 42%);
+  --color-green-700: hsl(204 58% 30%);
+  --color-green-800: hsl(205 50% 22%);
+  --color-green-900: hsl(206 44% 16%);
 
   --animate-pulse-glow: pulse-glow 3.2s ease-in-out infinite;
   --animate-ticker: ticker 42s linear infinite;
@@ -233,119 +291,6 @@
   }
 }
 
-/*
- * ACCENT FAMILIES
- * Each family overrides the neutral ramp AND the single chromatic accent.
- * `.dark[data-accent=…]` outranks `[data-accent=…]`, so dark wins in dark mode.
- * Default (unprefixed) is cyan.
- */
-
-/* ember — neutral warm black, single amber accent */
-[data-accent="ember"] {
-  --background: hsl(36 22% 95%);
-  --foreground: hsl(24 12% 10%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(24 12% 10%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(24 12% 10%);
-  --secondary: hsl(34 16% 89%);
-  --secondary-foreground: hsl(24 12% 10%);
-  --muted: hsl(34 16% 89%);
-  --muted-foreground: hsl(24 8% 42%);
-  --border: hsl(24 12% 10% / 0.12);
-  --accent-chroma: hsl(25 88% 33%);
-  --accent-chroma-fg: hsl(36 22% 95%);
-}
-.dark[data-accent="ember"] {
-  --background: hsl(0 0% 4%);
-  --foreground: hsl(0 0% 96%);
-  --card: hsl(0 0% 8%);
-  --card-foreground: hsl(0 0% 96%);
-  --popover: hsl(0 0% 7%);
-  --popover-foreground: hsl(0 0% 96%);
-  --secondary: hsl(0 0% 14%);
-  --secondary-foreground: hsl(0 0% 96%);
-  --muted: hsl(0 0% 13%);
-  --muted-foreground: hsl(0 0% 62%);
-  --border: hsl(0 0% 96% / 0.12);
-  --accent-chroma: hsl(37 91% 55%);
-  --accent-chroma-fg: hsl(0 0% 4%);
-}
-
-/* oxblood — warm espresso, single burnt-vermilion accent */
-[data-accent="oxblood"] {
-  --background: hsl(36 28% 95%);
-  --foreground: hsl(20 16% 12%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(20 16% 12%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(20 16% 12%);
-  --secondary: hsl(32 20% 89%);
-  --secondary-foreground: hsl(20 16% 12%);
-  --muted: hsl(32 20% 89%);
-  --muted-foreground: hsl(20 10% 42%);
-  --border: hsl(20 16% 12% / 0.12);
-  --accent-chroma: hsl(6 72% 38%);
-  --accent-chroma-fg: hsl(36 28% 95%);
-}
-.dark[data-accent="oxblood"] {
-  --background: hsl(24 12% 7%);
-  --foreground: hsl(30 22% 92%);
-  --card: hsl(24 10% 12%);
-  --card-foreground: hsl(30 22% 92%);
-  --popover: hsl(24 10% 11%);
-  --popover-foreground: hsl(30 22% 92%);
-  --secondary: hsl(24 8% 17%);
-  --secondary-foreground: hsl(30 22% 92%);
-  --muted: hsl(24 8% 16%);
-  --muted-foreground: hsl(28 12% 66%);
-  --border: hsl(30 22% 92% / 0.12);
-  --accent-chroma: hsl(10 78% 64%);
-  --accent-chroma-fg: hsl(24 12% 7%);
-}
-
-/* ultramarine — deep navy, single bright blue accent */
-[data-accent="ultramarine"] {
-  --background: hsl(228 30% 97%);
-  --foreground: hsl(228 32% 12%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(228 32% 12%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(228 32% 12%);
-  --secondary: hsl(228 26% 91%);
-  --secondary-foreground: hsl(228 32% 12%);
-  --muted: hsl(228 26% 91%);
-  --muted-foreground: hsl(228 12% 42%);
-  --border: hsl(228 32% 12% / 0.12);
-  --accent-chroma: hsl(230 70% 42%);
-  --accent-chroma-fg: hsl(228 30% 97%);
-}
-.dark[data-accent="ultramarine"] {
-  --background: hsl(228 32% 8%);
-  --foreground: hsl(225 30% 93%);
-  --card: hsl(228 26% 14%);
-  --card-foreground: hsl(225 30% 93%);
-  --popover: hsl(228 26% 12%);
-  --popover-foreground: hsl(225 30% 93%);
-  --secondary: hsl(228 22% 19%);
-  --secondary-foreground: hsl(225 30% 93%);
-  --muted: hsl(228 22% 17%);
-  --muted-foreground: hsl(224 16% 68%);
-  --border: hsl(225 30% 93% / 0.12);
-  --accent-chroma: hsl(228 80% 66%);
-  --accent-chroma-fg: hsl(228 32% 8%);
-}
-
-/* Every family's action colour derives from its accent, so SpaceUI Buttons,
-   Badges, and focus rings follow the schema instead of staying cyan. */
-:root,
-.dark,
-[data-accent] {
-  --primary: var(--accent-chroma);
-  --primary-foreground: var(--accent-chroma-fg);
-  --ring: --alpha(var(--accent-chroma) / 0.5);
-}
-
 @layer base {
   * {
     border-color: var(--color-border);
@@ -365,8 +310,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* The foundation carries almost no display type. Headings inherit body
-     scale; only the name opts into the serif. */
+  /*
+   * The foundation carries almost no display type: headings inherit body
+   * scale, and only the name opts into the serif.
+   */
   h1,
   h2,
   h3,
@@ -397,8 +344,11 @@
 }
 
 @layer utilities {
-  /* The column is locked centred. Alignment is deliberately not a control:
-     the asymmetry of a 640px column against a hard centre is the layout. */
+  /*
+   * The column is locked centred. Alignment is deliberately not a control: the
+   * tension of a 640px column against a hard centre IS the layout, so letting
+   * it slide would trade the idea for a preference.
+   */
   .column {
     margin-left: auto;
     margin-right: auto;
@@ -428,11 +378,6 @@
     margin-right: -1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .sm\\:bleed {
-    margin-left: -1rem;
-    margin-right: -1rem;
   }
 
   /* Left/right edge fades that mask scrolled content behind a hairline. */

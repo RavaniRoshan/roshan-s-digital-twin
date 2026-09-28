@@ -1,7 +1,8 @@
-import { Link, useParams } from "react-router-dom";
+﻿import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, Github, Star } from "lucide-react";
 import { Block, Row, SectionLabel, StatusDot } from "@/components/Rows";
 import { AppIcon } from "@/components/ProjectIcon";
+import { WORDMARK } from "@/components/ProjectIcon";
 import { Shell } from "@/components/Shell";
 import type { TickerItem } from "@/components/Ticker";
 import { site } from "@/content/site";
@@ -22,6 +23,7 @@ export function SystemPage() {
   const i = site.systems.indexOf(system);
   const prev = site.systems[(i - 1 + site.systems.length) % site.systems.length];
   const next = site.systems[(i + 1) % site.systems.length];
+  const wordmark = WORDMARK[system.slug];
 
   return (
     <Shell ticker={TICKER}>
@@ -40,6 +42,21 @@ export function SystemPage() {
             <p className="mono text-xs o-3">{system.tagline}</p>
           </div>
         </div>
+
+        {wordmark && (
+          // The real lockup from the repo. niki and backstop only ever shipped a
+          // wide wordmark, so it is used here at full column width rather than
+          // being shrunk into an unreadable square tile.
+          <div className="mt-5 flex justify-center rounded-md border bg-card p-5">
+            <img
+              src={wordmark}
+              alt={`${system.codename} wordmark`}
+              className="max-h-14 w-auto"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
 
         <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-y py-2.5 text-xs">
           <span className="flex items-center gap-1.5">
@@ -98,7 +115,7 @@ export function SystemPage() {
         <ul className="space-y-2.5">
           {system.approach.map((a) => (
             <li key={a} className="flex gap-3 text-sm leading-relaxed o-2">
-              <span className="text-chroma">▸</span>
+              <span className="text-chroma">â–¸</span>
               {a}
             </li>
           ))}
@@ -107,7 +124,7 @@ export function SystemPage() {
         <ul className="space-y-2.5">
           {system.capabilities.map((c) => (
             <li key={c} className="flex gap-3 text-sm leading-relaxed o-2">
-              <span className="text-chroma">▸</span>
+              <span className="text-chroma">â–¸</span>
               {c}
             </li>
           ))}

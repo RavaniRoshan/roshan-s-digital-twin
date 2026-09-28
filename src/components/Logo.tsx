@@ -3,10 +3,15 @@ import type { LogoId } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 /**
- * Real brand marks, self-hosted in public/logos. Each SVG was normalised to
- * `fill="currentColor"`, so a logo inherits the surrounding text colour and
- * therefore follows the active accent family instead of carrying its own brand
- * hex — which is what keeps 14 different logos from turning into a toy box.
+ * Third-party brand marks, self-hosted in public/logos.
+ *
+ * Rendered as a CSS mask rather than an <img>. An SVG referenced by <img> is
+ * painted in an isolated document, so `fill="currentColor"` inside it resolves
+ * to that document's own `color` — black — and never sees the host page. That
+ * made every mark invisible on the dark background. As a mask only the alpha
+ * channel matters, so the shape still reads, and the visible colour comes from
+ * `background-color: currentColor`, which does inherit and therefore follows
+ * the active accent family in both modes.
  */
 export function Logo({
   id,
@@ -19,17 +24,24 @@ export function Logo({
 }) {
   const [failed, setFailed] = useState(false);
   if (failed) return null;
+  const url = `/logos/${id}.svg`;
   return (
-    <img
-      src={`/logos/${id}.svg`}
-      alt={title ?? id}
+    <span
+      role="img"
+      aria-label={title ?? id}
       title={title ?? id}
-      width={16}
-      height={16}
-      loading="lazy"
-      decoding="async"
       onError={() => setFailed(true)}
-      className={cn("size-4 shrink-0", className)}
+      className={cn("inline-block size-4 shrink-0 bg-current", className)}
+      style={{
+        WebkitMaskImage: `url(${url})`,
+        maskImage: `url(${url})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
     />
   );
 }

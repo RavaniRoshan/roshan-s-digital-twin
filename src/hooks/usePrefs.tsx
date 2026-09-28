@@ -1,11 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+﻿import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 export type Theme = "dark" | "light";
-export type Accent = "cyan" | "ember" | "oxblood" | "ultramarine";
+export type Accent = "sky" | "oxblood" | "ultramarine";
 
 export const ACCENTS: { id: Accent; label: string; note: string }[] = [
-  { id: "ember", label: "ember", note: "neutral warm black" },
-  { id: "cyan", label: "cyan", note: "cold blue-grey" },
+  { id: "sky", label: "sky", note: "warm azure" },
   { id: "oxblood", label: "oxblood", note: "warm espresso" },
   { id: "ultramarine", label: "ultra", note: "deep navy" },
 ];
@@ -30,7 +29,7 @@ const read = <T,>(key: string, fallback: T): T => {
 };
 export function PrefsProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => read<Theme>("rr:theme", "dark"));
-  const [accent, setAccentState] = useState<Accent>(() => read<Accent>("rr:accent", "ember"));
+  const [accent, setAccentState] = useState<Accent>(() => read<Accent>("rr:accent", "sky"));
 
   useEffect(() => {
     const root = document.documentElement;
@@ -47,7 +46,7 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {
     try {
       window.localStorage.setItem("rr:theme", JSON.stringify(t));
     } catch {
-      /* storage unavailable — theme still applies for this session */
+      /* storage unavailable â€” theme still applies for this session */
     }
   }, []);
 
@@ -56,7 +55,7 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {
     try {
       window.localStorage.setItem("rr:accent", JSON.stringify(a));
     } catch {
-      /* storage unavailable — accent still applies for this session */
+      /* storage unavailable â€” accent still applies for this session */
     }
   }, []);
 
@@ -73,3 +72,4 @@ export function usePrefs() {
   if (!ctx) throw new Error("usePrefs must be used inside PrefsProvider");
   return ctx;
 }
+

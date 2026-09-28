@@ -1,5 +1,5 @@
 ﻿import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, Github, Star } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { Block, Row, SectionLabel, StatusDot } from "@/components/Rows";
 import { AppIcon } from "@/components/ProjectIcon";
 import { WORDMARK } from "@/components/ProjectIcon";
@@ -67,10 +67,6 @@ export function SystemPage() {
           <span className="o-3">{system.language}</span>
           <span className="o-3">{system.runtime}</span>
           {system.license && <span className="o-3">{system.license}</span>}
-          <span className="ml-auto flex items-center gap-1 o-2">
-            <Star className="size-3" />
-            {system.stars}
-          </span>
         </div>
 
         <p className="mt-5 text-sm leading-relaxed">{system.summary}</p>

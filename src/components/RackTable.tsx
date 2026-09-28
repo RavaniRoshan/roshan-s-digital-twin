@@ -64,14 +64,6 @@ export function RackTable({ onOpen }: { onOpen: (slug: string) => void }) {
           </span>
         ),
       },
-      {
-        id: "stars",
-        header: "★",
-        accessorFn: (r) => r.stars,
-        cell: ({ getValue }) => (
-          <span className="mono text-xs tabular-nums o-2">{getValue<number>()}</span>
-        ),
-      },
     ],
     [],
   );

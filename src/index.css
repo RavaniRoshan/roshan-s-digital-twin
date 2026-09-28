@@ -475,6 +475,20 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /*
+   * The activity calendar hardcodes 10px cells with a 2px gap, so a full 53
+   * weeks comes to ~664px — wider than the 640px column. That is why it used to
+   * sit in a 400px slide behind a nested horizontal scroller. Taking the cells
+   * to 9px brings the year to ~608px, which fits the section's full breadth,
+   * so the whole year is visible at once instead of being scrolled.
+   */
+  .telemetry-calendar [class*="w-[10px]"] {
+    width: 9px;
+  }
+  .telemetry-calendar [class*="h-[10px]"] {
+    height: 9px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

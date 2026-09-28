@@ -66,7 +66,14 @@ export type LogoId =
   | "react"
   | "tailwindcss"
   | "github"
-  | "git";
+  | "git"
+  /* Concept marks, drawn on the same 24x24 grid as the brand files. */
+  | "multi-agent"
+  | "token-budgets"
+  | "circuit-breakers"
+  | "llm-eval"
+  | "agent-memory"
+  | "observability";
 
 export const site = {
   identity: {
@@ -99,11 +106,13 @@ export const site = {
     ] satisfies SocialLink[],
   },
 
+  // Star counts are still tracked per system but deliberately not surfaced
+  // anywhere yet — a rack of low counts reads as a portfolio with no traction.
+  // They come back as a dedicated section once a project actually has signal.
   telemetry: [
     { label: "public repos", value: "189", status: "nominal" },
     { label: "flagship systems", value: "06", status: "active" },
     { label: "core languages", value: "03", delta: "rust · py · ts", status: "nominal" },
-    { label: "pinned stars", value: "03", status: "standby" },
   ] satisfies Telemetry[],
 
   systems: [
@@ -339,11 +348,11 @@ export const site = {
     {
       track: "agent reliability",
       items: [
-        { name: "multi-agent orchestration", level: "core" },
-        { name: "token budgets", level: "core" },
-        { name: "circuit breakers", level: "core" },
+        { name: "multi-agent orchestration", logo: "multi-agent", level: "core" },
+        { name: "token budgets", logo: "token-budgets", level: "core" },
+        { name: "circuit breakers", logo: "circuit-breakers", level: "core" },
         { name: "sandboxed execution", logo: "docker", level: "proficient" },
-        { name: "observability", level: "proficient" },
+        { name: "observability", logo: "observability", level: "proficient" },
       ],
     },
     {
@@ -351,9 +360,9 @@ export const site = {
       items: [
         { name: "Anthropic", logo: "anthropic", level: "core" },
         { name: "OpenAI", logo: "openai", level: "core" },
-        { name: "LLM evaluation", level: "proficient" },
+        { name: "LLM evaluation", logo: "llm-eval", level: "proficient" },
         { name: "Hugging Face", logo: "huggingface", level: "proficient" },
-        { name: "agent memory", level: "working" },
+        { name: "agent memory", logo: "agent-memory", level: "working" },
       ],
     },
     {

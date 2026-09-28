@@ -65,7 +65,10 @@ function Deck() {
     <div className="relative">
       <div className="relative">
         <div ref={trackRef} className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto border-y">
-          <div className={slide} style={{ minHeight: 220 }}>
+          <div
+            className="flex w-[calc(100vw-2rem)] shrink-0 snap-start flex-col justify-between border-r p-3 sm:w-full"
+            style={{ minHeight: 260 }}
+          >
             <div>
               <p className="mono mb-3 text-xs tracking-[0.14em] o-3 uppercase">commit activity</p>
               <Suspense
@@ -75,7 +78,7 @@ function Deck() {
                   </div>
                 }
               >
-                <div className="overflow-x-auto">
+                <div className="telemetry-calendar overflow-x-auto">
                   <GitHubActivity
                     user={site.identity.handle}
                     shape="rounded"
@@ -86,7 +89,7 @@ function Deck() {
                 </div>
               </Suspense>
             </div>
-            <p className="mono mt-5 text-xs o-3">github · live fetch, no key</p>
+            <p className="mono mt-5 text-xs o-3">github · live fetch, no key · full year</p>
           </div>
 
           <div className={slide} style={{ minHeight: 220 }}>

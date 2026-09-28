@@ -10,8 +10,7 @@ const LABEL: Record<GlyphName, string> = {
 };
 
 /**
- * Four self-hosted 3D glyphs for the signal row, sized to 1em so they sit on
- * the text baseline rather than beside it. 15.5 KB of WebP in total.
+ * Four self-hosted 3D glyphs for the signal row. 15.5 KB of WebP in total.
  *
  * These replace SpaceUI's `Animoji`, which resolves through `@usespaceui/emoji`
  * — a 13 MB install (27 MB of dist plus a 14 MB manifest) carrying the entire
@@ -25,6 +24,12 @@ const LABEL: Record<GlyphName, string> = {
  * codepoint — 🏗️ is `1f3d7-fe0f`, not `1f3d7`, and omitting it 404s. Copied
  * locally rather than hot-linked so there is no third-party runtime request and
  * the files can never change underneath the page.
+ *
+ * Sized in absolute px, NOT em. These are transparent-background 3D renders, and
+ * `size-[1em]` resolved against the 11px mono label font gave each one an 11x11
+ * box — at that size the shading collapses into an orange smudge and the glyphs
+ * read as noise rather than as the crane, receipt, shield and chart they are.
+ * A 3D emoji needs roughly 18px of box before it is legible at all.
  */
 export function Glyph({ name, className }: { name: GlyphName; className?: string }) {
   return (
@@ -32,11 +37,10 @@ export function Glyph({ name, className }: { name: GlyphName; className?: string
       src={`/emoji/${name}.webp`}
       alt={LABEL[name]}
       title={LABEL[name]}
-      width={16}
-      height={16}
-      loading="lazy"
+      width={18}
+      height={18}
       decoding="async"
-      className={cn("inline-block size-[1em] -translate-y-[0.08em]", className)}
+      className={cn("inline-block size-[18px] shrink-0", className)}
     />
   );
 }

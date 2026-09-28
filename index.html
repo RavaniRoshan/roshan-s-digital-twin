@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark" data-accent="cyan">
+<html lang="en" class="dark" data-accent="ember">
   <head>
     <meta charset="UTF-8" />
     <link
@@ -13,28 +13,16 @@
     />
     <title>Ravani Roshan — AI Systems Builder</title>
     <script>
-      // Resolve theme, accent, and column alignment before first paint so the
-      // column never flashes at the wrong offset, mode, or palette.
+      // Resolve theme and accent before first paint so the column never flashes
+      // in the wrong mode or palette. Column alignment is locked centred in CSS.
       (function () {
         try {
           var g = function (k, d) {
             return JSON.parse(localStorage.getItem(k) || JSON.stringify(d));
           };
-          var t = g("rr:theme", "dark");
-          if (t !== "dark") document.documentElement.classList.remove("dark");
-          var a = g("rr:accent", "cyan");
-          document.documentElement.dataset.accent = a;
-          var c = g("rr:align", "center");
-          var map = {
-            left: ["0px", "auto", "none", "1px solid"],
-            center: ["auto", "auto", "1px solid", "1px solid"],
-            right: ["auto", "0px", "1px solid", "none"],
-          }[c] || ["auto", "auto", "1px solid", "1px solid"];
-          var s = document.documentElement.style;
-          s.setProperty("--column-ml", map[0]);
-          s.setProperty("--column-mr", map[1]);
-          s.setProperty("--column-bl", map[2] + " currentColor");
-          s.setProperty("--column-br", map[3] + " currentColor");
+          if (g("rr:theme", "dark") !== "dark")
+            document.documentElement.classList.remove("dark");
+          document.documentElement.dataset.accent = g("rr:accent", "ember");
         } catch (e) {}
       })();
     </script>

@@ -114,6 +114,32 @@ export function RowStack({ children, className }: { children: ReactNode; classNa
   );
 }
 
+/**
+ * Status state is the one place a semantic colour is allowed through: the
+ * family accent plus a single exception, so six systems do not fracture the
+ * single-accent rule into a bag of sweets.
+ */
+export function StatusDot({
+  status,
+  className,
+}: {
+  status: "active" | "stable" | "research";
+  className?: string;
+}) {
+  const color =
+    status === "active" ? "bg-chroma" : status === "research" ? "bg-info" : "bg-success";
+  return (
+    <span
+      className={cn(
+        "inline-block size-1.5 shrink-0 rounded-full",
+        color,
+        status === "active" && "animate-pulse-glow",
+        className,
+      )}
+    />
+  );
+}
+
 /** Small square icon control — the reference's prev/next buttons are border-radius:0. */
 export function SquareControl({
   children,

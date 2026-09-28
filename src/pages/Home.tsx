@@ -1,14 +1,16 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Mail } from "lucide-react";
 import { LoadingOrb } from "@/components/orb/loading";
 import { Block, Row, SectionLabel, SquareControl } from "@/components/Rows";
 import { Shell } from "@/components/Shell";
-import { SystemDialog } from "@/components/SystemDialog";
+import { IconGrid } from "@/components/IconGrid";
+import { RackTable } from "@/components/RackTable";
 import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
 import { CopyButton } from "@/components/spaceui/copy";
-import { Logo, languageLogo } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 import type { TickerItem } from "@/components/Ticker";
-import { site, type System } from "@/content/site";
+import { site } from "@/content/site";
 
 const GitHubActivity = lazy(() =>
   import("@/components/spaceui/github-activity").then((m) => ({ default: m.GitHubActivity })),
@@ -18,7 +20,8 @@ const email = "ravaniroshansingh@gmail.com";
 
 const TICKER: TickerItem[] = [
   { id: "about", label: "about", meta: "position", href: "#about" },
-  { id: "systems", label: "systems", meta: `${site.systems.length} builds`, href: "#systems" },
+  { id: "systems", label: "rack", meta: `${site.systems.length} builds`, href: "#systems" },
+  { id: "index", label: "index", meta: "sortable", href: "#index" },
   { id: "telemetry", label: "telemetry", meta: "live", href: "#telemetry" },
   { id: "credentials", label: "credentials", meta: `${site.credentials.length}`, href: "#credentials" },
 ];
@@ -154,8 +157,8 @@ function Deck() {
 }
 
 export function Home() {
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
-  const active: System | null = site.systems.find((s) => s.slug === openSlug) ?? null;
+  const navigate = useNavigate();
+  const open = useCallback((slug: string) => navigate(`/s/${slug}`), [navigate]);
 
   return (
     <Shell ticker={TICKER}>
@@ -180,23 +183,26 @@ export function Home() {
       </Block>
 
       <Block id="systems">
-        <SectionLabel>systems</SectionLabel>
-        <div className="border-t">
-          {site.systems.map((s) => {
-            const mark = languageLogo(s.language);
-            return (
-              <Row
-                key={s.slug}
-                label={s.codename}
-                badge={s.status}
-                value={s.language}
-                lead={mark ? <Logo id={mark} title={s.language} className="o-2" /> : undefined}
-                onSelect={() => setOpenSlug(s.slug)}
-              />
-            );
-          })}
+        <SectionLabel>rack</SectionLabel>
+        <IconGrid onOpen={open} />
+        <div className="mt-6 border-t">
+          {site.systems.map((s) => (
+            <Row
+              key={s.slug}
+              label={s.codename}
+              badge={s.status}
+              value={s.language}
+              onSelect={() => open(s.slug)}
+            />
+          ))}
         </div>
-        <p className="mt-3 text-xs o-3">select a system to open its case file</p>
+        <p className="mt-3 text-xs o-3">tap an icon or a row to open its case file</p>
+      </Block>
+
+      <Block id="index">
+        <SectionLabel>rack index</SectionLabel>
+        <RackTable onOpen={open} />
+        <p className="mt-3 text-xs o-3">sortable · click any row for the case file</p>
       </Block>
 
       <Block id="telemetry">
@@ -286,8 +292,6 @@ export function Home() {
           versions.
         </p>
       </Block>
-
-      <SystemDialog system={active} open={Boolean(active)} onOpenChange={(o) => !o && setOpenSlug(null)} />
     </Shell>
   );
 }

@@ -8,15 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
-import { ACCENTS, usePrefs, type Accent, type ColumnAlign } from "@/hooks/usePrefs";
+import { ACCENTS, usePrefs, type Accent } from "@/hooks/usePrefs";
 import { cn } from "@/lib/utils";
-
-const ALIGNMENTS: { id: ColumnAlign; label: string }[] = [
-  { id: "left", label: "left" },
-  { id: "center", label: "center" },
-  { id: "right", label: "right" },
-];
 
 function Sliders() {
   return (
@@ -41,7 +34,7 @@ function Sliders() {
 }
 
 export function ControlPanel() {
-  const { theme, align, accent, setTheme, setAlign, setAccent } = usePrefs();
+  const { theme, accent, setTheme, setAccent } = usePrefs();
 
   return (
     <Sheet>
@@ -108,24 +101,14 @@ export function ControlPanel() {
                 ))}
               </div>
               <p className="mt-2 text-xs o-3">
-                {ACCENTS.find((a) => a.id === accent)?.note} Â· swaps neutrals and accent together
+                {ACCENTS.find((a) => a.id === accent)?.note} · swaps neutrals and accent together
               </p>
             </div>
 
             <div>
               <p className="mono mb-2 text-xs tracking-[0.14em] o-3 uppercase">column</p>
-              <Tabs value={align} onValueChange={(v) => setAlign(v as ColumnAlign)}>
-                <TabsList variant="underline" className="w-full">
-                  {ALIGNMENTS.map((a) => (
-                    <TabsTab key={a.id} value={a.id} className={cn("flex-1 font-mono text-xs")}>
-                      {a.label}
-                    </TabsTab>
-                  ))}
-                </TabsList>
-              </Tabs>
-              <p className="mt-2 text-xs o-3">
-                Stays 640px wide. This slides it against the viewport and shifts which hairline is
-                drawn. Centered on load.
+              <p className="text-xs o-2">
+                640px, locked centred. The hard edge on both sides is the layout, not a setting.
               </p>
             </div>
 
@@ -135,8 +118,9 @@ export function ControlPanel() {
                 {[
                   ["shell", "base-ui + motion"],
                   ["registry", "spaceui"],
-                  ["columns", "640px / fixed"],
-                  ["routing", "single column"],
+                  ["column", "640px / centred"],
+                  ["routes", "/ · /s/:slug"],
+                  ["agent", "llms.txt"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4">
                     <dt className="o-3">{k}</dt>

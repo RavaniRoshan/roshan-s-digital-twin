@@ -2,7 +2,15 @@ import { useEffect, useState, type ReactNode } from "react";
 import { ControlPanel } from "@/components/ControlPanel";
 import { Noise } from "@/components/Noise";
 import { Ticker, type TickerItem } from "@/components/Ticker";
+import { MorphingText } from "@/components/spaceui/morphing-text";
 import { site } from "@/content/site";
+
+const ROLES = [
+  "AI systems builder",
+  "agent reliability",
+  "sandbox + policy",
+  "developer infrastructure",
+];
 
 function useIstClock() {
   const [t, setT] = useState("");
@@ -41,7 +49,14 @@ function Header() {
         </div>
         <div>
           <p className="text-sm leading-tight font-semibold">{site.identity.name}</p>
-          <p className="text-sm leading-tight o-2">{site.identity.role}</p>
+          <MorphingText
+            texts={ROLES}
+            interval={2600}
+            blurAmount="4px"
+            springBounce={0.1}
+            className="text-sm leading-tight"
+            textClassName="o-2"
+          />
         </div>
       </div>
       <div className="text-right text-sm lg:mr-[52px]">

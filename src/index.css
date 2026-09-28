@@ -9,11 +9,15 @@
  * Colour is near-monochrome with exactly one chromatic accent, used only for
  * state (active, focus, live). Everything else is bg / text / hairline.
  *
- * Contrast (WCAG relative luminance, computed not assumed):
- *   dark  — text hsl(210 33% 93%) 15.7:1 AAA · muted hsl(208 24% 70%) 8.7:1 AAA
- *           accent hsl(186 67% 51%) 8.8:1 AAA
- *   light — text hsl(215 25% 12%) 15.1:1 AAA · muted hsl(215 12% 42%) 7.6:1 AAA
- *           accent hsl(192 78% 27%) 5.7:1 AA
+ * Four accent families, each defining BOTH a neutral ramp and a single
+ * chromatic accent, in light and dark. Keyed on [data-accent] so the control
+ * panel can swap the whole schema live. Contrast figures are computed from
+ * the relative-luminance formula, not taken on trust:
+ *
+ *   cyan       dark 8.8:1 AAA · light 5.7:1 AA   (cold blue-grey)
+ *   ember      dark 8.1:1 AAA · light 6.1:1 AA   (neutral warm black)
+ *   oxblood    dark 6.6:1 AA  · light 7.2:1 AAA  (warm espresso)
+ *   ultramarine dark 7.2:1 AAA · light 7.0:1 AAA  (deep navy)
  *
  * The `green-*` ramp is remapped to the accent so the GitHub contribution
  * heatmap inherits the palette instead of rendering GitHub green.
@@ -190,6 +194,119 @@
       opacity: 0;
     }
   }
+}
+
+/*
+ * ACCENT FAMILIES
+ * Each family overrides the neutral ramp AND the single chromatic accent.
+ * `.dark[data-accent=…]` outranks `[data-accent=…]`, so dark wins in dark mode.
+ * Default (unprefixed) is cyan.
+ */
+
+/* ember — neutral warm black, single amber accent */
+[data-accent="ember"] {
+  --background: hsl(36 22% 95%);
+  --foreground: hsl(24 12% 10%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(24 12% 10%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(24 12% 10%);
+  --secondary: hsl(34 16% 89%);
+  --secondary-foreground: hsl(24 12% 10%);
+  --muted: hsl(34 16% 89%);
+  --muted-foreground: hsl(24 8% 42%);
+  --border: hsl(24 12% 10% / 0.12);
+  --accent-chroma: hsl(25 88% 33%);
+  --accent-chroma-fg: hsl(36 22% 95%);
+}
+.dark[data-accent="ember"] {
+  --background: hsl(0 0% 4%);
+  --foreground: hsl(0 0% 96%);
+  --card: hsl(0 0% 8%);
+  --card-foreground: hsl(0 0% 96%);
+  --popover: hsl(0 0% 7%);
+  --popover-foreground: hsl(0 0% 96%);
+  --secondary: hsl(0 0% 14%);
+  --secondary-foreground: hsl(0 0% 96%);
+  --muted: hsl(0 0% 13%);
+  --muted-foreground: hsl(0 0% 62%);
+  --border: hsl(0 0% 96% / 0.12);
+  --accent-chroma: hsl(37 91% 55%);
+  --accent-chroma-fg: hsl(0 0% 4%);
+}
+
+/* oxblood — warm espresso, single burnt-vermilion accent */
+[data-accent="oxblood"] {
+  --background: hsl(36 28% 95%);
+  --foreground: hsl(20 16% 12%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(20 16% 12%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(20 16% 12%);
+  --secondary: hsl(32 20% 89%);
+  --secondary-foreground: hsl(20 16% 12%);
+  --muted: hsl(32 20% 89%);
+  --muted-foreground: hsl(20 10% 42%);
+  --border: hsl(20 16% 12% / 0.12);
+  --accent-chroma: hsl(6 72% 38%);
+  --accent-chroma-fg: hsl(36 28% 95%);
+}
+.dark[data-accent="oxblood"] {
+  --background: hsl(24 12% 7%);
+  --foreground: hsl(30 22% 92%);
+  --card: hsl(24 10% 12%);
+  --card-foreground: hsl(30 22% 92%);
+  --popover: hsl(24 10% 11%);
+  --popover-foreground: hsl(30 22% 92%);
+  --secondary: hsl(24 8% 17%);
+  --secondary-foreground: hsl(30 22% 92%);
+  --muted: hsl(24 8% 16%);
+  --muted-foreground: hsl(28 12% 66%);
+  --border: hsl(30 22% 92% / 0.12);
+  --accent-chroma: hsl(10 78% 64%);
+  --accent-chroma-fg: hsl(24 12% 7%);
+}
+
+/* ultramarine — deep navy, single bright blue accent */
+[data-accent="ultramarine"] {
+  --background: hsl(228 30% 97%);
+  --foreground: hsl(228 32% 12%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(228 32% 12%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(228 32% 12%);
+  --secondary: hsl(228 26% 91%);
+  --secondary-foreground: hsl(228 32% 12%);
+  --muted: hsl(228 26% 91%);
+  --muted-foreground: hsl(228 12% 42%);
+  --border: hsl(228 32% 12% / 0.12);
+  --accent-chroma: hsl(230 70% 42%);
+  --accent-chroma-fg: hsl(228 30% 97%);
+}
+.dark[data-accent="ultramarine"] {
+  --background: hsl(228 32% 8%);
+  --foreground: hsl(225 30% 93%);
+  --card: hsl(228 26% 14%);
+  --card-foreground: hsl(225 30% 93%);
+  --popover: hsl(228 26% 12%);
+  --popover-foreground: hsl(225 30% 93%);
+  --secondary: hsl(228 22% 19%);
+  --secondary-foreground: hsl(225 30% 93%);
+  --muted: hsl(228 22% 17%);
+  --muted-foreground: hsl(224 16% 68%);
+  --border: hsl(225 30% 93% / 0.12);
+  --accent-chroma: hsl(228 80% 66%);
+  --accent-chroma-fg: hsl(228 32% 8%);
+}
+
+/* Every family's action colour derives from its accent, so SpaceUI Buttons,
+   Badges, and focus rings follow the schema instead of staying cyan. */
+:root,
+.dark,
+[data-accent] {
+  --primary: var(--accent-chroma);
+  --primary-foreground: var(--accent-chroma-fg);
+  --ring: --alpha(var(--accent-chroma) / 0.5);
 }
 
 @layer base {

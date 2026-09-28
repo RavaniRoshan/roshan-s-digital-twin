@@ -4,6 +4,8 @@ import { LoadingOrb } from "@/components/orb/loading";
 import { Block, Row, SectionLabel, SquareControl } from "@/components/Rows";
 import { Shell } from "@/components/Shell";
 import { SystemDialog } from "@/components/SystemDialog";
+import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
+import { CopyButton } from "@/components/spaceui/copy";
 import type { TickerItem } from "@/components/Ticker";
 import { site, type System } from "@/content/site";
 
@@ -159,7 +161,14 @@ export function Home() {
       <Block id="about">
         <SectionLabel>position</SectionLabel>
         <div className="space-y-4 text-sm leading-relaxed">
-          <p>{site.identity.summary}</p>
+          <BlurRevealText
+            text={site.identity.summary}
+            splitBy="words"
+            stagger={0.018}
+            blurAmount="6px"
+            delay={0.05}
+            yOffset={5}
+          />
           {site.identity.bio.map((p) => (
             <p key={p.slice(0, 24)} className="o-2">
               {p}
@@ -252,6 +261,13 @@ export function Home() {
           >
             <Mail className="size-3.5" /> email
           </a>
+          <CopyButton
+            content={email}
+            size="sm"
+            variant="outline"
+            className="rounded"
+            aria-label="Copy email address"
+          />
           {site.identity.socials
             .filter((s) => s.href.startsWith("http"))
             .map((s) => (

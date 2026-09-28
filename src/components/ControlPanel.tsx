@@ -9,10 +9,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
-import { usePrefs, type ColumnAlign } from "@/hooks/usePrefs";
+import { ACCENTS, usePrefs, type Accent, type ColumnAlign } from "@/hooks/usePrefs";
 import { cn } from "@/lib/utils";
 
-const ALIGNS: { id: ColumnAlign; label: string }[] = [
+const ALIGNMENTS: { id: ColumnAlign; label: string }[] = [
   { id: "left", label: "left" },
   { id: "center", label: "center" },
   { id: "right", label: "right" },
@@ -41,7 +41,7 @@ function Sliders() {
 }
 
 export function ControlPanel() {
-  const { theme, align, setTheme, setAlign } = usePrefs();
+  const { theme, align, accent, setTheme, setAlign, setAccent } = usePrefs();
 
   return (
     <Sheet>
@@ -86,10 +86,37 @@ export function ControlPanel() {
             </div>
 
             <div>
+              <p className="mono mb-2 text-xs tracking-[0.14em] o-3 uppercase">accent</p>
+              <div className="grid grid-cols-4 gap-1.5">
+                {ACCENTS.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    onClick={() => setAccent(a.id as Accent)}
+                    aria-pressed={accent === a.id}
+                    className={cn(
+                      "glass flex cursor-pointer flex-col items-center gap-1.5 rounded px-1 py-2 transition-opacity",
+                      accent === a.id ? "o-1" : "o-3 hover:o-2",
+                    )}
+                  >
+                    <span
+                      className="size-4 rounded-full"
+                      style={{ background: "var(--accent-chroma)" }}
+                    />
+                    <span className="mono text-[0.5625rem] tracking-wide">{a.label}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-xs o-3">
+                {ACCENTS.find((a) => a.id === accent)?.note} · swaps neutrals and accent together
+              </p>
+            </div>
+
+            <div>
               <p className="mono mb-2 text-xs tracking-[0.14em] o-3 uppercase">column</p>
               <Tabs value={align} onValueChange={(v) => setAlign(v as ColumnAlign)}>
                 <TabsList variant="underline" className="w-full">
-                  {ALIGNS.map((a) => (
+                  {ALIGNMENTS.map((a) => (
                     <TabsTab key={a.id} value={a.id} className={cn("flex-1 font-mono text-xs")}>
                       {a.label}
                     </TabsTab>
@@ -97,8 +124,8 @@ export function ControlPanel() {
                 </TabsList>
               </Tabs>
               <p className="mt-2 text-xs o-3">
-                The column stays 640px. This moves it against the viewport and shifts which
-                hairline is drawn.
+                Stays 640px wide. This slides it against the viewport and shifts which hairline is
+                drawn. Centered on load.
               </p>
             </div>
 

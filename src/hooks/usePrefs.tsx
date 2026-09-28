@@ -2,6 +2,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 
 export type Theme = "dark" | "light";
 export type ColumnAlign = "left" | "center" | "right";
+export type Accent = "cyan" | "ember" | "oxblood" | "ultramarine";
+
+export const ACCENTS: { id: Accent; label: string; note: string }[] = [
+  { id: "cyan", label: "cyan", note: "cold blue-grey" },
+  { id: "ember", label: "ember", note: "neutral warm black" },
+  { id: "oxblood", label: "oxblood", note: "warm espresso" },
+  { id: "ultramarine", label: "ultra", note: "deep navy" },
+];
 
 const ALIGN: Record<ColumnAlign, { ml: string; mr: string; bl: string; br: string }> = {
   left: { ml: "0px", mr: "auto", bl: "none", br: "1px solid" },
@@ -12,8 +20,10 @@ const ALIGN: Record<ColumnAlign, { ml: string; mr: string; bl: string; br: strin
 type Prefs = {
   theme: Theme;
   align: ColumnAlign;
+  accent: Accent;
   setTheme: (t: Theme) => void;
   setAlign: (a: ColumnAlign) => void;
+  setAccent: (a: Accent) => void;
   cycleAlign: () => void;
 };
 
@@ -28,17 +38,22 @@ const read = <T,>(key: string, fallback: T): T => {
     return fallback;
   }
 };
-
-export function PrefsProvider({ children }: { children: React.ReactNode }) {  const [theme, setThemeState] = useState<Theme>(() => read<Theme>("rr:theme", "dark"));
+export function PrefsProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = useState<Theme>(() => read<Theme>("rr:theme", "dark"));
   const [align, setAlignState] = useState<ColumnAlign>(() =>
-    read<ColumnAlign>("rr:align", "left"),
+    read<ColumnAlign>("rr:align", "center"),
   );
+  const [accent, setAccentState] = useState<Accent>(() => read<Accent>("rr:accent", "cyan"));
 
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
     root.style.colorScheme = theme;
   }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.dataset.accent = accent;
+  }, [accent]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -67,6 +82,15 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {  co
     }
   }, []);
 
+  const setAccent = useCallback((a: Accent) => {
+    setAccentState(a);
+    try {
+      window.localStorage.setItem("rr:accent", JSON.stringify(a));
+    } catch {
+      /* storage unavailable — accent still applies for this session */
+    }
+  }, []);
+
   const cycleAlign = useCallback(() => {
     setAlignState((prev) => {
       const order: ColumnAlign[] = ["left", "center", "right"];
@@ -81,8 +105,8 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {  co
   }, []);
 
   const value = useMemo(
-    () => ({ theme, align, setTheme, setAlign, cycleAlign }),
-    [theme, align, setTheme, setAlign, cycleAlign],
+    () => ({ theme, align, accent, setTheme, setAlign, setAccent, cycleAlign }),
+    [theme, align, accent, setTheme, setAlign, setAccent, cycleAlign],
   );
 
   return <PrefsContext.Provider value={value}>{children}</PrefsContext.Provider>;

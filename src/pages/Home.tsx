@@ -10,6 +10,7 @@ import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
 import { CopyButton } from "@/components/spaceui/copy";
 import { SignalRow } from "@/components/Glyph";
 import { Animoji } from "@/components/Animoji";
+import { BudgetDemo } from "@/components/BudgetDemo";
 import { Logo } from "@/components/Logo";
 import { SpotifyDock } from "@/components/SpotifyDock";
 import type { TickerItem } from "@/components/Ticker";
@@ -258,6 +259,17 @@ export function Home() {
             </div>
           ))}
         </div>
+      </Block>
+
+      <Block id="lab">
+        <SectionLabel>try it</SectionLabel>
+        <p className="mb-3 text-sm leading-relaxed o-2">
+          This is <code className="mono">backstop</code>&rsquo;s decision logic, running in your browser
+          rather than described in a screenshot. Raise the failure rate and the breaker trips on four
+          consecutive failures; drop the budget and it trips on spend instead. Nothing here is a
+          recording.
+        </p>
+        <BudgetDemo />
       </Block>
 
       <Block id="works">

@@ -88,6 +88,15 @@ export interface Achievement {
   detail: string;
 }
 
+/** A dated note. */
+export interface Note {
+  id: string;
+  date: string;
+  title: string;
+  body: string;
+  href?: string;
+}
+
 export type LogoId =
   | "rust"
   | "python"
@@ -112,6 +121,17 @@ export type LogoId =
   | "observability";
 
 export const site = {
+  /**
+   * Canonical origin.
+   *
+   * A plain constant, not import.meta.env, because this module is also pulled
+   * into Vite's own config loader through llms.ts — and there import.meta.env
+   * is undefined at runtime, which fails the build outright. The value is the
+   * same origin llms.ts already emitted, so the sitemap, the Open Graph tags and
+   * the machine-readable files cannot disagree. One constant to change if the
+   * site moves.
+   */
+  url: "https://ravani-roshan.pages.dev",
   identity: {
     name: "Ravani Roshan",
     handle: "RavaniRoshan",
@@ -175,6 +195,47 @@ export const site = {
     { id: "yolo", label: "YOLO", count: 1, detail: "PR merged without review" },
     { id: "quickdraw", label: "Quickdraw", count: 1, detail: "issue closed within five minutes" },
   ],
+
+  /**
+   * Notes. Seeded from work already shipped rather than invented, because a
+   * writing surface is only worth having if it is honest about what exists
+   * today — the point of it is a recency and volume signal, and fabricated
+   * entries would destroy the signal they exist to create.
+   *
+   * The long-term version of this is a real writing habit. That is a
+   * behavioural change, not a code change, and no amount of scaffolding here
+   * substitutes for it.
+   */
+  notes: [
+    {
+      id: "n1",
+      date: "SEP 2026",
+      title: "A breaker that trips on spend, not just on errors",
+      body: "Most circuit breakers in agent code only watch for exceptions. The failure that actually costs money is a loop that keeps succeeding while burning budget. backstop treats exhaustion as a first-class trip reason, which means the guard fires on the case that would otherwise have run all night.",
+      href: "https://github.com/RavaniRoshan/backstop",
+    },
+    {
+      id: "n2",
+      date: "SEP 2026",
+      title: "Policy has to sit on the mutation path",
+      body: "Prompt-level instructions tell an agent what it should do. Nothing stops it. The useful place for a policy engine is between the agent and the code it wants to change, evaluated as code so the same rule applies to any model or provider.",
+      href: "https://github.com/RavaniRoshan/policyctl",
+    },
+    {
+      id: "n3",
+      date: "SEP 2026",
+      title: "Reproducing an architecture is how you learn it",
+      body: "mini-llm-engine is a from-scratch serving stack — paged KV cache, continuous batching, flash attention, GGUF. The point is not to replace vLLM. The point is that reading about continuous batching is not the same as having once had to make it batch correctly.",
+      href: "https://github.com/RavaniRoshan/mini-llm-engine",
+    },
+    {
+      id: "n4",
+      date: "SEP 2026",
+      title: "An architecture rule that only ever ratchets forward",
+      body: "Most architecture-as-code tooling fails because it treats a violation as a fact rather than a direction. archguard encodes the rule as monotonic: a rule can get stricter over time and never loosens, so a codebase cannot quietly trade its structure back.",
+      href: "https://github.com/RavaniRoshan/archguard",
+    },
+  ] satisfies Note[],
 
   /**
    * The rest of the public work: real repositories, descriptions taken from

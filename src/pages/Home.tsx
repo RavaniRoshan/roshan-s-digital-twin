@@ -171,7 +171,7 @@ export function Home() {
   return (
     <Shell ticker={TICKER}>
       <Block id="about">
-        <SectionLabel>position</SectionLabel>
+        <SectionLabel n={1}>position</SectionLabel>
         <p className="mono mb-3 text-sm o-2">
           <Animoji>hey 👋 — i build the unglamorous half of agent infrastructure</Animoji>
         </p>
@@ -203,7 +203,7 @@ export function Home() {
       </Block>
 
       <Block id="systems">
-        <SectionLabel>rack</SectionLabel>
+        <SectionLabel n={2}>rack</SectionLabel>
         <IconGrid onOpen={open} />
         <div className="mt-6 border-t">
           {site.systems.map((s) => (
@@ -220,18 +220,18 @@ export function Home() {
       </Block>
 
       <Block id="index">
-        <SectionLabel>rack index</SectionLabel>
+        <SectionLabel n={3}>rack index</SectionLabel>
         <RackTable onOpen={open} />
         <p className="mt-3 text-xs o-3">sortable · click any row for the case file</p>
       </Block>
 
       <Block id="telemetry">
-        <SectionLabel>telemetry</SectionLabel>
+        <SectionLabel n={4}>telemetry</SectionLabel>
         <Deck />
       </Block>
 
       <Block id="capabilities">
-        <SectionLabel>capabilities</SectionLabel>
+        <SectionLabel n={5}>capabilities</SectionLabel>
         <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
           {site.skills.map((track) => (
             <div key={track.track}>
@@ -262,7 +262,7 @@ export function Home() {
       </Block>
 
       <Block id="signals">
-        <SectionLabel>signals</SectionLabel>
+        <SectionLabel n={6}>signals</SectionLabel>
         <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
           {site.achievements.map((a) => (
             <div key={a.id} className="flex items-baseline gap-3 border-b pb-2">
@@ -280,7 +280,7 @@ export function Home() {
       </Block>
 
       <Block id="lab">
-        <SectionLabel>try it</SectionLabel>
+        <SectionLabel n={7}>try it</SectionLabel>
         <p className="mb-3 text-sm leading-relaxed o-2">
           This is <code className="mono">backstop</code>&rsquo;s decision logic, running in your browser
           rather than described in a screenshot. Raise the failure rate and the breaker trips on four
@@ -290,8 +290,34 @@ export function Home() {
         <BudgetDemo />
       </Block>
 
+      <Block id="notes">
+        <SectionLabel n={8}>notes</SectionLabel>
+        <div className="border-t">
+          {site.notes.map((n) => (
+            <article key={n.id} className="border-b py-3 last:border-b-0">
+              <div className="mb-1.5 flex items-baseline gap-3">
+                <time className="mono shrink-0 text-[0.625rem] o-3">{n.date}</time>
+                {n.href ? (
+                  <a
+                    href={n.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 text-sm font-semibold underline-offset-4 transition-opacity hover:opacity-70 hover:underline"
+                  >
+                    {n.title}
+                  </a>
+                ) : (
+                  <h3 className="flex-1 text-sm font-semibold">{n.title}</h3>
+                )}
+              </div>
+              <p className="text-sm leading-relaxed o-2">{n.body}</p>
+            </article>
+          ))}
+        </div>
+      </Block>
+
       <Block id="works">
-        <SectionLabel>also shipping</SectionLabel>
+        <SectionLabel n={9}>also shipping</SectionLabel>
         <div className="border-t">
           {site.activeRepos.map((r) => (
             <Row
@@ -310,7 +336,7 @@ export function Home() {
 
       {site.music.length > 0 && (
         <Block id="music">
-          <SectionLabel>rotation</SectionLabel>
+          <SectionLabel n={10}>rotation</SectionLabel>
           <div className="border-t">
             {site.music.map((t) => (
               <Row
@@ -338,7 +364,7 @@ export function Home() {
         </Block>
       )}
       <Block id="credentials">
-        <SectionLabel>credentials</SectionLabel>
+        <SectionLabel n={11}>credentials</SectionLabel>
         <div className="border-t">
           {site.credentials.map((c) => (
             <Row
@@ -354,7 +380,7 @@ export function Home() {
       </Block>
 
       <Block id="contact">
-        <SectionLabel>contact</SectionLabel>
+        <SectionLabel n={12}>contact</SectionLabel>
         <div className="flex flex-wrap items-center gap-2">
           <a
             href={`mailto:${email}`}
@@ -390,7 +416,7 @@ export function Home() {
       </Block>
 
       <Block id="colophon">
-        <SectionLabel>colophon</SectionLabel>
+        <SectionLabel n={13}>colophon</SectionLabel>
         <dl className="space-y-2 text-sm">
           {[
             ["built with", "react 19 · vite · tailwind v4 · spaceui · motion"],

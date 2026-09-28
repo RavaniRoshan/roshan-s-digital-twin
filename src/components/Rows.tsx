@@ -10,8 +10,51 @@ export function Block({ id, children, className }: { id?: string; children: Reac
   );
 }
 
-export function SectionLabel({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cn("mono mb-3 text-xs tracking-[0.14em] o-3 uppercase", className)}>{children}</p>;
+/**
+ * Section header, optionally numbered in the style of a technical drawing
+ * callout: an index, a separator, and the label, with an L-shaped corner tick
+ * at the leading edge.
+ *
+ * The numbering is not decoration. It reframes the page as a document with a
+ * table of contents, which is what the rest of the site argues it is — and it
+ * lets a reader who lands mid-page see where they are without scrolling back to
+ * the index.
+ */
+export function SectionLabel({
+  children,
+  n,
+  className,
+}: {
+  children: ReactNode;
+  n?: number;
+  className?: string;
+}) {
+  return (
+    <h2
+      className={cn(
+        "mono relative mb-3 flex items-center gap-2 pl-3 text-xs font-normal tracking-[0.14em] o-3 uppercase",
+        className,
+      )}
+    >
+      <span
+        aria-hidden
+        className="absolute top-1/2 left-0 h-2.5 w-2.5 -translate-y-1/2 border-t border-l border-current/40"
+      />
+      {n !== undefined && (
+        <>
+          {/* Decorative. Without aria-hidden the heading announces as
+              "01 slasheslash position", which is worse than no number at all. */}
+          <span aria-hidden className="text-chroma tabular-nums">
+            {String(n).padStart(2, "0")}
+          </span>
+          <span aria-hidden className="o-3">
+            //
+          </span>
+        </>
+      )}
+      <span>{children}</span>
+    </h2>
+  );
 }
 
 /**

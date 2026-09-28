@@ -148,15 +148,31 @@ function indexDoc(): string {
   ].join("\n");
 }
 
-/** Emits llms.txt, llms-full.txt, and a markdown twin per system at build time. */
+/** Emits llms.txt, llms-full.txt, sitemap.xml, and a markdown twin per system. */
 export function llmsPlugin() {
   return {
     name: "rr-llms-files",
     apply: "build" as const,
     generateBundle(this: { emitFile: (f: { type: "asset"; fileName: string; source: string }) => void }) {
+      const today = new Date().toISOString().slice(0, 10);
+      const urls = [
+        { loc: `${origin}/`, priority: "1.0" },
+        ...site.systems.map((s) => ({ loc: `${origin}/s/${s.slug}`, priority: "0.8" })),
+      ];
       const files: Record<string, string> = {
         "llms.txt": indexDoc(),
         "llms-full.txt": fullDoc(),
+        // Emitted from the same origin constant the llms docs use, so the two
+        // cannot drift apart.
+        "sitemap.xml": [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          ...urls.map(
+            (u) =>
+              `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><priority>${u.priority}</priority></url>`,
+          ),
+          "</urlset>",
+        ].join("\n"),
       };
       for (const s of site.systems) {
         files[`md/${s.slug}.md`] = systemDoc(s.slug);

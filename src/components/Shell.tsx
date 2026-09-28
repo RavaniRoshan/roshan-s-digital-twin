@@ -83,7 +83,11 @@ function Header() {
           />
         </div>
         <div className="min-w-0">
-          <p className="serif text-lg leading-tight">{site.identity.name}</p>
+          {/* The page's only h1. Every section below is labelled with a <p> styled
+              as a heading rather than a real heading element, which left the
+              document with no heading structure at all — a real defect for
+              screen-reader navigation and for anything parsing the outline. */}
+          <h1 className="serif text-lg leading-tight">{site.identity.name}</h1>
           <RoleLine />
         </div>
       </div>
@@ -135,7 +139,7 @@ export function Shell({ children, ticker }: { children: ReactNode; ticker: Ticke
           <Header />
         </div>
         <Ticker items={ticker} label="INDEX" />
-        <div className="flex-1 px-4 pb-16">{children}</div>
+        <main className="flex-1 px-4 pb-16">{children}</main>
         <div className="px-4">
           <Footer />
         </div>

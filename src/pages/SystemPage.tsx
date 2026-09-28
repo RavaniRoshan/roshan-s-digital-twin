@@ -26,7 +26,7 @@ export function SystemPage() {
   const wordmark = WORDMARK[system.slug];
 
   return (
-    <Shell ticker={TICKER}>
+    <Shell ticker={TICKER} brandAsH1={false}>
       <Block id="case">
         <Link
           to="/"

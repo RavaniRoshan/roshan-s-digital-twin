@@ -4,14 +4,6 @@
   href: string;
 }
 
-export interface Telemetry {
-  label: string;
-  value: string;
-  unit?: string;
-  delta?: string;
-  status: "nominal" | "active" | "standby" | "degraded";
-}
-
 export interface SystemNode {
   slug: string;
   codename: string;
@@ -168,21 +160,15 @@ export const site = {
   },
 
   /**
-   * Telemetry is restricted to figures that can be checked against a public URL.
+   * The old hand-written telemetry array is gone. Its figures were typed in by
+   * hand and nothing kept them true, which is how an unverifiable "189 public
+   * repos" ended up on a site whose whole argument is that its numbers are
+   * honest. The telemetry deck now renders `stats`, which is derived from the
+   * systems themselves and therefore cannot drift.
    *
-   * An earlier "189 public repos" figure was carried here and could not be
-   * verified: the GitHub REST API returns 403 from the build environment and the
-   * repository list is paginated, so there is no way to confirm it. On a site
-   * whose whole argument is that its numbers are honest, an unverifiable number
-   * is worse than no number. The replacements are all checkable — the systems
-   * have case pages here, the repo tab is one click away, and last-commit
-   * timestamps are visible on every repository.
+   * The lesson is preserved in the `stats` comment rather than deleted with the
+   * field.
    */
-  telemetry: [
-    { label: "flagship systems", value: "06", status: "active" },
-    { label: "core languages", value: "03", delta: "rust · py · ts", status: "nominal" },
-    { label: "last commit", value: "today", status: "active" },
-  ] satisfies Telemetry[],
 
   /**
    * GitHub achievements, verified from the profile. Cheap to earn, but public,
@@ -632,3 +618,23 @@ export const site = {
 } as const;
 
 export type System = (typeof site.systems)[number];
+
+/**
+ * Aggregates computed from the systems themselves rather than written by hand.
+ *
+ * Hand-maintained counts rot silently: add a seventh system or a language and
+ * nothing complains, the number just becomes quietly wrong. Deriving them means
+ * the telemetry deck is denser without any of it being a claim anyone has to
+ * trust, which is the point — these are the only figures on the page that cannot
+ * go stale.
+ */
+export const stats = {
+  languages: [...new Set(site.systems.map((s) => s.language))].sort(),
+  roles: [...new Set(site.systems.map((s) => s.role))].sort(),
+  licenses: [...new Set(site.systems.map((s) => s.license).filter(Boolean))].sort(),
+  topics: new Set(site.systems.flatMap((s) => s.topics)).size,
+  capabilities: site.systems.reduce((n, s) => n + s.capabilities.length, 0),
+  rungs: site.systems.reduce((n, s) => n + s.approach.length, 0),
+  active: site.systems.filter((s) => s.status === "active" || s.status === "stable").length,
+} as const;
+

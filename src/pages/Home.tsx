@@ -14,7 +14,7 @@ import { BudgetDemo } from "@/components/BudgetDemo";
 import { Logo } from "@/components/Logo";
 import { SpotifyDock } from "@/components/SpotifyDock";
 import type { TickerItem } from "@/components/Ticker";
-import { site, type Track } from "@/content/site";
+import { site, stats, type Track } from "@/content/site";
 
 const GitHubActivity = lazy(() =>
   import("@/components/spaceui/github-activity").then((m) => ({ default: m.GitHubActivity })),
@@ -98,16 +98,25 @@ function Deck() {
           <div className={slide} style={{ minHeight: 220 }}>
             <div>
               <p className="mono mb-3 text-xs tracking-[0.14em] o-3 uppercase">rack readout</p>
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-3">
-                {site.telemetry.map((t) => (
-                  <div key={t.label}>
-                    <dt className="text-xs o-3">{t.label}</dt>
-                    <dd className="mono text-xl font-semibold">{t.value}</dd>
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                {[
+                  ["systems", String(site.systems.length).padStart(2, "0")],
+                  ["active", String(stats.active).padStart(2, "0")],
+                  ["languages", String(stats.languages.length).padStart(2, "0")],
+                  ["topics", String(stats.topics)],
+                  ["capabilities", String(stats.capabilities)],
+                  ["repos listed", String(site.activeRepos.length)],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <dt className="text-xs o-3">{k}</dt>
+                    <dd className="mono text-xl font-semibold tabular-nums">{v}</dd>
                   </div>
                 ))}
               </dl>
             </div>
-            <p className="mono mt-5 text-xs o-3">core: rust · python · typescript</p>
+            <p className="mono mt-5 text-xs o-3">
+              {stats.languages.join(" · ")} &middot; {stats.licenses.join(" + ")}
+            </p>
           </div>
 
           <div className={slide} style={{ minHeight: 220 }}>
@@ -265,12 +274,17 @@ export function Home() {
         <SectionLabel n={6}>signals</SectionLabel>
         <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
           {site.achievements.map((a) => (
-            <div key={a.id} className="flex items-baseline gap-3 border-b pb-2">
-              <span className="mono text-xs text-chroma tabular-nums">
+            <div key={a.id} className="flex items-start gap-3 border-b pb-2">
+              <span className="mono w-6 shrink-0 pt-px text-xs text-chroma tabular-nums">
                 {a.count}&times;
               </span>
-              <span className="flex-1 truncate text-sm">{a.label}</span>
-              <span className="mono shrink-0 text-[0.625rem] o-3">{a.detail}</span>
+              {/* Detail sits under the label rather than beside it: a two-column
+                  grid does not have room for both, and "Pair Extraordina…"
+                  truncated is worse than one more line of height. */}
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm">{a.label}</span>
+                <span className="mono block truncate text-[0.625rem] o-3">{a.detail}</span>
+              </span>
             </div>
           ))}
         </div>

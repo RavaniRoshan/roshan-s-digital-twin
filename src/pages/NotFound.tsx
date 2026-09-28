@@ -3,14 +3,16 @@ import { Shell } from "@/components/Shell";
 import { Block, SectionLabel } from "@/components/Rows";
 import type { TickerItem } from "@/components/Ticker";
 
+// Only the fault block exists on this route. The previous ticker also linked
+// #about, which resolves to nothing here — a dead anchor in the one page whose
+// entire job is to tell you a route does not exist. It links home instead.
 const TICKER: TickerItem[] = [
   { id: "fault", label: "fault", meta: "404", href: "#fault" },
-  { id: "about", label: "about", meta: "position", href: "#about" },
+  { id: "index", label: "index", meta: "go home", href: "/" },
 ];
-
 export function NotFound() {
   return (
-    <Shell ticker={TICKER}>
+    <Shell ticker={TICKER} brandAsH1={false}>
       <Block id="fault">
         <SectionLabel>fault · 404</SectionLabel>
         <h1 className="text-sm leading-relaxed font-semibold">null reference.</h1>

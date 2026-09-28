@@ -5,7 +5,13 @@ export type TickerItem = {
   id: string;
   label: string;
   meta: string;
-  href: string;
+  /**
+   * Optional. Defaults to the in-page anchor `#id`, which is right for every
+   * section of a route. Supply it when the target is not a block on the current
+   * page — the 404 route uses this to point back at the index instead of
+   * linking to a `#id` that does not exist there.
+   */
+  href?: string;
 };
 
 /**
@@ -48,7 +54,7 @@ export function Ticker({ items, label }: { items: TickerItem[]; label: string })
             {items.map((item) => (
               <a
                 key={`${copy}-${item.id}`}
-                href={`#${item.id}`}
+                href={item.href ?? `#${item.id}`}
                 tabIndex={copy === 1 ? -1 : undefined}
                 className="mono flex items-center text-xs"
                 style={{ paddingRight: 64 }}

@@ -66,7 +66,7 @@ function useIstClock() {
   return t;
 }
 
-function Header() {
+function Header({ brandAsH1 = true }: { brandAsH1?: boolean }) {
   const clock = useIstClock();
   return (
     <header className="flex items-end justify-between gap-6 py-6 sm:items-center">
@@ -83,11 +83,16 @@ function Header() {
           />
         </div>
         <div className="min-w-0">
-          {/* The page's only h1. Every section below is labelled with a <p> styled
-              as a heading rather than a real heading element, which left the
-              document with no heading structure at all — a real defect for
-              screen-reader navigation and for anything parsing the outline. */}
-          <h1 className="serif text-lg leading-tight">{site.identity.name}</h1>
+          {/* The home page's only h1. Every section below is a real h2, which
+              left the document with no heading structure at all before this —
+              a defect for screen-reader navigation and for anything parsing
+              the outline. On routes that carry their own subject the masthead
+              drops to a p so the document keeps exactly one h1. */}
+          {brandAsH1 ? (
+            <h1 className="serif text-lg leading-tight">{site.identity.name}</h1>
+          ) : (
+            <p className="serif text-lg leading-tight">{site.identity.name}</p>
+          )}
           <RoleLine />
         </div>
       </div>
@@ -128,7 +133,21 @@ function Footer() {
   );
 }
 
-export function Shell({ children, ticker }: { children: ReactNode; ticker: TickerItem[] }) {
+export function Shell({
+  children,
+  ticker,
+  brandAsH1 = true,
+}: {
+  children: ReactNode;
+  ticker: TickerItem[];
+  /**
+   * Whether the masthead name is the page's h1. It is on the home page, where
+   * the name genuinely is the subject. On a case page or a 404 the name is a
+   * site header and the page has its own subject, so the case name and the
+   * error title take the h1 instead — otherwise the document has two.
+   */
+  brandAsH1?: boolean;
+}) {
   return (
     <div id="top" className="relative min-h-screen">
       <GutterField />
@@ -136,7 +155,7 @@ export function Shell({ children, ticker }: { children: ReactNode; ticker: Ticke
       <ControlPanel />
       <div className="column relative z-10 flex min-h-screen w-full max-w-[640px] flex-col">
         <div className="px-4">
-          <Header />
+          <Header brandAsH1={brandAsH1} />
         </div>
         <Ticker items={ticker} label="INDEX" />
         <main className="flex-1 px-4 pb-16">{children}</main>

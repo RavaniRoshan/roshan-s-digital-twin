@@ -8,6 +8,7 @@ import { IconGrid } from "@/components/IconGrid";
 import { RackTable } from "@/components/RackTable";
 import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
 import { CopyButton } from "@/components/spaceui/copy";
+import { SignalRow } from "@/components/Glyph";
 import { Logo } from "@/components/Logo";
 import type { TickerItem } from "@/components/Ticker";
 import { site } from "@/content/site";
@@ -180,6 +181,15 @@ export function Home() {
           ))}
           <p className="border-l pl-4 italic o-2">{site.identity.statement}</p>
         </div>
+        <SignalRow
+          className="pt-1"
+          items={[
+            { glyph: "build", label: "hermetic" },
+            { glyph: "receipt", label: "auditable" },
+            { glyph: "shield", label: "contained" },
+            { glyph: "chart", label: "observable" },
+          ]}
+        />
       </Block>
 
       <Block id="systems">

@@ -38,6 +38,7 @@ export default tseslint.config(
     // so vendored-only rules are relaxed here rather than patched in place.
     files: [
       "src/components/spaceui/**",
+      "src/components/shader/**",
       "src/components/orb/**",
       "src/components/ui/**",
       "src/lib/**",
@@ -45,6 +46,12 @@ export default tseslint.config(
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      // Minified third-party runtimes ship as compiled output, so these fire on
+      // code nobody here wrote or intends to maintain.
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "prefer-const": "off",
     },
   },
 );

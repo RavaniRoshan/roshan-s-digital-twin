@@ -426,6 +426,31 @@
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
   }
 
+  /*
+   * Confines a full-bleed layer to the two gutters either side of the 640px
+   * column. The column is transparent, so without this mask the effect would
+   * show through the text; with it, the centre band is punched out and only
+   * the blank side space carries the field.
+   */
+  .gutter-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(50% - 320px),
+      transparent calc(50% - 320px),
+      transparent calc(50% + 320px),
+      #000 calc(50% + 320px)
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(50% - 320px),
+      transparent calc(50% - 320px),
+      transparent calc(50% + 320px),
+      #000 calc(50% + 320px)
+    );
+  }
+
   .no-scrollbar {
     scrollbar-width: none;
   }
@@ -449,5 +474,16 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * Below this the gutters are too narrow to read as anything but slivers, so
+ * the field is dropped rather than shrunk. 640px column plus roughly 90px of
+ * breathing room on each side.
+ */
+@media (max-width: 820px) {
+  .gutter-mask {
+    display: none;
   }
 }

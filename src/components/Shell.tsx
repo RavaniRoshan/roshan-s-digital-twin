@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ControlPanel } from "@/components/ControlPanel";
+import { GutterField } from "@/components/GutterField";
 import { Noise } from "@/components/Noise";
 import { Ticker, type TickerItem } from "@/components/Ticker";
 import { site } from "@/content/site";
@@ -125,10 +126,11 @@ function Footer() {
 
 export function Shell({ children, ticker }: { children: ReactNode; ticker: TickerItem[] }) {
   return (
-    <div id="top" className="min-h-screen">
+    <div id="top" className="relative min-h-screen">
+      <GutterField />
       <Noise />
       <ControlPanel />
-      <div className="column relative flex min-h-screen w-full max-w-[640px] flex-col">
+      <div className="column relative z-10 flex min-h-screen w-full max-w-[640px] flex-col">
         <div className="px-4">
           <Header />
         </div>

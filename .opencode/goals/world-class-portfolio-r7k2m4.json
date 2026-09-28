@@ -1,0 +1,95 @@
+{
+  "id": "r7k2m4",
+  "slug": "world-class-portfolio-r7k2m4",
+  "objective": "Rebuild Ravani Roshan's portfolio to world-class standard, benchmarked against the portfolios of the most recognised systems/AI engineers, committing in verified slices.",
+  "status": "active",
+  "branch": "main",
+  "branch_deviation": "Skill specifies goal/<slug> branch. Deviating deliberately: user explicitly requested 'commit and push main' twice this session. Isolation value is low on a solo repo with a clean tree.",
+  "scope": "src/, public/, index.html, llms.ts, vite.config.ts, package.json, eslint.config.js",
+  "scope_lock": ["src/", "public/"],
+  "scope_flex": ["index.html", "llms.ts", "vite.config.ts", "package.json", "eslint.config.js", ".opencode/goals/"],
+  "criteria": [
+    {
+      "label": "Build passes",
+      "check": "npm run build 2>&1 | Select-String 'built in'",
+      "must_pass": true
+    },
+    {
+      "label": "Lint has zero errors",
+      "check": "npm run lint 2>&1 | Select-String '0 errors'",
+      "must_pass": true
+    },
+    {
+      "label": "Tests pass",
+      "check": "npm test 2>&1 | Select-String '5 passed'",
+      "must_pass": true
+    },
+    {
+      "label": "No encoding corruption anywhere in source",
+      "check": "$f=Get-ChildItem src,index.html -Recurse -File -Include *.ts,*.tsx,*.css,*.html; if($f|Select-String -Pattern \"\\uFFFD|[\\u00C2\\u00E2][\\u0080-\\u00BF\\u201A-\\u2027]\"){exit 1}else{exit 0}",
+      "must_pass": true,
+      "coverage_gate": true
+    },
+    {
+      "label": "Entry bundle stays under 240 kB gzipped",
+      "check": "$s=(Select-String -Path dist/assets/index-*.js -Pattern '.' | Measure-Object).Count; $b=(Get-ChildItem dist/assets/index-*.js)[0].Length; if($b -lt 256000){exit 0}else{exit 1}",
+      "must_pass": true,
+      "coverage_gate": true
+    },
+    {
+      "label": "Cold load ships zero third-party iframes",
+      "check": "browser-act --session shadervfy eval \"document.querySelectorAll('iframe').length\"",
+      "must_pass": true
+    },
+    {
+      "label": "No Next.js imports (cannot compile in this Vite SPA)",
+      "check": "if (Select-String -Path src/**/*.tsx -Pattern \"from 'next/\") { exit 1 } else { exit 0 }",
+      "must_pass": true,
+      "coverage_gate": true
+    },
+    {
+      "label": "No 13 MB emoji dependency reintroduced",
+      "check": "if (Select-String -Path package.json -Pattern '@usespaceui/emoji') { exit 1 } else { exit 0 }",
+      "must_pass": true
+    },
+    {
+      "label": "Every system slug links to a reachable public URL",
+      "check": "npm test 2>&1 | Select-String '5 passed'",
+      "must_pass": true
+    }
+  ],
+  "tasks": [
+    { "id": 1, "desc": "Correct factual errors in content/site.ts against verified GitHub data: forge-cpu is Zig (not Rust) and is a CPU MoE prefill engine; real star counts; real repo descriptions; add verified profile links (X @RoshanAIs, Instagram, Microsoft Learn badges, LinkedIn) and the four GitHub achievements", "status": "todo" },
+    { "id": 2, "desc": "Adopt the blueprint callout section language: numbered technical-drawing section headers (01 // POSITION, 02 // SYSTEMS ...) with corner ticks, replacing bare lowercase labels", "status": "todo" },
+    { "id": 3, "desc": "Build the signature device: a live, interactive token-budget / circuit-breaker demonstrator running client-side — Ravani's own backstop product, playable in the page. This is the 'the repo IS the portfolio' move, substituting for social proof he does not have", "status": "todo" },
+    { "id": 4, "desc": "Add authority-by-evidence surface: real GitHub achievement badges, commit activity, repo count, and a colophon page explaining how the site is built and verified", "status": "todo" },
+    { "id": 5, "desc": "Add a writing/notes surface so the site has a recency signal and a place to accumulate authority over time, seeded honestly with what exists today", "status": "todo" },
+    { "id": 6, "desc": "Accessibility and contrast audit across both themes: focus-visible rings, reduced-motion, heading order, alt text, and the gutter field honouring prefers-reduced-motion", "status": "todo" },
+    { "id": 7, "desc": "Discoverability: OG/Twitter meta, canonical, JSON-LD Person schema with verified sameAs links, sitemap", "status": "todo" },
+    { "id": 8, "desc": "Information density pass: apply 'minimal is not sparse' — make each section denser with real signal without adding visual noise", "status": "todo" },
+    { "id": 9, "desc": "Final audit: full criteria batch in a real browser, both themes, mobile width, then commit and push", "status": "todo" }
+  ],
+  "current_task": 1,
+  "iterations": 0,
+  "budget_used": 0,
+  "max_iterations": 50,
+  "negative_knowledge": [
+    "GitHub REST API returns 403 from this environment (both /users and /users/repos). Use firecrawl scrape of the profile HTML instead.",
+    "firecrawl_search/includeDomains=open.spotify.com returns mashups and wrong tracks; a literal user typo ('askhe') was the real title ('Ashke'). Always confirm track identity via oEmbed.",
+    "vite preview serves dist, not source. A rebuild produces a NEW hashed filename; the browser can keep running the OLD bundle. Always hard-reload (location.reload(true)) after a rebuild before judging results.",
+    "The Paper Shader runtime sets premultipliedAlpha and blends (ONE, ONE_MINUS_SRC_ALPHA). Emitting unpremultiplied vec4(u_tint, a) makes u_opacity a no-op.",
+    "SpaceUI registry: components are named 'components-spaceui-<name>' and blocks 'block-<name>-1'. Bare names return HTML and break shadcn add. A registry block that imports next/image cannot compile in this Vite SPA.",
+    "Math.min(clientX, innerWidth - clientX) is distance to the nearest EDGE, so a SMALL value means 'in the gutter'. Inverting this silently disables the cursor effect while still looking plausible."
+  ],
+  "research_findings": {
+    "source": "simonwillison.net scrape (delegated analysis) + firecrawl web search on top-tier 2026 portfolios",
+    "authority_model": "Simon Willison demonstrates authority by volume, recency and primary-source depth. No degrees, job titles or 'About me' credentials appear on his home page. Third-party quotes embedded as proof, not flattery.",
+    "structure": "Strictly linear single column. No tables, no grid. Home shows ~12 days of entries plus a curated 'Highlights' shelf; the deep archive is separate and year-indexed.",
+    "first_viewport": "No hero. Title plus a tag cloud with per-tag counts, so credibility precedes prose.",
+    "signature_devices": "Tag cloud with volume counts; quote-and-attribute entry type; curated Highlights shelf; Colophon and Disclosures footer links; a '$10/month digest' framed as 'Pay me to send you less!'",
+    "median_antipatterns": "Scroll-jacking parallax heroes, six animation libraries, multi-MB payloads, generic templates, 'About me' credential lists, star counts as a proxy for worth.",
+    "critical_fit_note": "Ravani has 2 followers and 7 total stars across 6 repos (verified). Social proof is genuinely unavailable, so the top-tier move is to substitute demonstrated engineering: make the site itself an instance of the systems he sells. Fanaperana's 'this repo IS the portfolio' is the exact precedent."
+  },
+  "context_summary": "Goal: world-class portfolio for Ravani Roshan, benchmarked against top-tier engineer portfolios, committed in verified slices. Iteration 0: environment detected as OpenCode (no .kilo), state at .opencode/goals/. Research done. Verified Ravani's real footprint via GitHub profile scrape: 6 pinned repos (niki Rust, backstop Python, phantom Rust, policyctl TS, skillproof TS, forge-cpu Zig/Shell), 2 followers, achievements Pull Shark x3 / Pair Extraordinaire x3 / YOLO / Quickdraw, profile links X @RoshanAIs, Instagram tho_roshan, Microsoft Learn badges, LinkedIn. Found existing site.ts has forge-cpu mislabelled as Rust when GitHub says Zig. Key strategic conclusion: social proof unavailable and correctly omitted, so authority must come from demonstrated systems — signature device will be a live client-side token-budget/circuit-breaker demonstrator (his own backstop product). Starting task 1: factual corrections.",
+  "created_at": "2026-09-28T09:35:00Z"
+}

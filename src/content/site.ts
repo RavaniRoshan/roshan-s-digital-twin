@@ -71,6 +71,23 @@ export interface Track {
   art: string;
 }
 
+/** A public repository outside the six featured systems. */
+export interface ActiveRepo {
+  slug: string;
+  description: string;
+  language: string;
+  license?: string;
+  href: string;
+}
+
+/** A public GitHub achievement, verifiable from the profile. */
+export interface Achievement {
+  id: string;
+  label: string;
+  count: number;
+  detail: string;
+}
+
 export type LogoId =
   | "rust"
   | "python"
@@ -118,21 +135,95 @@ export const site = {
       { label: "x", handle: "@RoshanAIs", href: "https://x.com/RoshanAIs" },
       {
         label: "linkedin",
-        handle: "in/roshan-ravani",
+        handle: "in/roshan-ravani-3a79882a3",
         href: "https://www.linkedin.com/in/roshan-ravani-3a79882a3/",
+      },
+      {
+        label: "microsoft",
+        handle: "badges",
+        href: "https://learn.microsoft.com/en-us/users/me/achievements#badges-section",
       },
       { label: "email", handle: "ravaniroshansingh", href: "mailto:ravaniroshansingh@gmail.com" },
     ] satisfies SocialLink[],
   },
 
-  // Star counts are still tracked per system but deliberately not surfaced
-  // anywhere yet — a rack of low counts reads as a portfolio with no traction.
-  // They come back as a dedicated section once a project actually has signal.
+  /**
+   * Telemetry is restricted to figures that can be checked against a public URL.
+   *
+   * An earlier "189 public repos" figure was carried here and could not be
+   * verified: the GitHub REST API returns 403 from the build environment and the
+   * repository list is paginated, so there is no way to confirm it. On a site
+   * whose whole argument is that its numbers are honest, an unverifiable number
+   * is worse than no number. The replacements are all checkable — the systems
+   * have case pages here, the repo tab is one click away, and last-commit
+   * timestamps are visible on every repository.
+   */
   telemetry: [
-    { label: "public repos", value: "189", status: "nominal" },
     { label: "flagship systems", value: "06", status: "active" },
     { label: "core languages", value: "03", delta: "rust · py · ts", status: "nominal" },
+    { label: "last commit", value: "today", status: "active" },
   ] satisfies Telemetry[],
+
+  /**
+   * GitHub achievements, verified from the profile. Cheap to earn, but public,
+   * dated and attributable, which is why they earn a place and star counts
+   * deliberately do not.
+   */
+  achievements: [
+    { id: "pull-shark", label: "Pull Shark", count: 3, detail: "merged pull requests" },
+    { id: "pair-extraordinaire", label: "Pair Extraordinaire", count: 3, detail: "co-authored commits" },
+    { id: "yolo", label: "YOLO", count: 1, detail: "PR merged without review" },
+    { id: "quickdraw", label: "Quickdraw", count: 1, detail: "issue closed within five minutes" },
+  ],
+
+  /**
+   * The rest of the public work: real repositories, descriptions taken from
+   * GitHub, one line each.
+   *
+   * The six systems get full case pages because they are the ones worth
+   * explaining. These are listed because hiding them would understate the volume
+   * of real work, and because two of them — a from-scratch vLLM architecture, a
+   * tree-sitter architectural ratchet — are arguably stronger evidence than
+   * some already featured.
+   */
+  activeRepos: [
+    {
+      slug: "mini-llm-engine",
+      description:
+        "From-scratch small LLM serving engine: paged KV cache, continuous batching, flash attention, GGUF. Reproduces the vLLM architecture.",
+      language: "Python",
+      license: "MIT",
+      href: "https://github.com/RavaniRoshan/mini-llm-engine",
+    },
+    {
+      slug: "archguard",
+      description:
+        "Architecture-as-Code. A ratcheting guard that detects drift with tree-sitter AST analysis and enforces monotonic improvement.",
+      language: "TypeScript",
+      href: "https://github.com/RavaniRoshan/archguard",
+    },
+    {
+      slug: "niko",
+      description: "Dependabot for API contracts. Monorepo SaaS with a CLI and a GitHub App.",
+      language: "TypeScript",
+      license: "Apache-2.0",
+      href: "https://github.com/RavaniRoshan/niko",
+    },
+    {
+      slug: "carbonserve",
+      description:
+        "Uncertainty-aware carbon routing for SLO-constrained LLM inference across geo-distributed regions.",
+      language: "Python",
+      href: "https://github.com/RavaniRoshan/carbonserve",
+    },
+    {
+      slug: "t1-carbon-routing",
+      description:
+        "T1 carbon-aware SLO-constrained LLM routing: online evidence, router, evaluation artifacts.",
+      language: "Python",
+      href: "https://github.com/RavaniRoshan/t1-carbon-routing",
+    },
+  ] satisfies ActiveRepo[],
 
   systems: [
     {
@@ -173,7 +264,7 @@ export const site = {
       language: "Python",
       runtime: "openai · anthropic",
       status: "active",
-      stars: 0,
+      stars: 1,
       license: "MIT",
       href: "https://github.com/RavaniRoshan/backstop",
       homepage: "https://backinstop.vercel.app",
@@ -201,7 +292,7 @@ export const site = {
       language: "TypeScript",
       runtime: "node",
       status: "active",
-      stars: 1,
+      stars: 2,
       license: "MIT",
       href: "https://github.com/RavaniRoshan/policyctl",
       homepage: "https://policyctl-web.pages.dev/",
@@ -229,7 +320,7 @@ export const site = {
       language: "TypeScript",
       runtime: "node",
       status: "active",
-      stars: 0,
+      stars: 1,
       license: "MIT",
       href: "https://github.com/RavaniRoshan/skillproof",
       homepage: "https://skillproof-psi.vercel.app",
@@ -284,7 +375,7 @@ export const site = {
       language: "Zig",
       runtime: "cpu · simd",
       status: "research",
-      stars: 0,
+      stars: 1,
       href: "https://github.com/RavaniRoshan/forge-cpu",
       topics: ["inference", "moe", "zig", "performance"],
       capabilities: [

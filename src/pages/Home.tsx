@@ -260,6 +260,24 @@ export function Home() {
         </div>
       </Block>
 
+      <Block id="works">
+        <SectionLabel>also shipping</SectionLabel>
+        <div className="border-t">
+          {site.activeRepos.map((r) => (
+            <Row
+              key={r.slug}
+              label={r.slug}
+              badge={r.language}
+              value={r.license ?? "repo"}
+              href={r.href}
+            />
+          ))}
+        </div>
+        <p className="mono mt-3 text-xs o-3">
+          real repositories, linked to source — descriptions are GitHub&rsquo;s own
+        </p>
+      </Block>
+
       {site.music.length > 0 && (
         <Block id="music">
           <SectionLabel>rotation</SectionLabel>

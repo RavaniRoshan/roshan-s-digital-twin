@@ -1,5 +1,6 @@
 ﻿import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LiquidSwitch } from "@/components/spaceui/liquid-switch";
 import {
   Sheet,
   SheetHeader,
@@ -58,23 +59,15 @@ export function ControlPanel() {
           <div className="space-y-6">
             <div>
               <p className="mono mb-2 text-xs tracking-[0.14em] o-3 uppercase">theme</p>
-              <div className="flex gap-2">
-                <Button
-                  variant={theme === "dark" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setTheme("dark")}
-                  className="flex-1"
-                >
-                  <Moon className="size-3.5" /> dark
-                </Button>
-                <Button
-                  variant={theme === "light" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setTheme("light")}
-                  className="flex-1"
-                >
-                  <Sun className="size-3.5" /> light
-                </Button>
+              <div className="flex items-center justify-between gap-3">
+                <LiquidSwitch
+                  checked={theme === "dark"}
+                  onCheckedChange={(next) => setTheme(next ? "dark" : "light")}
+                />
+                <span className="mono flex items-center gap-1.5 text-xs o-2">
+                  {theme === "dark" ? <Moon className="size-3.5" /> : <Sun className="size-3.5" />}
+                  {theme}
+                </span>
               </div>
             </div>
 

@@ -38,7 +38,7 @@ export default tseslint.config(
     // so vendored-only rules are relaxed here rather than patched in place.
     files: [
       "src/components/spaceui/**",
-      "src/components/shader/**",
+      "src/components/blocks/**",
       "src/components/orb/**",
       "src/components/ui/**",
       "src/lib/**",
@@ -52,6 +52,9 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "prefer-const": "off",
+      // Deliberate `catch {}` blocks — e.g. releasePointerCapture, which throws
+      // when the pointer is already gone. Written that way upstream.
+      "no-empty": "off",
     },
   },
 );

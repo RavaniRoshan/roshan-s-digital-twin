@@ -9,9 +9,11 @@ import { RackTable } from "@/components/RackTable";
 import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
 import { CopyButton } from "@/components/spaceui/copy";
 import { SignalRow } from "@/components/Glyph";
+import { Animoji } from "@/components/Animoji";
 import { Logo } from "@/components/Logo";
+import { SpotifyDock } from "@/components/SpotifyDock";
 import type { TickerItem } from "@/components/Ticker";
-import { site } from "@/content/site";
+import { site, type Track } from "@/content/site";
 
 const GitHubActivity = lazy(() =>
   import("@/components/spaceui/github-activity").then((m) => ({ default: m.GitHubActivity })),
@@ -163,11 +165,15 @@ function Deck() {
 export function Home() {
   const navigate = useNavigate();
   const open = useCallback((slug: string) => navigate(`/s/${slug}`), [navigate]);
+  const [playing, setPlaying] = useState<Track | null>(null);
 
   return (
     <Shell ticker={TICKER}>
       <Block id="about">
         <SectionLabel>position</SectionLabel>
+        <p className="mono mb-3 text-sm o-2">
+          <Animoji>hey 👋 — i build the unglamorous half of agent infrastructure</Animoji>
+        </p>
         <div className="space-y-4 text-sm leading-relaxed">
           <BlurRevealText
             text={site.identity.summary}
@@ -263,8 +269,8 @@ export function Home() {
                 key={t.url}
                 label={t.title}
                 badge={t.artist}
-                href={t.url}
-                value="play ↗"
+                value="play"
+                onSelect={() => setPlaying(t)}
                 lead={
                   <img
                     src={t.art}
@@ -283,7 +289,6 @@ export function Home() {
           <p className="mono mt-3 text-xs o-3">five that got me through the build</p>
         </Block>
       )}
-
       <Block id="credentials">
         <SectionLabel>credentials</SectionLabel>
         <div className="border-t">
@@ -335,6 +340,7 @@ export function Home() {
           versions.
         </p>
       </Block>
+      <SpotifyDock track={playing} onClose={() => setPlaying(null)} />
     </Shell>
   );
 }

@@ -254,6 +254,36 @@ export function Home() {
         </div>
       </Block>
 
+      {site.music.length > 0 && (
+        <Block id="music">
+          <SectionLabel>rotation</SectionLabel>
+          <div className="border-t">
+            {site.music.map((t) => (
+              <Row
+                key={t.url}
+                label={t.title}
+                badge={t.artist}
+                href={t.url}
+                value="play ↗"
+                lead={
+                  <img
+                    src={t.art}
+                    alt=""
+                    aria-hidden
+                    width={28}
+                    height={28}
+                    loading="lazy"
+                    decoding="async"
+                    className="size-7 shrink-0 rounded-[4px] object-cover"
+                  />
+                }
+              />
+            ))}
+          </div>
+          <p className="mono mt-3 text-xs o-3">five that got me through the build</p>
+        </Block>
+      )}
+
       <Block id="credentials">
         <SectionLabel>credentials</SectionLabel>
         <div className="border-t">

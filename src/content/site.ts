@@ -52,6 +52,25 @@ export interface SkillMatrix {
   items: { name: string; logo?: LogoId; level: "core" | "proficient" | "working" }[];
 }
 
+/**
+ * One row in the rotation section.
+ *
+ * Deliberately static. Spotify's top-tracks endpoint needs a registered client
+ * id plus a user OAuth refresh token, and this is a static Vite bundle with no
+ * server to hold either — anything embedded here would be readable by anyone who
+ * views source. The canonical URL and cover art are resolved once through
+ * Spotify's public oEmbed endpoint, which needs no key, and the art is committed
+ * locally so the page makes no third-party request at runtime.
+ */
+export interface Track {
+  title: string;
+  artist: string;
+  /** Canonical open.spotify.com track URL. */
+  url: string;
+  /** Cover art, committed under public/music. */
+  art: string;
+}
+
 export type LogoId =
   | "rust"
   | "python"
@@ -376,6 +395,43 @@ export const site = {
       ],
     },
   ] satisfies SkillMatrix[],
+
+  // Resolved through Spotify's public oEmbed endpoint, which needs no key, so
+  // no client id or token ends up in a public bundle. Cover art is pulled from
+  // the same CDN once, downscaled to 96px and committed under public/music —
+  // 17.6 KB for all five, against 638 KB at the 640px the CDN hands back.
+  music: [
+    {
+      title: "Ashke",
+      artist: "Karan Aujla, Mxrci",
+      url: "https://open.spotify.com/track/5vTJrmnmJMAvFjrUpUWxyy",
+      art: "/music/ashke.jpg",
+    },
+    {
+      title: "Barsaat Lagdi Ae",
+      artist: "Darshan Raval, Simran Choudhary, Youngveer",
+      url: "https://open.spotify.com/track/7xbRQfVgKHGyp5grJErFop",
+      art: "/music/barsaat.jpg",
+    },
+    {
+      title: "Company",
+      artist: "Justin Bieber",
+      url: "https://open.spotify.com/track/61uyGDPJ06MkxJtHgPmuyO",
+      art: "/music/company.jpg",
+    },
+    {
+      title: "Rehbara",
+      artist: "Abhijeet Srivastava, Shayra Apoorva",
+      url: "https://open.spotify.com/track/1q82k8tuu1t6t8H8zHMqWs",
+      art: "/music/rehbara.jpg",
+    },
+    {
+      title: "Be Honest",
+      artist: "Jorja Smith, Burna Boy",
+      url: "https://open.spotify.com/track/51aYPHVdOL9sIPOZj9dlXK",
+      art: "/music/behonest.jpg",
+    },
+  ] as Track[],
 
   credentials: [
     { title: "Claude Code in Action", issuer: "Anthropic", issued: "MAR 2026", href: "https://verify.skilljar.com/c/e6gqnx8xn2w5" },

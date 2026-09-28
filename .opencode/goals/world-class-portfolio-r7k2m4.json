@@ -59,37 +59,40 @@
     }
   ],
   "tasks": [
-    { "id": 1, "desc": "Correct factual errors in content/site.ts against verified GitHub data: forge-cpu is Zig (not Rust) and is a CPU MoE prefill engine; real star counts; real repo descriptions; add verified profile links (X @RoshanAIs, Instagram, Microsoft Learn badges, LinkedIn) and the four GitHub achievements", "status": "todo" },
-    { "id": 2, "desc": "Adopt the blueprint callout section language: numbered technical-drawing section headers (01 // POSITION, 02 // SYSTEMS ...) with corner ticks, replacing bare lowercase labels", "status": "todo" },
-    { "id": 3, "desc": "Build the signature device: a live, interactive token-budget / circuit-breaker demonstrator running client-side — Ravani's own backstop product, playable in the page. This is the 'the repo IS the portfolio' move, substituting for social proof he does not have", "status": "todo" },
-    { "id": 4, "desc": "Add authority-by-evidence surface: real GitHub achievement badges, commit activity, repo count, and a colophon page explaining how the site is built and verified", "status": "todo" },
-    { "id": 5, "desc": "Add a writing/notes surface so the site has a recency signal and a place to accumulate authority over time, seeded honestly with what exists today", "status": "todo" },
-    { "id": 6, "desc": "Accessibility and contrast audit across both themes: focus-visible rings, reduced-motion, heading order, alt text, and the gutter field honouring prefers-reduced-motion", "status": "todo" },
+    { "id": 1, "desc": "Correct factual errors in content/site.ts against verified GitHub data", "status": "done" },
+    { "id": 2, "desc": "Build the signature device: live client-side token-budget / circuit-breaker demonstrator", "status": "done" },
+    { "id": 3, "desc": "Authority-by-evidence surface: GitHub achievements + colophon", "status": "done" },
+    { "id": 4, "desc": "Adopt the blueprint callout section language: numbered technical-drawing section headers with corner ticks", "status": "todo" },
+    { "id": 5, "desc": "Add a writing/notes surface so the site has a recency signal", "status": "todo" },
+    { "id": 6, "desc": "Accessibility and contrast audit across both themes: focus-visible rings, reduced motion, heading order, alt text", "status": "todo" },
     { "id": 7, "desc": "Discoverability: OG/Twitter meta, canonical, JSON-LD Person schema with verified sameAs links, sitemap", "status": "todo" },
-    { "id": 8, "desc": "Information density pass: apply 'minimal is not sparse' — make each section denser with real signal without adding visual noise", "status": "todo" },
+    { "id": 8, "desc": "Information density pass: 'minimal is not sparse' — denser signal without visual noise", "status": "todo" },
     { "id": 9, "desc": "Final audit: full criteria batch in a real browser, both themes, mobile width, then commit and push", "status": "todo" }
   ],
-  "current_task": 1,
-  "iterations": 0,
-  "budget_used": 0,
+  "current_task": 4,
+  "iterations": 3,
+  "budget_used": 3,
   "max_iterations": 50,
   "negative_knowledge": [
-    "GitHub REST API returns 403 from this environment (both /users and /users/repos). Use firecrawl scrape of the profile HTML instead.",
+    "GitHub REST API returns 403 from this environment. Use firecrawl scrape of the profile HTML instead.",
+    "NEVER round-trip source files through PowerShell Get-Content/Set-Content. It adds a BOM and mangles em-dashes. Use the edit tool.",
+    "PowerShell's console renders UTF-8 em-dashes and middots as U+FFFD on output. A '?' in terminal output is NOT evidence of file corruption. Verify by decoding bytes with an explicit UTF8Encoding before concluding anything is broken.",
     "firecrawl_search/includeDomains=open.spotify.com returns mashups and wrong tracks; a literal user typo ('askhe') was the real title ('Ashke'). Always confirm track identity via oEmbed.",
     "vite preview serves dist, not source. A rebuild produces a NEW hashed filename; the browser can keep running the OLD bundle. Always hard-reload (location.reload(true)) after a rebuild before judging results.",
-    "The Paper Shader runtime sets premultipliedAlpha and blends (ONE, ONE_MINUS_SRC_ALPHA). Emitting unpremultiplied vec4(u_tint, a) makes u_opacity a no-op.",
     "SpaceUI registry: components are named 'components-spaceui-<name>' and blocks 'block-<name>-1'. Bare names return HTML and break shadcn add. A registry block that imports next/image cannot compile in this Vite SPA.",
-    "Math.min(clientX, innerWidth - clientX) is distance to the nearest EDGE, so a SMALL value means 'in the gutter'. Inverting this silently disables the cursor effect while still looking plausible."
+    "SpaceUI theme tokens are --color-info / --color-success / --color-warning. There is no --color-danger.",
+    "Math.min(clientX, innerWidth - clientX) is distance to the nearest EDGE, so a SMALL value means 'in the gutter'. Inverting this silently disables the cursor effect while still looking plausible.",
+    "The Paper Shader runtime sets premultipliedAlpha and blends (ONE, ONE_MINUS_SRC_ALPHA); unpremultiplied vec4(u_tint, a) makes u_opacity a no-op. Retired in favour of the DOM ProximityGrid.",
+    "useState(PRESETS[1].x) where PRESETS is 'as const' pins state to that single literal. Needs an explicit useState<number>."
   ],
   "research_findings": {
-    "source": "simonwillison.net scrape (delegated analysis) + firecrawl web search on top-tier 2026 portfolios",
-    "authority_model": "Simon Willison demonstrates authority by volume, recency and primary-source depth. No degrees, job titles or 'About me' credentials appear on his home page. Third-party quotes embedded as proof, not flattery.",
-    "structure": "Strictly linear single column. No tables, no grid. Home shows ~12 days of entries plus a curated 'Highlights' shelf; the deep archive is separate and year-indexed.",
-    "first_viewport": "No hero. Title plus a tag cloud with per-tag counts, so credibility precedes prose.",
-    "signature_devices": "Tag cloud with volume counts; quote-and-attribute entry type; curated Highlights shelf; Colophon and Disclosures footer links; a '$10/month digest' framed as 'Pay me to send you less!'",
-    "median_antipatterns": "Scroll-jacking parallax heroes, six animation libraries, multi-MB payloads, generic templates, 'About me' credential lists, star counts as a proxy for worth.",
-    "critical_fit_note": "Ravani has 2 followers and 7 total stars across 6 repos (verified). Social proof is genuinely unavailable, so the top-tier move is to substitute demonstrated engineering: make the site itself an instance of the systems he sells. Fanaperana's 'this repo IS the portfolio' is the exact precedent."
+    "source": "simonwillison.net scrape (delegated) + web search on top-tier 2026 portfolios",
+    "authority_model": "No credentials, degrees or job titles on the home page. Authority by volume, recency and primary-source depth. Third-party quotes embedded as proof, not flattery.",
+    "structure": "Strictly linear single column, no tables, no grid. ~12 days of entries plus a curated Highlights shelf; deep archive separate and year-indexed.",
+    "signature_devices": "Tag cloud with volume counts; quote-and-attribute entry type; curated Highlights; Colophon and Disclosures footer links.",
+    "median_antipatterns": "Scroll-jacking parallax heroes, multiple animation libraries, multi-MB payloads, 'About me' credential lists, star counts as a proxy for worth.",
+    "fit_note": "Ravani has 2 followers and 7 stars across 6 repos (verified). Social proof is unavailable and correctly omitted, so authority is substituted with demonstrated systems: the site now runs backstop's decision logic live in the page."
   },
-  "context_summary": "Goal: world-class portfolio for Ravani Roshan, benchmarked against top-tier engineer portfolios, committed in verified slices. Iteration 0: environment detected as OpenCode (no .kilo), state at .opencode/goals/. Research done. Verified Ravani's real footprint via GitHub profile scrape: 6 pinned repos (niki Rust, backstop Python, phantom Rust, policyctl TS, skillproof TS, forge-cpu Zig/Shell), 2 followers, achievements Pull Shark x3 / Pair Extraordinaire x3 / YOLO / Quickdraw, profile links X @RoshanAIs, Instagram tho_roshan, Microsoft Learn badges, LinkedIn. Found existing site.ts has forge-cpu mislabelled as Rust when GitHub says Zig. Key strategic conclusion: social proof unavailable and correctly omitted, so authority must come from demonstrated systems — signature device will be a live client-side token-budget/circuit-breaker demonstrator (his own backstop product). Starting task 1: factual corrections.",
+  "context_summary": "Goal: world-class portfolio for Ravani Roshan, committed in verified slices. ITERATION 1 (a274613): verified the whole content surface against the GitHub profile and repo list. Removed the unverifiable '189 public repos' claim (API 403, list paginated). Added five missing repos as 'also shipping' -- mini-llm-engine (from-scratch vLLM architecture), archguard (tree-sither ratchet), niko, carbonserve, t1-carbon-routing. Fixed LinkedIn handle, added Microsoft Learn badges, corrected four star counts. ITERATION 2 (0de97de): built the signature device, a live token-budget/circuit-breaker reducer. Verified by driving the state machine, not by eye: trips at exactly 4 consecutive failures then freezes at 4,878 remaining, proving calls are refused rather than charged. ITERATION 3 (01279a8): achievements (Pull Shark x3, Pair Extraordinaire x3, YOLO, Quickdraw) plus a colophon stating stack, fonts, gutter implementation and the absence of analytics/cookies/third-party scripts. Section order now about, systems, index, telemetry, capabilities, signals, lab, works, music, credentials, contact, colophon. Entry bundle 209.71 kB gzipped, under the 240 kB gate. Remaining: blueprint numbered section headers, writing/notes surface, a11y+contrast audit, SEO/JSON-LD, density pass, final audit. NOTE: three separate false-corruption alarms this session, all from PowerShell display and round-trip artefacts, not real damage -- see negative_knowledge.",
   "created_at": "2026-09-28T09:35:00Z"
 }

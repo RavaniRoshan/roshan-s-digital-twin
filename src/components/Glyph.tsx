@@ -10,17 +10,26 @@ const LABEL: Record<GlyphName, string> = {
 };
 
 /**
- * Four self-hosted glyphs for the signal row, sized to 1em so they sit on the
- * text baseline rather than beside it.
+ * Four self-hosted 3D glyphs for the signal row, sized to 1em so they sit on
+ * the text baseline rather than beside it. 15.5 KB of WebP in total.
  *
  * These replace SpaceUI's `Animoji`, which resolves through `@usespaceui/emoji`
  * — a 13 MB install (27 MB of dist plus a 14 MB manifest) carrying the entire
- * Unicode set, to render four characters. These four SVGs are 3.7 KB in total.
+ * Unicode set, to render four characters. It alone pushed the bundle from
+ * 552 kB to 1.66 MB.
+ *
+ * The four files came from SpaceUI's own emoji CDN, following the path shape in
+ * the package's own resolver:
+ *   https://cdn.spaceui.one/common/emoji/{source}/{type}/{codepoint}.{ext}
+ * with source=fluent, type=3d, ext=webp. The variation selector is part of the
+ * codepoint — 🏗️ is `1f3d7-fe0f`, not `1f3d7`, and omitting it 404s. Copied
+ * locally rather than hot-linked so there is no third-party runtime request and
+ * the files can never change underneath the page.
  */
 export function Glyph({ name, className }: { name: GlyphName; className?: string }) {
   return (
     <img
-      src={`/emoji/${name}.svg`}
+      src={`/emoji/${name}.webp`}
       alt={LABEL[name]}
       title={LABEL[name]}
       width={16}

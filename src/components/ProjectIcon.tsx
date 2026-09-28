@@ -17,7 +17,7 @@ const stroke = {
 };
 
 const GLYPHS: Record<string, Glyph> = {
-  // niki â€” hermetic sandbox: an isolated container holding a working agent.
+  // niki — hermetic sandbox: an isolated container holding a working agent.
   niki: {
     name: "sandbox",
     node: (
@@ -29,7 +29,7 @@ const GLYPHS: Record<string, Glyph> = {
     ),
   },
 
-  // backstop â€” budgets and circuit breaking: falling spend bars against a hard limit.
+  // backstop — budgets and circuit breaking: falling spend bars against a hard limit.
   backstop: {
     name: "budget",
     node: (
@@ -43,7 +43,7 @@ const GLYPHS: Record<string, Glyph> = {
     ),
   },
 
-  // policyctl â€” deterministic gate between the agent and the codebase.
+  // policyctl — deterministic gate between the agent and the codebase.
   policyctl: {
     name: "policy gate",
     node: (
@@ -55,7 +55,7 @@ const GLYPHS: Record<string, Glyph> = {
     ),
   },
 
-  // skillproof â€” a proof attached to a claim.
+  // skillproof — a proof attached to a claim.
   skillproof: {
     name: "proof",
     node: (
@@ -66,7 +66,7 @@ const GLYPHS: Record<string, Glyph> = {
     ),
   },
 
-  // phantom â€” works quietly in the background: a form that fades out of sight.
+  // phantom — works quietly in the background: a form that fades out of sight.
   phantom: {
     name: "background",
     node: (
@@ -80,7 +80,7 @@ const GLYPHS: Record<string, Glyph> = {
     ),
   },
 
-  // forge-cpu â€” mixture-of-experts routing inside a CPU die.
+  // forge-cpu — mixture-of-experts routing inside a CPU die.
   "forge-cpu": {
     name: "inference",
     node: (
@@ -118,7 +118,7 @@ export function ProjectMark({ slug, className }: { slug: string; className?: str
  * the one place where per-item colour is expected, like a home screen.
  *
  * niki and backstop only ever shipped wide wordmarks (200Ã—60 and 1200Ã—300) with
- * a baked background, which is unreadable inside a square tile â€” so they keep
+ * a baked background, which is unreadable inside a square tile — so they keep
  * the monoline mark here, and their real wordmark is used on the case-file page
  * where a wide lockup actually belongs. forge-cpu has no brand asset at all.
  */

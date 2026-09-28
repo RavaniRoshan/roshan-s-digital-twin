@@ -115,7 +115,7 @@ export function SystemPage() {
         <ul className="space-y-2.5">
           {system.approach.map((a) => (
             <li key={a} className="flex gap-3 text-sm leading-relaxed o-2">
-              <span className="text-chroma">â–¸</span>
+              <span className="text-chroma">→</span>
               {a}
             </li>
           ))}
@@ -124,7 +124,7 @@ export function SystemPage() {
         <ul className="space-y-2.5">
           {system.capabilities.map((c) => (
             <li key={c} className="flex gap-3 text-sm leading-relaxed o-2">
-              <span className="text-chroma">â–¸</span>
+              <span className="text-chroma">→</span>
               {c}
             </li>
           ))}

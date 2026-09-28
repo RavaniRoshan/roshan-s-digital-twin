@@ -46,7 +46,7 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {
     try {
       window.localStorage.setItem("rr:theme", JSON.stringify(t));
     } catch {
-      /* storage unavailable â€” theme still applies for this session */
+      /* storage unavailable — theme still applies for this session */
     }
   }, []);
 
@@ -55,7 +55,7 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {
     try {
       window.localStorage.setItem("rr:accent", JSON.stringify(a));
     } catch {
-      /* storage unavailable â€” accent still applies for this session */
+      /* storage unavailable — accent still applies for this session */
     }
   }, []);
 

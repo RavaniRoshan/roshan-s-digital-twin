@@ -75,14 +75,14 @@ export const site = {
     monogram: "RR",
     avatar: "https://avatars.githubusercontent.com/u/153442693?v=4",
     role: "AI systems builder",
-    discipline: "autonomous agents Â· reliability Â· developer infrastructure",
+    discipline: "autonomous agents · reliability · developer infrastructure",
     location: "Ahmedabad, IN",
     timezone: "Asia/Kolkata",
     shell: "ravani@agentforge:~$",
     summary:
       "I build autonomous agent systems, computer-use automation, and the infrastructure that keeps them dependable once they meet real tools, real users, and real-world constraints.",
     bio: [
-      "Most of my work sits one layer below the agent â€” the sandbox it runs in, the budget that bounds it, the policy that gates it. A demo proves an agent can act; infrastructure proves you can still operate it at 3am.",
+      "Most of my work sits one layer below the agent — the sandbox it runs in, the budget that bounds it, the policy that gates it. A demo proves an agent can act; infrastructure proves you can still operate it at 3am.",
       "That means hermetic execution, deterministic policy enforcement, token budgets enforced in-process, and observability that tells you why a run failed instead of just that it did.",
     ],
     statement:
@@ -102,7 +102,7 @@ export const site = {
   telemetry: [
     { label: "public repos", value: "189", status: "nominal" },
     { label: "flagship systems", value: "06", status: "active" },
-    { label: "core languages", value: "03", delta: "rust Â· py Â· ts", status: "nominal" },
+    { label: "core languages", value: "03", delta: "rust · py · ts", status: "nominal" },
     { label: "pinned stars", value: "03", status: "standby" },
   ] satisfies Telemetry[],
 
@@ -115,7 +115,7 @@ export const site = {
         "Isolated agents independently plan, code, test, and review inside Docker sandboxes, then hand you a reviewable git branch.",
       role: "flagship",
       language: "Rust",
-      runtime: "docker Â· podman",
+      runtime: "docker · podman",
       status: "active",
       stars: 2,
       license: "Apache-2.0",
@@ -123,15 +123,15 @@ export const site = {
       homepage: "https://niki-web.pages.dev",
       topics: ["multi-agent", "sandbox", "coding-agent", "byok", "rust"],
       capabilities: [
-        "Hermetic sandboxes â€” agents never touch the host or production",
-        "Plan â†’ code â†’ test â†’ review pipeline emitting reviewable branches",
+        "Hermetic sandboxes — agents never touch the host or production",
+        "Plan → code → test → review pipeline emitting reviewable branches",
         "Fire-and-forget execution with bring-your-own-key model access",
       ],
       problem:
         "Multi-agent coding tools usually grant every agent the same ambient authority on one machine. A single mis-planned agent can read the wrong secrets, clobber unrelated work, or burn a budget on a loop that will never converge.",
       approach: [
         "Each agent runs in its own disposable container with an explicit, minimal capability set.",
-        "Agents hand back git branches, not direct writes â€” a human or a reviewer merges.",
+        "Agents hand back git branches, not direct writes — a human or a reviewer merges.",
         "BYOK model access keeps spend attributable to a single run.",
       ],
     },
@@ -143,7 +143,7 @@ export const site = {
         "In-process token budgets, backpressure, retries, and circuit breakers that brake agent loops before cost, rate limits, or chaos take the wheel.",
       role: "reliability",
       language: "Python",
-      runtime: "openai Â· anthropic",
+      runtime: "openai · anthropic",
       status: "active",
       stars: 0,
       license: "MIT",
@@ -180,7 +180,7 @@ export const site = {
       topics: ["policy-engine", "ai-safety", "ai-governance", "typescript"],
       capabilities: [
         "Deterministic checks between agent intent and code mutation",
-        "Provider-agnostic â€” one runtime across agents and models",
+        "Provider-agnostic — one runtime across agents and models",
         "Policy-as-code for the tool layer, not just the prompt",
       ],
       problem:
@@ -207,7 +207,7 @@ export const site = {
       homepage: "https://skillproof-psi.vercel.app",
       topics: ["skills", "skill-management", "ai-safety", "typescript"],
       capabilities: [
-        "Open registry model â€” anyone can publish and verify skill proofs",
+        "Open registry model — anyone can publish and verify skill proofs",
         "Evidence-first trust for a skills ecosystem learning to self-police",
         "Pairs with policy-gated execution: prove it, then let it run",
       ],
@@ -216,7 +216,7 @@ export const site = {
       approach: [
         "Proofs are published openly so anyone can audit or dispute them.",
         "Verification is decoupled from authorship.",
-        "Complements policyctl â€” evidence before permission.",
+        "Complements policyctl — evidence before permission.",
       ],
     },
     {
@@ -227,7 +227,7 @@ export const site = {
         "A Rust-powered Windows automation agent built to work quietly in the background rather than take over the machine.",
       role: "automation",
       language: "Rust",
-      runtime: "windows Â· uia",
+      runtime: "windows · uia",
       status: "stable",
       stars: 0,
       license: "Apache-2.0",
@@ -239,7 +239,7 @@ export const site = {
         "Small, fast, dependable Rust footprint",
       ],
       problem:
-        "Most desktop automation visibly takes the machine over â€” the cursor moves, windows steal focus, and you cannot use your own computer while it works.",
+        "Most desktop automation visibly takes the machine over — the cursor moves, windows steal focus, and you cannot use your own computer while it works.",
       approach: [
         "Operate on background primitives instead of synthetic input.",
         "Keep the resident footprint small enough to leave running.",
@@ -254,7 +254,7 @@ export const site = {
         "Pushing CPU inference forward: state-of-the-art mixture-of-experts small-batch prefill in Zig, beating llama.cpp where Zig SOTA loses.",
       role: "research",
       language: "Zig",
-      runtime: "cpu Â· simd",
+      runtime: "cpu · simd",
       status: "research",
       stars: 0,
       href: "https://github.com/RavaniRoshan/forge-cpu",
@@ -278,7 +278,7 @@ export const site = {
     {
       id: "t1",
       date: "SEP 2026",
-      title: "skillproof â€” open registry of proof for agent skills",
+      title: "skillproof — open registry of proof for agent skills",
       body: "Launched the registry: agent skills publish verifiable evidence of what they do, so the ecosystem can audit before it trusts.",
       status: "shipped",
       href: "https://github.com/RavaniRoshan/skillproof",
@@ -286,7 +286,7 @@ export const site = {
     {
       id: "t2",
       date: "SEP 2026",
-      title: "niki â€” hermetic sandbox pipeline taking shape",
+      title: "niki — hermetic sandbox pipeline taking shape",
       body: "Isolated plan, code, test, and review agents running in disposable containers and returning reviewable git branches instead of touching the host.",
       status: "active",
       href: "https://github.com/RavaniRoshan/niki",
@@ -294,7 +294,7 @@ export const site = {
     {
       id: "t3",
       date: "SEP 2026",
-      title: "backstop â€” budgets enforced in-process",
+      title: "backstop — budgets enforced in-process",
       body: "Token budgets, backpressure, retries, and circuit breakers wired directly into the OpenAI and Anthropic call path so a runaway loop trips a breaker instead of a billing alert.",
       status: "active",
       href: "https://github.com/RavaniRoshan/backstop",
@@ -302,7 +302,7 @@ export const site = {
     {
       id: "t4",
       date: "SEP 2026",
-      title: "policyctl â€” deterministic policy runtime",
+      title: "policyctl — deterministic policy runtime",
       body: "Moved policy out of the prompt and onto the mutation path, where it evaluates as reviewable code and cannot be argued with by a model.",
       status: "active",
       href: "https://github.com/RavaniRoshan/policyctl",
@@ -310,7 +310,7 @@ export const site = {
     {
       id: "t5",
       date: "SEP 2026",
-      title: "forge-cpu â€” zig moe prefill experiment",
+      title: "forge-cpu — zig moe prefill experiment",
       body: "Started benchmarking hand-written mixture-of-experts small-batch prefill kernels against llama.cpp on CPU.",
       status: "active",
       href: "https://github.com/RavaniRoshan/forge-cpu",
@@ -318,7 +318,7 @@ export const site = {
     {
       id: "t6",
       date: "JUL 2026",
-      title: "phantom â€” background computer-use agent",
+      title: "phantom — background computer-use agent",
       body: "Shipped the Windows automation agent that works on background primitives instead of hijacking the desktop with synthetic input.",
       status: "shipped",
       href: "https://github.com/RavaniRoshan/phantom",
@@ -407,9 +407,9 @@ export const site = {
 
   education: [
     {
-      degree: "B.Tech â€” Computer Science Engineering",
+      degree: "B.Tech — Computer Science Engineering",
       institution: "Silver Oak University, Ahmedabad",
-      period: "2023 â€” PRESENT",
+      period: "2023 — PRESENT",
     },
   ],
 } as const;

@@ -1,23 +1,40 @@
 /**
- * Gutter field fragment shader for SpaceUI's Paper Shader runtime (WebGL2,
- * `#version 300 es`, so `fwidth` is core rather than an extension).
+ * Gutter field fragment shader for SpaceUI's Paper Shader runtime.
  *
- * The runtime injects `u_resolution` and `u_time`. `u_tint` and `u_opacity`
- * are ours and arrive through the component's `uniforms` prop.
+ * This is a WebGL2 pipeline: the runtime ships a vertex shader that already
+ * begins `#version 300 es`, and it does NOT prepend a version directive to the
+ * fragment stage — it only rewrites precision qualifiers. So this file has to
+ * declare its own version, and that means ES 3.00 syntax throughout: an
+ * explicit `out` for the fragment result, and `fwidth` available as core
+ * rather than behind the derivatives extension.
  *
- * Tuned for two tall, narrow side gutters around a 640px column: a fine grid
- * with the vertical rules weighted heavier, drifting slowly downward, so the
- * strips read as a moving data feed rather than wallpaper. Single colour, low
- * alpha — the whole point is that it never competes with the text.
+ * Getting either detail wrong is not a warning. A mismatched version pair fails
+ * to link, `program` stays null, and the runtime renders nothing while leaving
+ * a default-sized canvas in the DOM — which is exactly the "shader is
+ * invisible" symptom.
+ *
+ * The runtime sets `u_resolution` and `u_time`; `u_tint` and `u_opacity` are
+ * ours and arrive through the component's `uniforms` prop.
+ *
+ * Tuned for two tall, narrow gutters beside a 640px column: a fine grid with
+ * the vertical rules weighted heavier, drifting slowly downward, so the strips
+ * read as a moving data feed rather than wallpaper. Single colour, low alpha —
+ * the point is that it never competes with the text.
  */
-export const GUTTER_FRAGMENT = /* glsl */ `
+export const GUTTER_FRAGMENT = /* glsl */ `#version 300 es
 precision mediump float;
 
+in vec2 v_patternUV;
+
+uniform vec2  u_resolution;
 uniform float u_time;
 uniform vec3  u_tint;
 uniform float u_opacity;
+uniform float u_inner;   // normalised half-width of the column
 
-/** Antialiased line mask: 1.0 on a rule, 0.0 between rules. */
+out vec4 fragColor;
+
+/** Antialiased line mask: ~1.0 on a rule, 0.0 well away from it. */
 float rule(float coord, float density, float thickness) {
   float f = fract(coord * density - 0.5) - 0.5;
   float d = abs(f) / max(fwidth(coord * density), 0.0001);
@@ -27,22 +44,33 @@ float rule(float coord, float density, float thickness) {
 void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution.xy;
 
-  // Slow downward drift, plus a slower lateral sway so it never looks like a
+  // Slow downward drift plus a lateral sway, so the strips never look like a
   // conveyor belt.
   vec2 drift = vec2(sin(u_time * 0.05) * 0.012, u_time * 0.018);
 
-  float fine   = rule(uv.x + drift.x, 44.0, 1.0) * 0.30
-               + rule(uv.y + drift.y, 44.0, 1.0) * 0.18;
-  float heavy  = rule(uv.x + drift.x, 11.0, 1.0) * 0.34;
+  // One calm, sparse lattice at roughly 210px. An earlier pass ran a fine grid
+  // plus a denser "heavy" layer, which read as chain-link fence across a gutter
+  // this large rather than as depth.
+  float g = rule(uv.x + drift.x, 9.0, 0.5) * 0.55
+          + rule(uv.y + drift.y, 9.0, 0.5) * 0.45;
 
-  float a = (fine + heavy) * u_opacity;
+  float a = g * u_opacity;
 
-  // Fade out toward the top and bottom edges so the strips have no hard seam,
-  // and dim slightly toward the horizontal centre of each gutter.
-  a *= smoothstep(0.0, 0.18, uv.y) * (1.0 - smoothstep(0.82, 1.0, uv.y));
-  a *= 0.55 + 0.45 * (1.0 - abs(uv.x - 0.5) * 2.0);
+  // Rise away from the column's own hairline rather than starting at full
+  // strength against it, so the field reads as depth behind the layout.
+  float toColumn = abs(abs(uv.x - 0.5) - u_inner);
+  a *= smoothstep(0.0, 0.055, toColumn);
+
+  // Fade the top and bottom so the strips have no hard seam.
+  a *= smoothstep(0.0, 0.16, uv.y) * (1.0 - smoothstep(0.84, 1.0, uv.y));
 
   if (a < 0.002) discard;
-  gl_FragColor = vec4(u_tint, a);
+
+  // Premultiplied output. The runtime's context sets premultipliedAlpha, so it
+  // blends with (ONE, ONE_MINUS_SRC_ALPHA): the colour channels are added
+  // directly. Emitting an unpremultiplied vec4(u_tint, a) therefore paints the
+  // full accent at full strength and makes u_opacity a no-op — the field reads
+  // as saturated blue graph paper no matter how low the alpha is set.
+  fragColor = vec4(u_tint * a, a);
 }
 `;

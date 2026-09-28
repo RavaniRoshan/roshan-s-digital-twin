@@ -12,7 +12,7 @@ export function NotFound() {
   return (
     <Shell ticker={TICKER}>
       <Block id="fault">
-        <SectionLabel>fault Â· 404</SectionLabel>
+        <SectionLabel>fault · 404</SectionLabel>
         <h1 className="text-sm leading-relaxed font-semibold">null reference.</h1>
         <p className="mt-3 text-sm leading-relaxed o-2">
           That route resolves to nothing. The single column only has the index.

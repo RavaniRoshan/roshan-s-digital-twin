@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import PaperShader from "@/components/shader/paper-shader";
 import { GUTTER_FRAGMENT } from "@/lib/paperShader";
 import { usePrefs } from "@/hooks/usePrefs";
-import { cn } from "@/lib/utils";
 
 const COLUMN = 640;
 
@@ -49,6 +48,7 @@ export function GutterField() {
   const [ok, setOk] = useState<boolean | null>(null);
   const [tint, setTint] = useState<[number, number, number]>([0.5, 0.7, 0.9]);
   const [reduce, setReduce] = useState(false);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
     setOk(hasWebGL2());
@@ -63,23 +63,36 @@ export function GutterField() {
     setTint(readAccentRGB());
   }, [accent]);
 
-  if (ok === null) return null;
+  // Mount only after the browser has painted and gone quiet. A live WebGL
+  // context competing for the first frame is a direct LCP tax, and this layer
+  // is decoration — nothing above the fold depends on it.
+  useEffect(() => {
+    if (ok === null) return;
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 600));
+    const id = idle(() => setLive(true));
+    return () => {
+      if (window.cancelIdleCallback) window.cancelIdleCallback(id as number);
+    };
+  }, [ok]);
+
+  if (ok === null || !live) return null;
 
   return (
     <div
       aria-hidden
-      className={cn("gutter-mask pointer-events-none fixed inset-0 z-0", ok ? "" : "hidden")}
+      className="gutter-mask pointer-events-none fixed inset-0 z-0"
     >
       {ok ? (
         <PaperShader
           className="size-full"
           fragmentShader={GUTTER_FRAGMENT}
-          speed={reduce ? 0 : 1}
+          speed={reduce ? 0 : 0.5}
           minPixelRatio={1}
-          maxPixelCount={1_200_000}
+          maxPixelCount={900_000}
           uniforms={{
             u_tint: tint,
-            u_opacity: 0.5,
+            u_opacity: 0.06,
+            u_inner: (COLUMN / 2 + 1) / Math.max(window.innerWidth, 1),
           }}
         />
       ) : (

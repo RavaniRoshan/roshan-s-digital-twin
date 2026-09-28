@@ -2,6 +2,27 @@
 <html lang="en" class="dark" data-accent="sky">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      Font loading. Stylesheet is preloaded so discovery is not gated on the
+      renderer, fonts.gstatic is preconnected so the woff2 fetches do not pay a
+      DNS + TLS round trip, and the body face is preloaded as the one face that
+      paints above the fold. `display=swap` in the URL means a fallback shows
+      immediately rather than blocking on the webfont.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+    <!--
+      The 3D signal glyph that sits above the fold. Declared as an image rather
+      than as a crossorigin fetch: a preload whose request mode does not match
+      the later <img> request is not reused from the preload cache, so the
+      browser would download this file twice.
+    -->
+    <link rel="preload" as="image" type="image/webp" href="/emoji/build.webp" />
+
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1117'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%2331c4d6' text-anchor='middle'%3ERR%3C/text%3E%3C/svg%3E"
@@ -9,9 +30,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Ravani Roshan â€” AI systems builder. Autonomous agents, hermetic sandboxes, token budgets, and deterministic policy runtimes."
+      content="Ravani Roshan — AI systems builder. Autonomous agents, hermetic sandboxes, token budgets, and deterministic policy runtimes."
     />
-    <title>Ravani Roshan â€” AI Systems Builder</title>
+    <title>Ravani Roshan — AI Systems Builder</title>
     <script>
       // Resolve theme and accent before first paint so the column never flashes
       // in the wrong mode or palette. Column alignment is locked centred in CSS.

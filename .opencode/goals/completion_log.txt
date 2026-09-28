@@ -1,0 +1,73 @@
+GOAL COMPLETE — world-class-portfolio-r7k2m4
+Elapsed: 7 iterations. Budget: 7. Branch: main (deviation recorded in state).
+
+OBJECTIVE
+Rebuild Ravani Roshan's portfolio to world-class standard, benchmarked against
+the portfolios of the most recognised systems/AI engineers, committed in
+verified slices.
+
+DELIVERABLES AND EVIDENCE
+
+Slice 1 — a274613 — Corrected the record
+  Removed the unverifiable "189 public repos" claim. Evidence it was
+  unverifiable: the GitHub REST API returns 403 from this environment, and the
+  repository list is paginated, so the figure cannot be confirmed from here.
+  Added five absent repositories, descriptions taken from GitHub: mini-llm-engine
+  (from-scratch vLLM architecture), archguard (tree-sither ratchet), niko,
+  carbonserve, t1-carbon-routing. Corrected the LinkedIn handle, added the
+  Microsoft Learn badges link, brought four star counts to their real values.
+
+Slice 2 — 0de97de — Live budget / circuit-breaker demonstrator
+  backstop's decision logic running in the page. Verified by driving the state
+  machine, not by inspection: reports "1 of 4 failures before trip", trips at
+  exactly four, then holds at 4,878 remaining and six bars indefinitely. Calls
+  are refused rather than charged, which is the product's entire claim.
+
+Slice 3 — 01279a8 — Achievements and colophon
+  Pull Shark x3, Pair Extraordinaire x3, YOLO, Quickdraw. Colophon stating stack,
+  fonts, the gutter implementation, and the absence of analytics, cookies and
+  third-party scripts.
+
+Slice 4 — 16457a0 — Document outline, notes, numbering, sitemap, JSON-LD
+  Automated contrast sweep found zero WCAG AA failures in both themes but also
+  found the page had no headings whatsoever. Name is now the home h1, section
+  labels are real h2s, content sits in a main landmark, index numbers are
+  aria-hidden. Thirteen numbered callout sections. Four dated notes, seeded only
+  from shipped work. sitemap.xml emitted from the same origin constant llms.ts
+  already used. JSON-LD Person built from site.identity with four verified
+  sameAs profiles.
+
+Slice 5 — 07f5a8e — Derived telemetry, single h1 per route, dead-anchor fix
+  Telemetry now derives from the systems themselves and cannot drift. Case pages
+  and the 404 no longer ship a second h1. Ticker now respects its own href field,
+  which removes a dead anchor on the 404.
+
+CRITERIA — all must_pass verified in this run
+  Build                                    PASS  built in 5.68s
+  Lint zero errors                         PASS  0 errors, 24 pre-existing warnings
+  Tests                                    PASS  5/5
+  No encoding corruption (81 files)        PASS  0 U+FFFD via explicit UTF-8 decode
+  Entry bundle under 240 kB gzipped        PASS  211.28 kB
+  Cold load ships zero iframes             PASS  0
+  No next/ imports                         PASS  none present
+  No @usespaceui/emoji dependency          PASS  absent
+  Every system link reachable              PASS  18/18 return 200
+
+BROWSER AUDIT — /, /s/policyctl, /s/does-not-exist, both themes
+  contrast failures 0 · broken images 0 · images missing alt 0
+  links without noreferrer 0 · empty links 0 · dead anchors 0
+  exactly one h1 per route · main landmark present · 13 numbered sections
+
+KNOWN LIMITATIONS
+  LinkedIn returns 405 to HEAD requests. That is LinkedIn refusing the method,
+  not a dead link; the URL is the one listed on the GitHub profile.
+  The deployed origin https://ravani-roshan.pages.dev was taken from llms.ts,
+  the only place the repo records it. There is no deploy config or CNAME. If the
+  site moves, that constant is the single place to change.
+  Viewport resizing is not available in the browser tool, so 390px was reasoned
+  about rather than measured. The column is fluid with no fixed breakpoints and
+  the grid sections are single-column below sm.
+
+WHAT NO SCAFFOLDING SUBSTITUTES FOR
+  The notes section is a mechanism, not a habit. Its value is that it accrues a
+  recency and volume signal, and that only happens if it is written into.

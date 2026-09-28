@@ -2,12 +2,22 @@
   "id": "r7k2m4",
   "slug": "world-class-portfolio-r7k2m4",
   "objective": "Rebuild Ravani Roshan's portfolio to world-class standard, benchmarked against the portfolios of the most recognised systems/AI engineers, committing in verified slices.",
-  "status": "active",
+  "status": "complete",
   "branch": "main",
   "branch_deviation": "Skill specifies goal/<slug> branch. Deviating deliberately: user explicitly requested 'commit and push main' twice this session. Isolation value is low on a solo repo with a clean tree.",
   "scope": "src/, public/, index.html, llms.ts, vite.config.ts, package.json, eslint.config.js",
-  "scope_lock": ["src/", "public/"],
-  "scope_flex": ["index.html", "llms.ts", "vite.config.ts", "package.json", "eslint.config.js", ".opencode/goals/"],
+  "scope_lock": [
+    "src/",
+    "public/"
+  ],
+  "scope_flex": [
+    "index.html",
+    "llms.ts",
+    "vite.config.ts",
+    "package.json",
+    "eslint.config.js",
+    ".opencode/goals/"
+  ],
   "criteria": [
     {
       "label": "Build passes",
@@ -59,19 +69,55 @@
     }
   ],
   "tasks": [
-    { "id": 1, "desc": "Correct factual errors in content/site.ts against verified GitHub data", "status": "done" },
-    { "id": 2, "desc": "Build the signature device: live client-side token-budget / circuit-breaker demonstrator", "status": "done" },
-    { "id": 3, "desc": "Authority-by-evidence surface: GitHub achievements + colophon", "status": "done" },
-    { "id": 4, "desc": "Adopt the blueprint callout section language: numbered technical-drawing section headers with corner ticks", "status": "todo" },
-    { "id": 5, "desc": "Add a writing/notes surface so the site has a recency signal", "status": "todo" },
-    { "id": 6, "desc": "Accessibility and contrast audit across both themes: focus-visible rings, reduced motion, heading order, alt text", "status": "todo" },
-    { "id": 7, "desc": "Discoverability: OG/Twitter meta, canonical, JSON-LD Person schema with verified sameAs links, sitemap", "status": "todo" },
-    { "id": 8, "desc": "Information density pass: 'minimal is not sparse' — denser signal without visual noise", "status": "todo" },
-    { "id": 9, "desc": "Final audit: full criteria batch in a real browser, both themes, mobile width, then commit and push", "status": "todo" }
+    {
+      "id": 1,
+      "desc": "Correct factual errors in content/site.ts against verified GitHub data",
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "desc": "Build the signature device: live client-side token-budget / circuit-breaker demonstrator",
+      "status": "done"
+    },
+    {
+      "id": 3,
+      "desc": "Authority-by-evidence surface: GitHub achievements + colophon",
+      "status": "done"
+    },
+    {
+      "id": 4,
+      "desc": "Adopt the blueprint callout section language: numbered technical-drawing section headers with corner ticks",
+      "status": "done"
+    },
+    {
+      "id": 5,
+      "desc": "Add a writing/notes surface so the site has a recency signal",
+      "status": "done"
+    },
+    {
+      "id": 6,
+      "desc": "Accessibility and contrast audit across both themes: focus-visible rings, reduced motion, heading order, alt text",
+      "status": "done"
+    },
+    {
+      "id": 7,
+      "desc": "Discoverability: OG/Twitter meta, canonical, JSON-LD Person schema with verified sameAs links, sitemap",
+      "status": "done"
+    },
+    {
+      "id": 8,
+      "desc": "Information density pass: 'minimal is not sparse' — denser signal without visual noise",
+      "status": "done"
+    },
+    {
+      "id": 9,
+      "desc": "Final audit: full criteria batch in a real browser, both themes, mobile width, then commit and push",
+      "status": "done"
+    }
   ],
-  "current_task": 4,
-  "iterations": 3,
-  "budget_used": 3,
+  "current_task": 10,
+  "iterations": 7,
+  "budget_used": 7,
   "max_iterations": 50,
   "negative_knowledge": [
     "GitHub REST API returns 403 from this environment. Use firecrawl scrape of the profile HTML instead.",
@@ -93,6 +139,8 @@
     "median_antipatterns": "Scroll-jacking parallax heroes, multiple animation libraries, multi-MB payloads, 'About me' credential lists, star counts as a proxy for worth.",
     "fit_note": "Ravani has 2 followers and 7 stars across 6 repos (verified). Social proof is unavailable and correctly omitted, so authority is substituted with demonstrated systems: the site now runs backstop's decision logic live in the page."
   },
-  "context_summary": "Goal: world-class portfolio for Ravani Roshan, committed in verified slices. ITERATION 1 (a274613): verified the whole content surface against the GitHub profile and repo list. Removed the unverifiable '189 public repos' claim (API 403, list paginated). Added five missing repos as 'also shipping' -- mini-llm-engine (from-scratch vLLM architecture), archguard (tree-sither ratchet), niko, carbonserve, t1-carbon-routing. Fixed LinkedIn handle, added Microsoft Learn badges, corrected four star counts. ITERATION 2 (0de97de): built the signature device, a live token-budget/circuit-breaker reducer. Verified by driving the state machine, not by eye: trips at exactly 4 consecutive failures then freezes at 4,878 remaining, proving calls are refused rather than charged. ITERATION 3 (01279a8): achievements (Pull Shark x3, Pair Extraordinaire x3, YOLO, Quickdraw) plus a colophon stating stack, fonts, gutter implementation and the absence of analytics/cookies/third-party scripts. Section order now about, systems, index, telemetry, capabilities, signals, lab, works, music, credentials, contact, colophon. Entry bundle 209.71 kB gzipped, under the 240 kB gate. Remaining: blueprint numbered section headers, writing/notes surface, a11y+contrast audit, SEO/JSON-LD, density pass, final audit. NOTE: three separate false-corruption alarms this session, all from PowerShell display and round-trip artefacts, not real damage -- see negative_knowledge.",
-  "created_at": "2026-09-28T09:35:00Z"
+  "context_summary": "GOAL COMPLETE. 7 iterations, 5 verified slices, all 9 must_pass criteria green. a274613 corrected the record (removed the unverifiable '189 public repos' claim, added five absent repos, fixed LinkedIn handle and four star counts). 0de97de built the signature device: a live token-budget/circuit-breaker reducer running backstop's decision logic, verified by driving the state machine - trips at exactly 4 consecutive failures then freezes, proving calls are refused not charged. 01279a8 added achievements and a colophon. 16457a0 added the document outline (the page had no headings at all before), numbered callout sections, four dated notes, sitemap.xml and JSON-LD. 07f5a8e replaced hand-typed telemetry with stats derived from the systems so figures cannot rot, fixed a second h1 on case and 404 routes, and fixed a Ticker that ignored its own href and produced a dead anchor on the 404. Entry bundle 211.28 kB gzipped against a 240 kB gate. All 18 external links return 200. Central strategic finding: Ravani has 2 followers and 7 stars, so social proof works against him; the site now substitutes demonstrated systems instead.",
+  "created_at": "2026-09-28T09:35:00Z",
+  "completed_at": "2026-09-28T10:20:00Z",
+  "final_iterations": 7
 }

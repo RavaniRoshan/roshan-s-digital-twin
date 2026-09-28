@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -25,23 +25,26 @@
 :root {
   --radius: 0.25rem;
 
-  --background: hsl(36 22% 95%);
-  --foreground: hsl(24 12% 10%);
+  --background: hsl(40 20% 97%);
+  --foreground: hsl(215 25% 12%);
 
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(24 12% 10%);
+  --card-foreground: hsl(215 25% 12%);
 
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(24 12% 10%);
+  --popover-foreground: hsl(215 25% 12%);
 
-  --secondary: hsl(34 16% 89%);
-  --secondary-foreground: hsl(24 12% 10%);
+  --primary: hsl(192 78% 27%);
+  --primary-foreground: hsl(40 20% 97%);
 
-  --muted: hsl(34 16% 89%);
-  --muted-foreground: hsl(24 8% 42%);
+  --secondary: hsl(40 12% 92%);
+  --secondary-foreground: hsl(215 25% 12%);
 
-  --accent: hsl(34 16% 89%);
-  --accent-foreground: hsl(25 88% 33%);
+  --muted: hsl(40 12% 92%);
+  --muted-foreground: hsl(215 12% 42%);
+
+  --accent: hsl(40 12% 92%);
+  --accent-foreground: hsl(192 78% 27%);
 
   --destructive: hsl(0 65% 45%);
   --destructive-foreground: hsl(0 0% 100%);
@@ -54,35 +57,42 @@
   --error: hsl(0 65% 45%);
   --error-foreground: hsl(0 0% 100%);
 
-  --border: hsl(24 12% 10% / 0.11);
-  --input: hsl(24 12% 10% / 0.16);
-  --ring: hsl(25 88% 33% / 0.5);
-  --pill-active-bg: hsl(24 12% 10% / 0.08);
+  --border: hsl(215 15% 12% / 0.11);
+  --input: hsl(215 15% 12% / 0.16);
+  --ring: hsl(192 78% 27% / 0.5);
+  --pill-active-bg: hsl(215 15% 12% / 0.08);
 
-  --accent-chroma: hsl(25 88% 33%);
-  --accent-chroma-fg: hsl(36 22% 95%);
+  --accent-chroma: hsl(192 78% 27%);
+  --accent-chroma-fg: hsl(40 20% 97%);
 
-  /* column vars retired — alignment is locked centred in .column */
+  /* layout vars driven by the control panel */
+  --column-ml: 0px;
+  --column-mr: auto;
+  --column-bl: none;
+  --column-br: 1px solid var(--border);
 }
 
 .dark {
-  --background: hsl(0 0% 4%);
-  --foreground: hsl(0 0% 96%);
+  --background: hsl(215 28% 7%);
+  --foreground: hsl(210 25% 92%);
 
-  --card: hsl(0 0% 8%);
-  --card-foreground: hsl(0 0% 96%);
+  --card: hsl(215 22% 12%);
+  --card-foreground: hsl(210 25% 92%);
 
-  --popover: hsl(0 0% 7%);
-  --popover-foreground: hsl(0 0% 96%);
+  --popover: hsl(215 22% 11%);
+  --popover-foreground: hsl(210 25% 92%);
 
-  --secondary: hsl(0 0% 14%);
-  --secondary-foreground: hsl(0 0% 96%);
+  --primary: hsl(186 67% 51%);
+  --primary-foreground: hsl(215 28% 7%);
 
-  --muted: hsl(0 0% 13%);
-  --muted-foreground: hsl(0 0% 62%);
+  --secondary: hsl(215 20% 17%);
+  --secondary-foreground: hsl(210 25% 92%);
 
-  --accent: hsl(0 0% 14%);
-  --accent-foreground: hsl(37 91% 55%);
+  --muted: hsl(215 20% 16%);
+  --muted-foreground: hsl(210 16% 68%);
+
+  --accent: hsl(215 20% 17%);
+  --accent-foreground: hsl(186 67% 58%);
 
   --destructive: hsl(0 62% 48%);
   --destructive-foreground: hsl(0 0% 100%);
@@ -95,51 +105,11 @@
   --error: hsl(0 62% 48%);
   --error-foreground: hsl(0 0% 100%);
 
-  --border: hsl(0 0% 96% / 0.11);
-  --input: hsl(0 0% 96% / 0.16);
-  --ring: hsl(37 91% 55% / 0.55);
-  --pill-active-bg: hsl(0 0% 96% / 0.1);
-
-  --accent-chroma: hsl(37 91% 55%);
-  --accent-chroma-fg: hsl(0 0% 4%);
-}
-
-/* cyan — cold blue-grey. Previously the default; now an explicit family. */
-[data-accent="cyan"] {
-  --background: hsl(40 20% 97%);
-  --foreground: hsl(215 25% 12%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(215 25% 12%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(215 25% 12%);
-  --secondary: hsl(40 12% 92%);
-  --secondary-foreground: hsl(215 25% 12%);
-  --muted: hsl(40 12% 92%);
-  --muted-foreground: hsl(215 12% 42%);
-  --accent: hsl(40 12% 92%);
-  --accent-foreground: hsl(192 78% 27%);
-  --border: hsl(215 15% 12% / 0.11);
-  --input: hsl(215 15% 12% / 0.16);
-  --pill-active-bg: hsl(215 15% 12% / 0.08);
-  --accent-chroma: hsl(192 78% 27%);
-  --accent-chroma-fg: hsl(40 20% 97%);
-}
-.dark[data-accent="cyan"] {
-  --background: hsl(215 28% 7%);
-  --foreground: hsl(210 25% 92%);
-  --card: hsl(215 22% 12%);
-  --card-foreground: hsl(210 25% 92%);
-  --popover: hsl(215 22% 11%);
-  --popover-foreground: hsl(210 25% 92%);
-  --secondary: hsl(215 20% 17%);
-  --secondary-foreground: hsl(210 25% 92%);
-  --muted: hsl(215 20% 16%);
-  --muted-foreground: hsl(210 16% 68%);
-  --accent: hsl(215 20% 17%);
-  --accent-foreground: hsl(186 67% 58%);
   --border: hsl(210 25% 92% / 0.11);
   --input: hsl(210 25% 92% / 0.16);
+  --ring: hsl(186 67% 51% / 0.55);
   --pill-active-bg: hsl(210 25% 92% / 0.1);
+
   --accent-chroma: hsl(186 67% 51%);
   --accent-chroma-fg: hsl(215 28% 7%);
 }
@@ -175,9 +145,16 @@
   --color-chroma: var(--accent-chroma);
   --color-chroma-foreground: var(--accent-chroma-fg);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* TYPE SYSTEM
+     Instrument Sans  — body/UI. Narrower apertures than Inter, so the 640px
+                         column holds more without feeling loose.
+     Instrument Serif — the name and section labels only. Gives the column an
+                         editorial register the all-sans version lacked.
+     IBM Plex Mono    — readouts, the ticker, micro-labels. Machine-drawn, which
+                         suits a build log; JetBrains Mono read as startup. */
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 1px);
@@ -353,10 +330,13 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-size: 0.875rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* The foundation carries no display type — headings match body scale. */
+  /* The foundation carries almost no display type. Headings inherit body
+     scale by default; only the name and section labels opt into the serif. */
   h1,
   h2,
   h3,
@@ -367,6 +347,12 @@
     font-size: inherit;
     font-weight: inherit;
     letter-spacing: inherit;
+  }
+
+  .serif {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
 
   ::selection {
@@ -381,13 +367,15 @@
 }
 
 @layer utilities {
-  /* The column is locked centred. Alignment is deliberately not a control:
-     the asymmetry of a 640px column against a hard centre is the layout. */
+  /* The off-centre column. Position is CSS-var driven by the control panel. */
   .column {
-    margin-left: auto;
-    margin-right: auto;
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
+    margin-left: var(--column-ml);
+    margin-right: var(--column-mr);
+    border-left: var(--column-bl);
+    border-right: var(--column-br);
+    transition:
+      margin 0.4s ease,
+      border-color 0.3s ease;
   }
 
   /* Film grain, fixed above everything, never interactive. */
@@ -430,6 +418,8 @@
 
   .mono {
     font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
     font-variant-numeric: tabular-nums;
   }
 
@@ -444,16 +434,23 @@
     opacity: 0.5;
   }
 
-  .glass {
+  /* Flat bordered surface. Deliberately not glassmorphism — a blurred,
+     gradient-swept chip reads as generated. Hairline + fill only. */
+  .flat {
     border: 1px solid var(--color-border);
-    background: color-mix(in oklab, var(--color-background) 82%, transparent);
-    backdrop-filter: blur(8px);
+    background: color-mix(in oklab, var(--color-foreground) 3%, transparent);
+    border-radius: 3px;
+  }
+
+  .flat-hair {
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
   }
 
   .poster {
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
   }
 
   .no-scrollbar {

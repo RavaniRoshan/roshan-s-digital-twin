@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react";
+﻿import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -8,8 +8,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ACCENTS, usePrefs, type Accent } from "@/hooks/usePrefs";
+import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
+import { ACCENTS, usePrefs, type Accent, type ColumnAlign } from "@/hooks/usePrefs";
 import { cn } from "@/lib/utils";
+
+const ALIGNMENTS: { id: ColumnAlign; label: string }[] = [
+  { id: "left", label: "left" },
+  { id: "center", label: "center" },
+  { id: "right", label: "right" },
+];
 
 function Sliders() {
   return (
@@ -34,7 +41,7 @@ function Sliders() {
 }
 
 export function ControlPanel() {
-  const { theme, accent, setTheme, setAccent } = usePrefs();
+  const { theme, align, accent, setTheme, setAlign, setAccent } = usePrefs();
 
   return (
     <Sheet>
@@ -43,7 +50,7 @@ export function ControlPanel() {
           <Button
             variant="outline"
             size="icon-sm"
-            className="glass fixed top-6 right-4 z-50 rounded-[4px] lg:top-8 lg:right-6"
+            className="flat fixed top-6 right-4 z-50 lg:top-8 lg:right-6"
           />
         }
       >
@@ -88,7 +95,7 @@ export function ControlPanel() {
                     onClick={() => setAccent(a.id as Accent)}
                     aria-pressed={accent === a.id}
                     className={cn(
-                      "glass flex cursor-pointer flex-col items-center gap-1.5 rounded px-1 py-2 transition-opacity",
+                      "flat flex cursor-pointer flex-col items-center gap-1.5 px-1 py-2 transition-opacity",
                       accent === a.id ? "o-1" : "o-3 hover:o-2",
                     )}
                   >
@@ -101,15 +108,24 @@ export function ControlPanel() {
                 ))}
               </div>
               <p className="mt-2 text-xs o-3">
-                {ACCENTS.find((a) => a.id === accent)?.note} · swaps neutrals and accent together
+                {ACCENTS.find((a) => a.id === accent)?.note} Â· swaps neutrals and accent together
               </p>
             </div>
 
             <div>
               <p className="mono mb-2 text-xs tracking-[0.14em] o-3 uppercase">column</p>
-              <p className="rounded border px-3 py-2 text-xs o-2">
-                Locked centred at 640px. Alignment is not a control — the hard centre edge is
-                part of the layout.
+              <Tabs value={align} onValueChange={(v) => setAlign(v as ColumnAlign)}>
+                <TabsList variant="underline" className="w-full">
+                  {ALIGNMENTS.map((a) => (
+                    <TabsTab key={a.id} value={a.id} className={cn("flex-1 font-mono text-xs")}>
+                      {a.label}
+                    </TabsTab>
+                  ))}
+                </TabsList>
+              </Tabs>
+              <p className="mt-2 text-xs o-3">
+                Stays 640px wide. This slides it against the viewport and shifts which hairline is
+                drawn. Centered on load.
               </p>
             </div>
 
@@ -119,7 +135,7 @@ export function ControlPanel() {
                 {[
                   ["shell", "base-ui + motion"],
                   ["registry", "spaceui"],
-                  ["column", "640px / centred"],
+                  ["columns", "640px / fixed"],
                   ["routing", "single column"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4">

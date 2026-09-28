@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type TickerItem = {
@@ -11,9 +11,13 @@ export type TickerItem = {
 /**
  * Full-bleed marquee. In the reference this is an ambient "now playing" strip;
  * here it doubles as the section index — the only navigation the layout needs.
+ *
+ * The reference renders a canvas waveform behind the strip. Dropped: at 640px it
+ * read as a stray ripple rather than a signal, and it was the only animated
+ * element visible in light mode. The strip now carries the hairline and nothing
+ * else.
  */
 export function Ticker({ items, label }: { items: TickerItem[]; label: string }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState(items[0]?.id ?? "");
 
   useEffect(() => {
@@ -33,72 +37,10 @@ export function Ticker({ items, label }: { items: TickerItem[]; label: string })
     return () => observer.disconnect();
   }, [items]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let raf = 0;
-    let t = 0;
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-    };
-
-    const draw = () => {
-      const w = canvas.width;
-      const h = canvas.height;
-      ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = "currentColor";
-      ctx.globalAlpha = 0.14;
-      ctx.lineWidth = dpr;
-      ctx.beginPath();
-      const bars = 64;
-      for (let i = 0; i <= bars; i++) {
-        const x = (i / bars) * w;
-        const amp = reduce ? 0.06 : 0.16;
-        const y =
-          h / 2 +
-          Math.sin(i * 0.42 + t) * h * amp * (0.4 + 0.6 * Math.abs(Math.sin(i * 0.11 + t * 0.5)));
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    };
-
-    const loop = () => {
-      t += reduce ? 0 : 0.035;
-      draw();
-      raf = requestAnimationFrame(loop);
-    };
-
-    resize();
-    draw();
-    if (!reduce) raf = requestAnimationFrame(loop);
-
-    const onResize = () => {
-      resize();
-      draw();
-    };
-    window.addEventListener("resize", onResize);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-
   return (
     <div className="relative w-full overflow-hidden border-y text-foreground">
-      <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />
-
       <div
-        className="animate-ticker relative flex w-max whitespace-nowrap py-2"
+        className="animate-ticker relative flex w-max whitespace-nowrap py-2.5"
         style={{ willChange: "transform" }}
       >
         {[0, 1].map((copy) => (

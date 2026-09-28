@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { Shell } from "@/components/Shell";
 import { Block, SectionLabel } from "@/components/Rows";
 import type { TickerItem } from "@/components/Ticker";
@@ -12,14 +12,14 @@ export function NotFound() {
   return (
     <Shell ticker={TICKER}>
       <Block id="fault">
-        <SectionLabel>fault · 404</SectionLabel>
+        <SectionLabel>fault Â· 404</SectionLabel>
         <h1 className="text-sm leading-relaxed font-semibold">null reference.</h1>
         <p className="mt-3 text-sm leading-relaxed o-2">
           That route resolves to nothing. The single column only has the index.
         </p>
         <Link
           to="/"
-          className="glass mt-5 inline-block rounded px-3 py-2 text-sm transition-colors hover:border-chroma/50"
+          className="flat mt-5 inline-block px-3 py-2 text-sm transition-colors hover:border-chroma/50"
         >
           return to index
         </Link>

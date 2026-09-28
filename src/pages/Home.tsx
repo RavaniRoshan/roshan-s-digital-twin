@@ -1,17 +1,14 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Mail } from "lucide-react";
 import { LoadingOrb } from "@/components/orb/loading";
 import { Block, Row, SectionLabel, SquareControl } from "@/components/Rows";
 import { Shell } from "@/components/Shell";
-import { IconGrid } from "@/components/IconGrid";
-import { RackTable } from "@/components/RackTable";
-import { BouncyAccordion } from "@/components/spaceui/bouncy-accordion";
+import { SystemDialog } from "@/components/SystemDialog";
 import { BlurRevealText } from "@/components/spaceui/blur-reveal-text";
 import { CopyButton } from "@/components/spaceui/copy";
-import { GlassButton } from "@/components/spaceui/glass-button";
+import { Logo, languageLogo } from "@/components/Logo";
 import type { TickerItem } from "@/components/Ticker";
-import { site } from "@/content/site";
+import { site, type System } from "@/content/site";
 
 const GitHubActivity = lazy(() =>
   import("@/components/spaceui/github-activity").then((m) => ({ default: m.GitHubActivity })),
@@ -21,8 +18,7 @@ const email = "ravaniroshansingh@gmail.com";
 
 const TICKER: TickerItem[] = [
   { id: "about", label: "about", meta: "position", href: "#about" },
-  { id: "systems", label: "rack", meta: `${site.systems.length} builds`, href: "#systems" },
-  { id: "index", label: "index", meta: "sortable", href: "#index" },
+  { id: "systems", label: "systems", meta: `${site.systems.length} builds`, href: "#systems" },
   { id: "telemetry", label: "telemetry", meta: "live", href: "#telemetry" },
   { id: "credentials", label: "credentials", meta: `${site.credentials.length}`, href: "#credentials" },
 ];
@@ -158,8 +154,8 @@ function Deck() {
 }
 
 export function Home() {
-  const navigate = useNavigate();
-  const open = useCallback((slug: string) => navigate(`/s/${slug}`), [navigate]);
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const active: System | null = site.systems.find((s) => s.slug === openSlug) ?? null;
 
   return (
     <Shell ticker={TICKER}>
@@ -184,26 +180,23 @@ export function Home() {
       </Block>
 
       <Block id="systems">
-        <SectionLabel>rack</SectionLabel>
-        <IconGrid onOpen={open} />
-        <div className="mt-6 border-t">
-          {site.systems.map((s) => (
-            <Row
-              key={s.slug}
-              label={s.codename}
-              badge={s.status}
-              value={s.language}
-              onSelect={() => open(s.slug)}
-            />
-          ))}
+        <SectionLabel>systems</SectionLabel>
+        <div className="border-t">
+          {site.systems.map((s) => {
+            const mark = languageLogo(s.language);
+            return (
+              <Row
+                key={s.slug}
+                label={s.codename}
+                badge={s.status}
+                value={s.language}
+                lead={mark ? <Logo id={mark} title={s.language} className="o-2" /> : undefined}
+                onSelect={() => setOpenSlug(s.slug)}
+              />
+            );
+          })}
         </div>
-        <p className="mt-3 text-xs o-3">tap an icon or a row to open its case file</p>
-      </Block>
-
-      <Block id="index">
-        <SectionLabel>rack index</SectionLabel>
-        <RackTable onOpen={open} />
-        <p className="mt-3 text-xs o-3">sortable · click any row for the case file</p>
+        <p className="mt-3 text-xs o-3">select a system to open its case file</p>
       </Block>
 
       <Block id="telemetry">
@@ -211,32 +204,29 @@ export function Home() {
         <Deck />
       </Block>
 
-      <Block id="approach">
-        <SectionLabel>operating principles</SectionLabel>
-        <BouncyAccordion
-          defaultValue={0}
-          className="[&_li]:border-t [&_li]:border-b [&_li:first-child]:border-t-0 [&_[data-slot=button]]:rounded-none [&_[data-slot=button]]:px-0 [&_[data-slot=button]]:font-semibold [&_div.rounded-lg]:rounded-none [&_div.rounded-lg]:border [&_div.rounded-lg]:bg-transparent [&_div.rounded-lg]:px-0 [&_div.rounded-lg]:pt-1"
-          items={site.principles.map((p, i) => ({
-            title: `${String(i + 1).padStart(2, "0")} · ${p.title}`,
-            description: p.body,
-          }))}
-        />
-      </Block>
-
       <Block id="capabilities">
         <SectionLabel>capabilities</SectionLabel>
-        <div className="space-y-5">
+        <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
           {site.skills.map((track) => (
             <div key={track.track}>
-              <p className="mono mb-2 text-xs o-3">{track.track}</p>
-              <ul className="flex flex-wrap gap-1.5">
+              <p className="mono mb-2.5 o-3">{track.track}</p>
+              <ul>
                 {track.items.map((item) => (
                   <li
                     key={item.name}
-                    className="glass rounded-full px-2.5 py-1 text-xs"
-                    style={{ opacity: item.level === "core" ? 1 : item.level === "proficient" ? 0.7 : 0.5 }}
+                    className="flex items-center gap-2.5 border-b py-1.5"
+                    style={{
+                      opacity:
+                        item.level === "core" ? 1 : item.level === "proficient" ? 0.72 : 0.5,
+                    }}
                   >
-                    {item.name}
+                    {item.logo ? (
+                      <Logo id={item.logo} title={item.name} />
+                    ) : (
+                      <span className="size-4 shrink-0" aria-hidden />
+                    )}
+                    <span className="flex-1 truncate text-sm">{item.name}</span>
+                    <span className="mono o-3">{item.level.slice(0, 4)}</span>
                   </li>
                 ))}
               </ul>
@@ -264,22 +254,31 @@ export function Home() {
       <Block id="contact">
         <SectionLabel>contact</SectionLabel>
         <div className="flex flex-wrap items-center gap-2">
-          <GlassButton size="sm" render={<a href={`mailto:${email}`} />}>
+          <a
+            href={`mailto:${email}`}
+            className="flat flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:border-chroma/50"
+          >
             <Mail className="size-3.5" /> email
-          </GlassButton>
+          </a>
           <CopyButton
             content={email}
             size="sm"
             variant="outline"
-            className="rounded"
+            className="rounded-[3px]"
             aria-label="Copy email address"
           />
           {site.identity.socials
             .filter((s) => s.href.startsWith("http"))
             .map((s) => (
-              <GlassButton key={s.label} size="sm" render={<a href={s.href} target="_blank" rel="noreferrer" />}>
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className="flat px-3 py-2 text-sm transition-colors hover:border-chroma/50"
+              >
                 {s.label}
-              </GlassButton>
+              </a>
             ))}
         </div>
         <p className="mt-4 text-sm leading-relaxed o-2">
@@ -287,6 +286,8 @@ export function Home() {
           versions.
         </p>
       </Block>
+
+      <SystemDialog system={active} open={Boolean(active)} onOpenChange={(o) => !o && setOpenSlug(null)} />
     </Shell>
   );
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ControlPanel } from "@/components/ControlPanel";
 import { Noise } from "@/components/Noise";
 import { Ticker, type TickerItem } from "@/components/Ticker";
-import { MorphingText } from "@/components/spaceui/morphing-text";
 import { site } from "@/content/site";
 
 const ROLES = [
@@ -11,6 +11,40 @@ const ROLES = [
   "sandbox + policy",
   "developer infrastructure",
 ];
+
+/**
+ * Fixed-width vertical swap. Replaces SpaceUI's MorphingText, which animates
+ * character-by-character — at 640px that read as a scramble and the label never
+ * had room for its longest string. This holds a constant min-width so the
+ * layout never reflows, and only ever two words are in flight.
+ */
+function RoleLine() {
+  const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => setI((n) => (n + 1) % ROLES.length), 3000);
+    return () => clearInterval(id);
+  }, [reduce]);
+
+  return (
+    <span className="relative block h-5 min-w-[19ch] overflow-hidden text-left">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={ROLES[i]}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="text-sm leading-tight o-2"
+        >
+          {ROLES[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 function useIstClock() {
   const [t, setT] = useState("");
@@ -34,8 +68,8 @@ function useIstClock() {
 function Header() {
   const clock = useIstClock();
   return (
-    <header className="flex items-end justify-between py-6 sm:items-center">
-      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+    <header className="flex items-end justify-between gap-6 py-6 sm:items-center">
+      <div className="flex min-w-0 flex-1 items-center gap-3.5">
         <div className="poster shrink-0">
           <img
             src={site.identity.avatar}
@@ -44,22 +78,15 @@ function Header() {
             height={60}
             loading="lazy"
             decoding="async"
-            className="block h-8 w-8 sm:h-[60px] sm:w-[60px]"
+            className="block h-9 w-9 sm:h-[52px] sm:w-[52px]"
           />
         </div>
-        <div>
-          <p className="text-sm leading-tight font-semibold">{site.identity.name}</p>
-          <MorphingText
-            texts={ROLES}
-            interval={2600}
-            blurAmount="4px"
-            springBounce={0.1}
-            className="text-sm leading-tight"
-            textClassName="o-2"
-          />
+        <div className="min-w-0">
+          <p className="serif text-lg leading-tight">{site.identity.name}</p>
+          <RoleLine />
         </div>
       </div>
-      <div className="text-right text-sm lg:mr-[52px]">
+      <div className="shrink-0 text-right text-sm lg:mr-[52px]">
         <p className="leading-tight">{site.identity.location}</p>
         <p className="mono flex items-center justify-end gap-1.5 leading-tight o-2">
           <span className="size-1.5 animate-pulse-glow rounded-full bg-chroma" />

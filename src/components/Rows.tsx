@@ -24,6 +24,7 @@ export function Row({
   badge,
   value,
   href,
+  lead,
   muted = false,
   onSelect,
   className,
@@ -32,6 +33,7 @@ export function Row({
   badge?: string;
   value?: string;
   href?: string;
+  lead?: ReactNode;
   muted?: boolean;
   onSelect?: () => void;
   className?: string;
@@ -39,12 +41,9 @@ export function Row({
   const inner = (
     <>
       <span className="flex min-w-0 items-center gap-2 overflow-hidden">
+        {lead}
         <span className="shrink-0 font-semibold">{label}</span>
-        {badge && (
-          <span className="glass shrink-0 rounded-full px-2 py-0.5 text-xs whitespace-nowrap o-2">
-            {badge}
-          </span>
-        )}
+        {badge && <span className="mono shrink-0 o-3">{badge}</span>}
       </span>
 
       {(value || href || onSelect) && (
@@ -115,34 +114,9 @@ export function RowStack({ children, className }: { children: ReactNode; classNa
   );
 }
 
-/**
- * Status dot. SpaceUI's StatusBadge hardcodes off-palette fills (green-300,
- * purple-300) which would break the single-accent rule, so state is carried by
- * the family accent plus one semantic exception.
- */
-export function StatusDot({
-  status,
-  className,
-}: {
-  status: "active" | "stable" | "research";
-  className?: string;
-}) {
-  const color =
-    status === "active" ? "bg-chroma" : status === "research" ? "bg-info" : "bg-success";
-  return (
-    <span
-      className={cn(
-        "inline-block size-1.5 shrink-0 rounded-full",
-        color,
-        status === "active" && "animate-pulse-glow",
-        className,
-      )}
-    />
-  );
-}
-
 /** Small square icon control — the reference's prev/next buttons are border-radius:0. */
-export function SquareControl({  children,
+export function SquareControl({
+  children,
   label,
   onClick,
   disabled,
@@ -158,7 +132,7 @@ export function SquareControl({  children,
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="glass flex size-12 cursor-pointer items-center justify-center transition-opacity hover:o-1 disabled:cursor-default disabled:o-3"
+      className="flat-hair flex size-12 cursor-pointer items-center justify-center transition-colors hover:border-chroma/50 hover:text-chroma disabled:cursor-default disabled:o-3"
     >
       {children}
     </button>

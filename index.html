@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark" data-accent="ember">
+<html lang="en" class="dark" data-accent="cyan">
   <head>
     <meta charset="UTF-8" />
     <link
@@ -12,11 +12,9 @@
       content="Ravani Roshan — AI systems builder. Autonomous agents, hermetic sandboxes, token budgets, and deterministic policy runtimes."
     />
     <title>Ravani Roshan — AI Systems Builder</title>
-    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable index" />
-    <link rel="sitemap" type="text/plain" href="/llms-full.txt" />
     <script>
-      // Resolve theme and accent before first paint so the column never
-      // flashes at the wrong mode or palette. Alignment is locked centred.
+      // Resolve theme, accent, and column alignment before first paint so the
+      // column never flashes at the wrong offset, mode, or palette.
       (function () {
         try {
           var g = function (k, d) {
@@ -24,7 +22,19 @@
           };
           var t = g("rr:theme", "dark");
           if (t !== "dark") document.documentElement.classList.remove("dark");
-          document.documentElement.dataset.accent = g("rr:accent", "ember");
+          var a = g("rr:accent", "cyan");
+          document.documentElement.dataset.accent = a;
+          var c = g("rr:align", "center");
+          var map = {
+            left: ["0px", "auto", "none", "1px solid"],
+            center: ["auto", "auto", "1px solid", "1px solid"],
+            right: ["auto", "0px", "1px solid", "none"],
+          }[c] || ["auto", "auto", "1px solid", "1px solid"];
+          var s = document.documentElement.style;
+          s.setProperty("--column-ml", map[0]);
+          s.setProperty("--column-mr", map[1]);
+          s.setProperty("--column-bl", map[2] + " currentColor");
+          s.setProperty("--column-br", map[3] + " currentColor");
         } catch (e) {}
       })();
     </script>

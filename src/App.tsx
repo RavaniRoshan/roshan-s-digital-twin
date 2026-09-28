@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import { Home } from "@/pages/Home";
 import { NotFound } from "@/pages/NotFound";
-import { SystemPage } from "@/pages/SystemPage";
+import { Home } from "@/pages/Home";
 import { PrefsProvider } from "@/hooks/usePrefs";
 
 export default function App() {
@@ -9,7 +8,6 @@ export default function App() {
     <PrefsProvider>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/s/:slug" element={<SystemPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PrefsProvider>

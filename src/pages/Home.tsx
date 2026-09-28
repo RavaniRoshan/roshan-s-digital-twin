@@ -261,6 +261,24 @@ export function Home() {
         </div>
       </Block>
 
+      <Block id="signals">
+        <SectionLabel>signals</SectionLabel>
+        <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+          {site.achievements.map((a) => (
+            <div key={a.id} className="flex items-baseline gap-3 border-b pb-2">
+              <span className="mono text-xs text-chroma tabular-nums">
+                {a.count}&times;
+              </span>
+              <span className="flex-1 truncate text-sm">{a.label}</span>
+              <span className="mono shrink-0 text-[0.625rem] o-3">{a.detail}</span>
+            </div>
+          ))}
+        </div>
+        <p className="mono mt-3 text-xs o-3">
+          public GitHub achievements &middot; github.com/RavaniRoshan
+        </p>
+      </Block>
+
       <Block id="lab">
         <SectionLabel>try it</SectionLabel>
         <p className="mb-3 text-sm leading-relaxed o-2">
@@ -369,6 +387,25 @@ export function Home() {
           Sandboxing, budgets, policy enforcement, or local inference — I am interested in the hard
           versions.
         </p>
+      </Block>
+
+      <Block id="colophon">
+        <SectionLabel>colophon</SectionLabel>
+        <dl className="space-y-2 text-sm">
+          {[
+            ["built with", "react 19 · vite · tailwind v4 · spaceui · motion"],
+            ["type", "instrument sans · instrument serif · ibm plex mono"],
+            ["gutters", "spaceui proximity grid, cursor-reactive, deferred to idle"],
+            ["tracking", "none. no analytics, no cookies, no third-party scripts"],
+            ["source", "public — github.com/RavaniRoshan/roshan-s-digital-twin"],
+            ["machine", "llms.txt and llms-full.txt generated at build time"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex gap-4 border-b pb-2">
+              <dt className="mono w-24 shrink-0 text-xs o-3">{k}</dt>
+              <dd className="mono min-w-0 flex-1 text-xs break-words">{v}</dd>
+            </div>
+          ))}
+        </dl>
       </Block>
       <SpotifyDock track={playing} onClose={() => setPlaying(null)} />
     </Shell>

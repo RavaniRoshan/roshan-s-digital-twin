@@ -115,9 +115,34 @@ export function RowStack({ children, className }: { children: ReactNode; classNa
   );
 }
 
+/**
+ * Status dot. SpaceUI's StatusBadge hardcodes off-palette fills (green-300,
+ * purple-300) which would break the single-accent rule, so state is carried by
+ * the family accent plus one semantic exception.
+ */
+export function StatusDot({
+  status,
+  className,
+}: {
+  status: "active" | "stable" | "research";
+  className?: string;
+}) {
+  const color =
+    status === "active" ? "bg-chroma" : status === "research" ? "bg-info" : "bg-success";
+  return (
+    <span
+      className={cn(
+        "inline-block size-1.5 shrink-0 rounded-full",
+        color,
+        status === "active" && "animate-pulse-glow",
+        className,
+      )}
+    />
+  );
+}
+
 /** Small square icon control — the reference's prev/next buttons are border-radius:0. */
-export function SquareControl({
-  children,
+export function SquareControl({  children,
   label,
   onClick,
   disabled,
